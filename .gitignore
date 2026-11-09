@@ -1,0 +1,11 @@
+target/
+.idea/
+*.iml
+.vscode/
+.DS_Store
+*.log
+application-local.properties
+.env
+.env.gmail
+deployment/backups/
+tools/node_modules/

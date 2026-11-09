@@ -1,0 +1,7 @@
+target
+.git
+.idea
+.vscode
+deployment/backups
+*.log
+application-local.properties
