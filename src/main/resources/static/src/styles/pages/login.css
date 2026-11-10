@@ -1,0 +1,45 @@
+/* Login screen */
+  /* ---------- Login screen ---------- */
+  .login-screen{
+    min-height:100vh; position:relative; display:flex; flex-direction:column;
+    background:linear-gradient(rgba(25,27,26,0.75), rgba(25,27,26,0.75)),
+      url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  }
+  .login-header{background:var(--red); color:#fff; padding:16px 32px;}
+  .login-header .name{font-weight:700; font-size:1.05rem;}
+  .login-header .sub{font-size:0.75rem; opacity:0.85; margin-top:2px;}
+  .login-center{flex:1; display:flex; align-items:center; justify-content:center;}
+  .login-card{
+    background:#fff; border-radius:12px; padding:36px 34px; width:380px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.25);
+  }
+  .login-card h1{color:var(--red); font-size:1.3rem; margin:0 0 4px;}
+  .login-card p.tag{color:var(--body); font-size:0.82rem; margin:0 0 22px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:0.78rem; font-weight:700; color:var(--text); margin-bottom:8px; letter-spacing:0;}
+  .field input, .field select, .field textarea,
+  .filter-bar input, .filter-bar select{
+    width:100%; min-height:48px; padding:12px 14px; border:1.5px solid #DADDE1; border-radius:12px;
+    font-size:0.9rem; color:var(--text); font-family:inherit; background:#fff;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus,
+  .filter-bar input:focus, .filter-bar select:focus{
+    outline:none; border-color:var(--red); box-shadow:0 0 0 4px rgba(139,30,46,0.11);
+  }
+  .field select, .filter-bar select{
+    appearance:none; -webkit-appearance:none;
+    background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22%3E%3Cpath d=%22M1 1L6 6L11 1%22 stroke=%22%234A4E55%22 stroke-width=%221.6%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E');
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--red),var(--red-dark)); color:#fff; border:none; min-height:48px; padding:12px 20px; border-radius:12px;
+    font-weight:700; font-size:0.9rem; cursor:pointer; width:100%;
+    box-shadow:0 8px 20px rgba(139,30,46,0.20); transition:box-shadow .18s ease, transform .18s ease;
+  }
+  .btn-primary:hover{box-shadow:0 12px 26px rgba(139,30,46,0.28); transform:translateY(-2px);}
+  .login-link{text-align:center; font-size:0.78rem; color:var(--red); margin-top:14px; cursor:pointer;}
+  .auth-tabs{display:flex; background:var(--gray-bg); border-radius:8px; padding:3px; margin-bottom:20px;}
+  .auth-tab{flex:1; background:transparent; border:none; padding:9px; border-radius:6px; font-size:0.8rem; font-weight:600; color:var(--body); cursor:pointer; font-family:inherit;}
+  .auth-tab.active{background:#fff; color:var(--red); box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+  .login-foot{text-align:center; font-size:0.7rem; color:#D8DADD; padding:16px;}

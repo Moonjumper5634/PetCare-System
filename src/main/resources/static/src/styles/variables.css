@@ -1,0 +1,16 @@
+/* PetCARE design tokens (maroon/red brand palette) */
+  :root{
+    --red:#8B1E2E; --red-dark:#6E1623;
+    --white:#FFFFFF;
+    --text:#22252A; --body:#4A4E55; --muted:#9AA0A8;
+    --border:#E7E8EA; --bg:#F5F5F3;
+    --green:#2E7D46; --green-bg:#E5F3E9;
+    --danger:#B3261E; --danger-bg:#FBEAE9;
+    --amber:#B9740E; --amber-bg:#FBF1E1;
+    --gray-bg:#EEEFF0; --gray-text:#5B5F66;
+    --surface:#FFFFFF; --surface-soft:#FAF8F6;
+    --red-soft:#F8ECEE; --red-faint:#FCF7F8;
+    --shadow-sm:0 2px 10px rgba(47,31,34,0.06);
+    --shadow-md:0 14px 40px rgba(47,31,34,0.10);
+    --radius-sm:10px; --radius-md:16px; --radius-lg:24px;
+  }

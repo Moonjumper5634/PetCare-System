@@ -1,0 +1,16 @@
+/* Global reset, base typography and app mount point */
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:#F8F6F4;
+    font-family:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  button, input, select, textarea{font:inherit;}
+  button:focus-visible, a:focus-visible, [tabindex]:focus-visible{
+    outline:3px solid rgba(139,30,46,.28); outline-offset:3px;
+  }
+  ::selection{background:var(--red-soft); color:var(--red-dark);}
+
+#app{width:100%; min-height:100vh; background:#F8F6F4;}

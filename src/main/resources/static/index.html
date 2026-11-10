@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PetCARE — City Veterinary Office, Santa Rosa, Laguna</title>
+<link rel="icon" href="public/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/styles/variables.css">
+<link rel="stylesheet" href="src/styles/global.css">
+<link rel="stylesheet" href="src/styles/pages/login.css">
+<link rel="stylesheet" href="src/styles/layout.css">
+<link rel="stylesheet" href="src/styles/pages/id-card.css">
+<link rel="stylesheet" href="src/styles/pages/login-split.css">
+<link rel="stylesheet" href="src/styles/components.css">
+<link rel="stylesheet" href="src/styles/pages/decision-tree.css">
+<link rel="stylesheet" href="src/styles/pages/landing.css">
+<link rel="stylesheet" href="src/styles/polish.css">
+<link rel="stylesheet" href="src/styles/theme.css">
+<script>
+  (()=>{
+    const saved=localStorage.getItem("petcare-theme");
+    const preferred=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";
+    document.documentElement.dataset.theme=saved||preferred;
+    document.documentElement.classList.add("js-enhanced");
+  })();
+</script>
+</head>
+<body>
+<div id="app"><div style="padding:48px;font-family:Inter,system-ui,sans-serif;color:#6b6b6b;">Loading PetCARE…</div></div>
+
+<!-- jsQR (optional in-app camera QR scanning; manual entry works without it) -->
+<script src="src/vendor/jsQR.js"></script>
+<!-- Classic scripts share one global scope, so order matters: data -> api client -> services -> components -> pages -> app -> main. -->
+<script src="src/vendor/qrcode-generator.js"></script>
+<script src="src/utils/formatting.js"></script>
+<script src="src/data/constants.js"></script>
+<script src="src/services/apiClient.js"></script>
+<script src="src/services/dataStore.js"></script>
+<script src="src/services/residentService.js"></script>
+<script src="src/services/petService.js"></script>
+<script src="src/services/veterinaryService.js"></script>
+<script src="src/services/authService.js"></script>
+<script src="src/components/Sidebar/navConfig.js"></script>
+<script src="src/auth/authGuard.js"></script>
+<script src="src/components/Sidebar/navIcons.js"></script>
+<script src="src/components/Header/branding.js"></script>
+<script src="src/app/experience.js"></script>
+<script src="src/components/Cards/badges.js"></script>
+<script src="src/components/Cards/formField.js"></script>
+<script src="src/components/Cards/common.js"></script>
+<script src="src/components/Cards/decisionTree.js"></script>
+<script src="src/components/Modal/overlays.js"></script>
+<script src="src/components/QRCode/petQr.js"></script>
+<script src="src/components/Modal/scanModal.js"></script>
+<script src="src/pages/Login/authFlows.js"></script>
+<script src="src/pages/Login/landingPage.js"></script>
+<script src="src/pages/Login/loginPages.js"></script>
+<script src="src/pages/Resident/dashboard.js"></script>
+<script src="src/pages/Resident/pets.js"></script>
+<script src="src/pages/Resident/petRegistration.js"></script>
+<script src="src/pages/Resident/serviceRequest.js"></script>
+<script src="src/pages/Resident/myRequests.js"></script>
+<script src="src/pages/Resident/adoption.js"></script>
+<script src="src/pages/CVOStaff/dashboard.js"></script>
+<script src="src/pages/CVOStaff/petRegistrations.js"></script>
+<script src="src/pages/CVOStaff/serviceRequests.js"></script>
+<script src="src/pages/CVOStaff/servicesRecords.js"></script>
+<script src="src/pages/CVOStaff/walkin.js"></script>
+<script src="src/pages/CVOStaff/adoptionReview.js"></script>
+<script src="src/pages/Administrator/dashboard.js"></script>
+<script src="src/pages/Administrator/records.js"></script>
+<script src="src/pages/Administrator/userManagement.js"></script>
+<script src="src/pages/Administrator/eligibilityCriteria.js"></script>
+<script src="src/pages/Administrator/systemSettings.js"></script>
+<script src="src/pages/shared/accountPages.js"></script>
+<script src="src/pages/shared/reports.js"></script>
+<script src="src/pages/shared/auditLogs.js"></script>
+<script src="src/pages/shared/faq.js"></script>
+<script src="src/app/uiState.js"></script>
+<script src="src/app/screens.js"></script>
+<script src="src/app/shell.js"></script>
+<script src="src/app/wizards.js"></script>
+<script src="src/app/router.js"></script>
+<script src="src/app/render.js"></script>
+<script src="src/app/actions.js"></script>
+<script src="src/app/events.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

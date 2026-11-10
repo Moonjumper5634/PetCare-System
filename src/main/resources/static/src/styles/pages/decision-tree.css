@@ -1,0 +1,32 @@
+/* Decision Tree-Based Service Eligibility Classification: visual path */
+/* ================= DECISION TREE VISUAL PATH ================= */
+.dtree{display:flex; flex-direction:column; gap:0; margin:14px 0 18px;}
+.dtree-node{
+  display:flex; align-items:flex-start; gap:12px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; background:#fff; position:relative; margin-bottom:0;
+}
+.dtree-connector{width:2px; height:14px; background:var(--border); margin-left:29px;}
+.dtree-badge{
+  width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:0.68rem; font-weight:800; flex-shrink:0; color:#fff;
+}
+.dtree-badge.pass{background:var(--green);}
+.dtree-badge.fail{background:var(--danger);}
+.dtree-badge.review{background:var(--amber);}
+.dtree-badge.start{background:var(--text);}
+.dtree-body{flex:1;}
+.dtree-label{font-weight:700; font-size:0.84rem; color:var(--text);}
+.dtree-result{font-size:0.65rem; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; margin-left:8px;}
+.dtree-result.pass{color:var(--green);}
+.dtree-result.fail{color:var(--danger);}
+.dtree-result.review{color:var(--amber);}
+.dtree-value{font-size:0.76rem; color:var(--body); margin-top:2px;}
+.dtree-basis{font-size:0.72rem; color:var(--muted); margin-top:2px;}
+
+.result-banner.forreview{background:var(--amber-bg);}
+.result-banner.forreview .status-line{color:var(--amber);}
+
+.kapon-preview{border:1.5px dashed var(--border); border-radius:10px; padding:14px 16px; margin:6px 0 4px; background:var(--bg);}
+.kapon-preview .kp-title{font-size:0.68rem; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;}
+.kapon-preview .kp-row{display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:0.78rem;}
+.kapon-preview .kp-row:last-child{border-bottom:none;}
