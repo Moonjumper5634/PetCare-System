@@ -1,5 +1,5 @@
--- DogCARE schema (MySQL 8 / MariaDB 10.5+).
--- Derived field-by-field from the DogCARE-dev front end data model (src/data/*, src/services/*).
+-- PetCARE schema (MySQL 8 / MariaDB 10.5+).
+-- Derived field-by-field from the PetCARE-dev front end data model (src/data/*, src/services/*).
 -- Primary keys keep the front end's own ids (U-1001, P-1042, REG-1002, REQ-3301, ADOPT-1001, S-201,
 -- N-1, A-1) so the UI, QR codes and audit references work unchanged. New ids come from id_sequence.
 

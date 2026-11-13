@@ -17,7 +17,7 @@ html{scroll-behavior:smooth;}body,#app{background:var(--bg);transition:backgroun
 button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline-color:var(--focus-ring);}
 .main{background:var(--page-gradient);}
 .topbar{position:fixed;backdrop-filter:blur(16px);box-shadow:0 8px 30px rgba(71,12,23,.14);}
-.sidebar{position:fixed;inset:64px auto 0 0;min-height:0;overflow-y:auto;box-shadow:12px 0 34px rgba(60,13,22,.12);}
+.sidebar{position:fixed;inset:64px auto 0 0;margin-top:0;min-height:0;overflow-y:auto;box-shadow:12px 0 34px rgba(60,13,22,.12);}
 .main{margin-left:248px;width:calc(100% - 248px);}
 .card,.pet-card,.report-card,.stat-card,.role-banner,.modal-box{background:var(--surface-raised);border-color:var(--border);}
 .card,.pet-card,.report-card,.stat-card{box-shadow:var(--shadow-sm);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background-color .25s ease;}

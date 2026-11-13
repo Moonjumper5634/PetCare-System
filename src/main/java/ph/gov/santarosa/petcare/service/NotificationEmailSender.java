@@ -2,6 +2,7 @@ package ph.gov.santarosa.petcare.service;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,11 +20,15 @@ public class NotificationEmailSender {
     private final String from;
     private final String officeName;
 
-    public NotificationEmailSender(JavaMailSender mail, AppUserRepository users,
+    public NotificationEmailSender(ObjectProvider<JavaMailSender> mailProvider, AppUserRepository users,
             @Value("${petcare.mail.notifications-enabled:false}") boolean enabled,
-            @Value("${petcare.mail.from}") String from,
-            @Value("${petcare.mail.office-name}") String officeName) {
-        this.mail = mail; this.users = users; this.enabled = enabled; this.from = from; this.officeName = officeName;
+            @Value("${petcare.mail.from:}") String from,
+            @Value("${petcare.mail.office-name:Santa Rosa City Veterinary Office}") String officeName) {
+        this.mail = mailProvider.getIfAvailable();
+        this.users = users;
+        this.enabled = enabled && this.mail != null;
+        this.from = from;
+        this.officeName = officeName;
     }
 
     public void send(String userId, String title, String body) {

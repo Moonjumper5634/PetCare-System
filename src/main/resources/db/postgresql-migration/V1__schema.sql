@@ -1,4 +1,4 @@
--- DogCARE schema for PostgreSQL 16+.
+-- PetCARE schema for PostgreSQL 16+.
 -- IDs such as U-1001 and P-1042 remain application-assigned so QR and audit references are unchanged.
 
 CREATE OR REPLACE FUNCTION petcare_set_updated_at()
