@@ -1,4 +1,4 @@
-/* DogCARE — Page: auditLogs */
+/* PetCARE — Page: auditLogs */
 
 /* ---------------- ADMIN: AUDIT LOGS ---------------- */
 function screenAuditLogs(){

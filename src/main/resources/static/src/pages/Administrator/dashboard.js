@@ -1,4 +1,4 @@
-/* DogCARE — Page: dashboard */
+/* PetCARE — Page: dashboard */
 
 function screenDashboardAdmin(){
   const totalPets = S.pets.length;

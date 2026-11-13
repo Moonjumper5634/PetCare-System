@@ -1,4 +1,4 @@
-/* DogCARE — Application entry point */
+/* PetCARE — Application entry point */
 (async function boot(){
   await AuthService.restore();      // keeps you signed in across page reloads while the server session is valid
   if(!AuthService.getCurrentUser()){

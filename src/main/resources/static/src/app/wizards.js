@@ -1,4 +1,4 @@
-/* DogCARE — Wizard reset, form readers and validators */
+/* PetCARE — Wizard reset, form readers and validators */
 
 /* ---------------- WIZARD RESET ON FRESH NAV ---------------- */
 function resetWizardsForScreen(screen){

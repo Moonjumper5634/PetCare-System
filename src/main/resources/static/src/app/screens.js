@@ -1,4 +1,4 @@
-/* DogCARE — Screen registry (screen id -> renderer) */
+/* PetCARE — Screen registry (screen id -> renderer) */
 
 function screenDashboard(){
   const role = currentUser().role;

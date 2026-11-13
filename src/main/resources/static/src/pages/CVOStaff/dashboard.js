@@ -1,4 +1,4 @@
-/* DogCARE — Page: dashboard */
+/* PetCARE — Page: dashboard */
 
 function screenDashboardStaff(){
   const regsPending = S.registrations.filter(r=>r.status==="Pending").length;

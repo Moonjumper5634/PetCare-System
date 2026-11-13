@@ -1,6 +1,6 @@
-# DogCARE — City Veterinary Office, Santa Rosa, Laguna
+# PetCARE — City Veterinary Office, Santa Rosa, Laguna
 
-Spring Boot back end with selectable MySQL or PostgreSQL storage and the DogCARE web front end.
+Spring Boot back end with selectable MySQL or PostgreSQL storage and the PetCARE web front end.
 
 ## Status
 
@@ -12,7 +12,7 @@ Spring Boot back end with selectable MySQL or PostgreSQL storage and the DogCARE
 | 4. Public landing page + responsive workflows | Done |
 | **5. Deployment, production email, HTTPS, backups, pilot** | **Deployment package ready** |
 
-**What changed in Phase 5:** DogCARE now has a production profile with SMTP email codes, secure first-admin bootstrap,
+**What changed in Phase 5:** PetCARE now has a production profile with SMTP email codes, secure first-admin bootstrap,
 public-auth rate limiting, security headers, health checks, and graceful shutdown. Docker Compose runs the application with
 MySQL or PostgreSQL and Caddy automatic HTTPS. Backup/restore scripts, update instructions, incident procedures, and pilot acceptance
 criteria are under `deployment/` and `docs/`. Infrastructure is ready; actual go-live still requires the CVO's domain,
@@ -23,7 +23,7 @@ role, source paper/event reference and service location. Staff can search comple
 barangay, year, location or reference. Residents can print/save their vaccination history, nonresident accounts can apply for
 adoption while City veterinary services remain residency-restricted, and generic staff are no longer automatically labeled DVM.
 
-**What changed in Phase 4:** DogCARE opens on a public, mobile-first landing page that explains registration,
+**What changed in Phase 4:** PetCARE opens on a public, mobile-first landing page that explains registration,
 anti-rabies vaccination, microchipping, kapon, and the verification process. The signed-in resident, staff, and administrator
 screens retain their maroon design but now adapt to phones and tablets with a navigation drawer, responsive cards, tables,
 forms, and modals. Registration wording now distinguishes **registered / under verification / verified / needs correction**;
@@ -51,7 +51,7 @@ mvn clean spring-boot:run
 
 ### Test real Gmail verification locally
 
-DogCARE can send sign-up and password-reset codes through Gmail while retaining the development database. The Gmail
+PetCARE can send sign-up and password-reset codes through Gmail while retaining the development database. The Gmail
 account must have Google 2-Step Verification enabled; use a Google **App Password**, never the account's normal password.
 
 ```powershell
@@ -70,7 +70,7 @@ only once. For a City/CVO-managed sender, replace Gmail with the office's approv
 
 ### Run with PostgreSQL instead of MySQL
 
-PostgreSQL is an alternative authoritative database for a DogCARE installation; it does not mirror the MySQL database.
+PostgreSQL is an alternative authoritative database for a PetCARE installation; it does not mirror the MySQL database.
 Create an empty `petcare` database and user, then start the same application with the PostgreSQL profile:
 
 ```powershell
@@ -116,7 +116,7 @@ Others (`ana.reyes@email.com`, `juan.delacruz@email.com`, `pedro.villanueva@emai
 
 - **Passwords:** bcrypt only. Wrong email and wrong password give the same message. 5 wrong tries lock the account 15 minutes.
 - **Session:** an HttpOnly, SameSite=Lax cookie (8 hours). The browser holds no token and no password data; nothing is kept in localStorage.
-- **Forged requests:** every state-changing call must carry `X-Requested-With: DogCARE`, which other websites cannot add (no CORS). Together with SameSite this replaces token-based CSRF for this same-origin app.
+- **Forged requests:** every state-changing call must carry `X-Requested-With: PetCARE`, which other websites cannot add (no CORS). Together with SameSite this replaces token-based CSRF for this same-origin app.
 - **Roles are checked on the server, every call, from the database** (not the session): a deactivated user is cut off on their next request. A resident only ever receives their own records; someone else's pet or notification looks exactly like one that does not exist (404). Staff-only and admin-only actions return 403.
 - **Rules are enforced server-side**: only verified pets can request services; one open request per pet and service; approve needs an assessment; decisions cannot be repeated; adoption order (interview, then approve); microchip numbers are unique; "Verified at Barangay" can only be recorded by staff (a resident's claim is stored as pending).
 - **One-time codes:** 6 digits, 15 minutes, 5 tries, single use, separate for sign-up and reset. "Forgot password" answers the same for unknown emails.

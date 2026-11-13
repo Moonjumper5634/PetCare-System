@@ -10,14 +10,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * Cross-site request forgery defence for the JSON API: every state-changing /api request must carry the custom
- * header "X-Requested-With: DogCARE". A web page on another site cannot add a custom header to a request to this
+ * header "X-Requested-With: PetCARE". A web page on another site cannot add a custom header to a request to this
  * server (that would need a CORS preflight, and CORS is not enabled), so forged requests are refused.
  * Together with the SameSite=Lax session cookie this replaces Spring's token-based CSRF for this same-origin app.
  */
 public class RequestedWithFilter extends OncePerRequestFilter {
 
     public static final String HEADER = "X-Requested-With";
-    public static final String VALUE = "DogCARE";
+    public static final String VALUE = "PetCARE";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

@@ -1,4 +1,4 @@
-/* DogCARE — Page: pets */
+/* PetCARE — Page: pets */
 
 /* ---------------- MY PETS / PET PROFILE ---------------- */
 function petCard(p){
@@ -88,7 +88,7 @@ function screenPetProfile(){
         <h3 style="text-align:left;">Digital Pet ID</h3>
         <p style="font-size:0.72rem;color:var(--body);text-align:left;margin-top:-6px;">This replaces a physical booklet. Staff can scan this code on a return visit (e.g. next year's anti-rabies shot) to instantly pull up ${esc(p.name)}'s record and add the new visit — no paperwork to lose.</p>
         <div id="pet-qr-${p.id}" style="display:flex;align-items:center;justify-content:center;margin:10px auto;width:220px;height:220px;"></div>
-        <p style="font-size:0.66rem;color:var(--muted);text-align:left;margin:6px 0 0;">Scanning this with any camera app (e.g. Google Lens) shows ${esc(p.name)}'s pet, owner, and vaccination snapshot directly. Scanning it inside DogCARE (Services &amp; Records → Scan Pet QR) opens the live, up-to-date record.</p>
+        <p style="font-size:0.66rem;color:var(--muted);text-align:left;margin:6px 0 0;">Scanning this with any camera app (e.g. Google Lens) shows ${esc(p.name)}'s pet, owner, and vaccination snapshot directly. Scanning it inside PetCARE (Services &amp; Records → Scan Pet QR) opens the live, up-to-date record.</p>
         <div style="font-weight:800;font-size:0.9rem;letter-spacing:0.03em;">${p.id}</div>
       </div>` : ""}
     </div>
@@ -134,6 +134,6 @@ function printVaccinationRecord(petId){
   const body=rows.map(r=>{const x=r.serviceRecord;return `<tr><td>${fmtDate(x.date)}</td><td>${esc(x.vaccineType||"—")}</td><td>${esc(x.batchNumber||"—")}</td><td>${fmtDate(x.nextDue)||"—"}</td><td>${esc(x.staff||"—")}</td><td>${esc(x.serviceLocation||"—")}</td></tr>`}).join("");
   const w=window.open("","petcare-vaccination-record","width=920,height=700");
   if(!w){showToast("Allow pop-ups to print this record.","error");return;}
-  w.document.write(`<!doctype html><html><head><title>${esc(p.name)} — Vaccination Record</title><style>body{font:14px Arial;margin:36px;color:#222}h1{color:#761927;margin-bottom:4px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:22px 0}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px;text-align:left}th{background:#f4ecee}.note{margin-top:24px;font-size:12px;color:#555}@media print{button{display:none}}</style></head><body><h1>DogCARE Vaccination Record</h1><p>City Veterinary Office — Santa Rosa, Laguna</p><div class="meta"><div><b>Pet:</b> ${esc(p.name)} (${esc(p.id)})</div><div><b>Owner:</b> ${esc(owner?.name||"—")}</div><div><b>Breed:</b> ${esc(p.breed)}</div><div><b>Address:</b> ${esc([owner?.houseStreet,owner?.barangay].filter(Boolean).join(", "))}</div></div><table><thead><tr><th>Date</th><th>Vaccine</th><th>Batch / Lot</th><th>Next Due</th><th>Provider</th><th>Location</th></tr></thead><tbody>${body}</tbody></table><p class="note">Generated from DogCARE. CVO staff must verify the live server record when official confirmation is required.</p><button onclick="print()">Print / Save as PDF</button></body></html>`);
+  w.document.write(`<!doctype html><html><head><title>${esc(p.name)} — Vaccination Record</title><style>body{font:14px Arial;margin:36px;color:#222}h1{color:#761927;margin-bottom:4px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:22px 0}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px;text-align:left}th{background:#f4ecee}.note{margin-top:24px;font-size:12px;color:#555}@media print{button{display:none}}</style></head><body><h1>PetCARE Vaccination Record</h1><p>City Veterinary Office — Santa Rosa, Laguna</p><div class="meta"><div><b>Pet:</b> ${esc(p.name)} (${esc(p.id)})</div><div><b>Owner:</b> ${esc(owner?.name||"—")}</div><div><b>Breed:</b> ${esc(p.breed)}</div><div><b>Address:</b> ${esc([owner?.houseStreet,owner?.barangay].filter(Boolean).join(", "))}</div></div><table><thead><tr><th>Date</th><th>Vaccine</th><th>Batch / Lot</th><th>Next Due</th><th>Provider</th><th>Location</th></tr></thead><tbody>${body}</tbody></table><p class="note">Generated from PetCARE. CVO staff must verify the live server record when official confirmation is required.</p><button onclick="print()">Print / Save as PDF</button></body></html>`);
   w.document.close();
 }

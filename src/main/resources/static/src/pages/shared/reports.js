@@ -1,4 +1,4 @@
-/* DogCARE — Page: reports */
+/* PetCARE — Page: reports */
 
 /* ---------------- REPORTS ---------------- */
 function screenReports(){

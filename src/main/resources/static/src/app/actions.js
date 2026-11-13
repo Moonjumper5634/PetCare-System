@@ -1,4 +1,4 @@
-/* DogCARE — Running a server action from a button
+/* PetCARE — Running a server action from a button
    ============================================================
    runAction(call, onSuccess):
      1. ignores a second click while one action is already running (no double submissions)

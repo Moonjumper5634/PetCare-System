@@ -161,7 +161,7 @@ public class AuthService {
         clearCode(u);
         users.save(u);
         notifier.audit(u, "Update", "User Management", u.getId(), "Resident email address verified.");
-        notifier.notify(u.getId(), "Email verified successfully.", "Your DogCARE email address has been verified.");
+        notifier.notify(u.getId(), "Email verified successfully.", "Your PetCARE email address has been verified.");
     }
 
     /** Always answers the same way, whether or not the email exists. */

@@ -1,4 +1,4 @@
-/* DogCARE — Page: userManagement */
+/* PetCARE — Page: userManagement */
 
 /* ---------------- ADMIN: USER MANAGEMENT ---------------- */
 function screenUsers(){

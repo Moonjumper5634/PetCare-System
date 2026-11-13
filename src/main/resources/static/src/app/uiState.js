@@ -1,4 +1,4 @@
-/* DogCARE — Transient (non-persisted) UI state */
+/* PetCARE — Transient (non-persisted) UI state */
 
 /* ---------------- TRANSIENT UI STATE (not persisted) ---------------- */
 function defaultUI(){

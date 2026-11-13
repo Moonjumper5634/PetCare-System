@@ -1,4 +1,4 @@
-/* DogCARE — Page: servicesRecords */
+/* PetCARE — Page: servicesRecords */
 
 /* ---------------- SERVICES & RECORDS ---------------- */
 function screenServicesRecords(){

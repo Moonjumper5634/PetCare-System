@@ -1,4 +1,4 @@
-/* DogCARE — Page: decisionTree */
+/* PetCARE — Page: decisionTree */
 
 /* ---------------- REQUEST DETAIL (Eligibility + Staff Decision + Timeline) ---------------- */
 function renderDecisionTree(decisionPath){

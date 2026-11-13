@@ -1,4 +1,4 @@
-/* DogCARE — DOM event wiring for all screens */
+/* PetCARE — DOM event wiring for all screens */
 
 function attachEvents(root){
   /* ---- public landing page ---- */

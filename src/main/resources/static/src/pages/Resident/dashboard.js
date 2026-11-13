@@ -1,4 +1,4 @@
-/* DogCARE — Page: dashboard */
+/* PetCARE — Page: dashboard */
 
 /* ---------------- DASHBOARDS ---------------- */
 function screenDashboardOwner(){

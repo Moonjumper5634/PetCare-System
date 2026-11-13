@@ -1,4 +1,4 @@
-/* DogCARE — Labelled form field helper */
+/* PetCARE — Labelled form field helper */
 
 /* ---------------- LOGIN / SIGNUP / VERIFY / FORGOT SCREENS ---------------- */
 function field(label, inner, errKey){

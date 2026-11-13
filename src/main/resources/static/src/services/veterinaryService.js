@@ -1,4 +1,4 @@
-/* DogCARE — Veterinary service data access (registrations, service requests, adoption)
+/* PetCARE — Veterinary service data access (registrations, service requests, adoption)
    FUTURE BACKEND: GET /api/registrations/:id, GET /api/service-requests/:id,
    GET /api/adoptions/:id, GET /api/shelter-pets/:id */
 const VeterinaryService = {

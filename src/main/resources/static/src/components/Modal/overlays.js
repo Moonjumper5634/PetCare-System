@@ -1,4 +1,4 @@
-/* DogCARE — Toasts, modal and discard-confirmation helpers */
+/* PetCARE — Toasts, modal and discard-confirmation helpers */
 
 /* ---------------- TOASTS ---------------- */
 function showToast(msg){

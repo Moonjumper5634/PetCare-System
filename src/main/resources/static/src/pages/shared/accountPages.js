@@ -1,4 +1,4 @@
-/* DogCARE — Page: accountPages */
+/* PetCARE — Page: accountPages */
 
 /* ---------------- NOTIFICATIONS ---------------- */
 function screenNotifications(){

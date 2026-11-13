@@ -35,7 +35,7 @@ public class AdminExportController {
     public void workbook(HttpServletResponse response) throws IOException {
         Access.require(current.requireReady(), Values.ADMIN);
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=dogcare-data-" + LocalDate.now() + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=petcare-data-" + LocalDate.now() + ".xlsx");
         try (Workbook wb = new XSSFWorkbook()) {
             add(wb,"Users",List.of("ID","Name","Email","Role","Barangay","Status"),users.findAll(),
                     u->new Object[]{u.getId(),u.getFullName(),u.getEmail(),u.getRole(),u.getBarangay(),u.getStatus()});

@@ -1,4 +1,4 @@
-/* DogCARE — Page: petRegistration */
+/* PetCARE — Page: petRegistration */
 
 /* ---------------- PET REGISTRATION WIZARD ---------------- */
 function newRegDraft(){
@@ -27,7 +27,7 @@ function screenPetRegistration(walkinOwnerId){
   if(w.step===1){
     return `
     <div class="page-head"><div><div class="crumb">Pet Records</div><h2>Register a New Dog</h2></div></div>
-    <p style="font-size:0.78rem;color:var(--body);margin-top:-10px;max-width:640px;">DogCARE is a canine veterinary service management system. Registration is available for dogs only.</p>
+    <p style="font-size:0.78rem;color:var(--body);margin-top:-10px;max-width:640px;">PetCARE is a canine veterinary service management system. Registration is available for dogs only.</p>
     <div class="card" style="max-width:640px;margin:0 auto;">
       ${stepHead}
       <h3>Step 1 of 3 — Dog &amp; Owner Information</h3>
@@ -75,7 +75,7 @@ function screenPetRegistration(walkinOwnerId){
         ${field("Deworming Status *", `<select id="reg-dewormstatus"><option ${d.dewormingStatus==="Updated"?"selected":""}>Updated</option><option ${d.dewormingStatus==="Not Updated"?"selected":""}>Not Updated</option><option ${d.dewormingStatus==="Unknown"?"selected":""}>Unknown</option></select>`)}
         ${field("Last Deworming Date", `<input id="reg-lastdeworm" type="date" value="${d.lastDeworming}" max="${todayISO()}">`)}
       </div>
-      <p style="font-size:0.68rem;color:var(--muted);margin:-6px 0 12px;">Deworming is recorded as a health/requirement record. It is not offered as a standalone DogCARE service.</p>
+      <p style="font-size:0.68rem;color:var(--muted);margin:-6px 0 12px;">Deworming is recorded as a health/requirement record. It is not offered as a standalone PetCARE service.</p>
       <div class="two-field">
         ${field("Microchip Status", `<select id="reg-chipstatus"><option ${d.microchipStatus==="Not Microchipped"?"selected":""}>Not Microchipped</option><option ${d.microchipStatus==="Microchipped"?"selected":""}>Microchipped</option></select>`)}
         ${field("Microchip Number (if applicable)", `<input id="reg-chipnumber" value="${esc(d.microchipNumber)}" placeholder="e.g. 933000000000000">`)}

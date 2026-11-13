@@ -1,4 +1,4 @@
-/* DogCARE — Empty state and request/registration timelines */
+/* PetCARE — Empty state and request/registration timelines */
 
 /* ---------------- SHARED COMPONENTS ---------------- */
 function emptyState(icon, title, msg, actionHtml){

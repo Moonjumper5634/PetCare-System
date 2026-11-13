@@ -36,8 +36,8 @@ public class NotificationEmailSender {
         users.findById(userId).filter(u -> u.getEmail() != null && !u.getEmail().endsWith(".invalid")).ifPresent(u -> {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(from); message.setTo(u.getEmail());
-            message.setSubject("DogCARE: " + title);
-            message.setText("Hello " + u.getFirstName() + ",\n\n" + body + "\n\nYou can view the full update in DogCARE.\n\n" + officeName);
+            message.setSubject("PetCARE: " + title);
+            message.setText("Hello " + u.getFirstName() + ",\n\n" + body + "\n\nYou can view the full update in PetCARE.\n\n" + officeName);
             try { mail.send(message); }
             catch (MailException e) { LOG.log(Level.WARNING, "Could not send notification email; the in-app notification was saved.", e); }
         });

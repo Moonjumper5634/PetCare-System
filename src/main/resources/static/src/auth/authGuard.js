@@ -1,4 +1,4 @@
-/* DogCARE — Role-based access control (centralized)
+/* PetCARE — Role-based access control (centralized)
    Every screen a role may open is derived from its navigation menu plus the
    detail screens reachable from that menu. render() and the URL router both
    call canAccess(), so a Resident can never reach Staff/Admin pages.

@@ -1,4 +1,4 @@
-/* DogCARE — Authentication service (talks to the server)
+/* PetCARE — Authentication service (talks to the server)
    ============================================================
    The server owns the session (an HttpOnly cookie), the password check, lockout and one-time codes.
    The browser only remembers who is signed in for the current page (CURRENT_USER, filled by hydrate()).

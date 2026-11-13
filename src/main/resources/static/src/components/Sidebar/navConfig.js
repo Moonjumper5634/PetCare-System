@@ -1,4 +1,4 @@
-/* DogCARE — Role-based navigation menus */
+/* PetCARE — Role-based navigation menus */
 
 /* ---------------- ROLE NAVIGATION (per revision spec section 3) ---------------- */
 const navs = {

@@ -1,11 +1,11 @@
-/* DogCARE — Digital Pet ID: QR payload, rendering and parsing */
+/* PetCARE — Digital Pet ID: QR payload, rendering and parsing */
 
 /* ---------------- DIGITAL PET ID / QR CODE ----------------
    The QR encodes a human-readable snapshot of the pet's record directly, so
    scanning it with any ordinary camera app (Google Lens, phone camera, etc.)
    shows real, useful information immediately — not just an opaque code.
    A machine-parseable "Scan Code" line is also embedded in the same text so
-   DogCARE's own in-app scanner can pull the exact Pet ID back out and jump
+   PetCARE's own in-app scanner can pull the exact Pet ID back out and jump
    straight to that pet's full record. simpleHash() is a lightweight checksum
    for this prototype only — a production system would use a signed/
    server-verified token, and would likely also encode a live URL so the
@@ -19,7 +19,7 @@ function petQrValue(pet){
   const owner = userById(pet.ownerId);
   const token = simpleHash(pet.id+"|SANTAROSA-CVO");
   const lines = [
-    "DogCARE Digital Pet ID",
+    "PetCARE Digital Pet ID",
     "City Veterinary Office — Santa Rosa, Laguna",
     "",
     `Pet: ${pet.name} (${pet.id})`,
@@ -32,7 +32,7 @@ function petQrValue(pet){
     `Microchip: ${pet.microchipStatus === "Microchipped" ? ("#"+pet.microchip) : "Not microchipped"}`,
     "",
     "This is a snapshot for reference only. For the current record, staff",
-    "should look up this pet inside DogCARE using the code below.",
+    "should look up this pet inside PetCARE using the code below.",
     `Scan Code: PETCARE:${pet.id}:${token}`,
   ];
   return lines.join("\n");

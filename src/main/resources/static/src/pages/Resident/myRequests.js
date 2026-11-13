@@ -1,4 +1,4 @@
-/* DogCARE — Page: myRequests */
+/* PetCARE — Page: myRequests */
 
 /* ---------------- OWNER: MY REQUESTS ---------------- */
 function screenMyRequests(){

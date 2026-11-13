@@ -1,4 +1,4 @@
-/* DogCARE — Page: adoptionReview */
+/* PetCARE — Page: adoptionReview */
 
 /* ---------------- STAFF: ADOPTION APPLICATIONS ---------------- */
 function screenAdoptionApplications(){

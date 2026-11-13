@@ -1,4 +1,4 @@
-/* DogCARE — Page: eligibilityCriteria */
+/* PetCARE — Page: eligibilityCriteria */
 
 /* ---------------- ADMIN: ELIGIBILITY CRITERIA ---------------- */
 function screenEligibilityCriteria(){

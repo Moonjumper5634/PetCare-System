@@ -1,4 +1,4 @@
-/* DogCARE — Status pills and pet avatar */
+/* PetCARE — Status pills and pet avatar */
 
 function pill(spec){
   const [type,label] = spec.split(":");

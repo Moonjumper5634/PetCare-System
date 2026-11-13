@@ -1,4 +1,4 @@
-/* DogCARE — Page: serviceRequest */
+/* PetCARE — Page: serviceRequest */
 
 /* ---------------- SERVICE REQUEST WIZARD ---------------- */
 function newSvcDraft(){ return {petId:"", service:SERVICES[0], remarks:""}; }
