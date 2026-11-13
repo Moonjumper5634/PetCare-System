@@ -1,4 +1,4 @@
-/* PetCARE — Authentication service (talks to the server)
+/* DogCARE — Authentication service (talks to the server)
    ============================================================
    The server owns the session (an HttpOnly cookie), the password check, lockout and one-time codes.
    The browser only remembers who is signed in for the current page (CURRENT_USER, filled by hydrate()).
@@ -40,5 +40,12 @@ const AuthService = (function(){
     return { ok:true };
   }
 
-  return { login, restore, logout, getCurrentUser, isAuthenticated, getUserRole, hasRole, changePassword };
+  async function updateProfile(profile){
+    const r = await Api.put("/api/auth/profile", profile);
+    if(!r.ok) return {ok:false,error:r.error};
+    await hydrate();
+    return {ok:true};
+  }
+
+  return { login, restore, logout, getCurrentUser, isAuthenticated, getUserRole, hasRole, changePassword, updateProfile };
 })();

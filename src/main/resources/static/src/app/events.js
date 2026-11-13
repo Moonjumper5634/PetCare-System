@@ -1,4 +1,4 @@
-/* PetCARE — DOM event wiring for all screens */
+/* DogCARE — DOM event wiring for all screens */
 
 function attachEvents(root){
   /* ---- public landing page ---- */
@@ -107,6 +107,16 @@ function attachEvents(root){
     });
   });
   root.querySelectorAll("[data-page]").forEach(el=>el.addEventListener("click",()=>{const [key,page]=el.dataset.page.split(":");UI.pages[key]=Math.max(1,parseInt(page));render();}));
+  root.querySelectorAll("[data-openref]").forEach(el=>el.addEventListener("click",()=>{
+    const id=el.dataset.openref, module=el.dataset.refmodule||"";
+    if(id.startsWith("REQ-")||module.includes("Service")){UI.selected.reqId=id;UI.screen="reqdetail";}
+    else if(id.startsWith("REG-")||module.includes("Registration")){UI.selected.regId=id;UI.screen="regdetail";}
+    else if(id.startsWith("PET-")||module.includes("Dog")){UI.selected.petId=id;UI.screen="petprofile";}
+    else if(id.startsWith("ADP-")||module.includes("Adoption")){UI.selected.adoptId=id;UI.screen="adoptreview";}
+    else if(id.startsWith("U-")){UI.screen="usermanagement";}
+    else {showToast("This history entry does not have a detail screen.");return;}
+    render();
+  }));
 
   /* ---- notifications mark read ---- */
   root.querySelectorAll("[data-marknotif]").forEach(el=>{
@@ -127,6 +137,12 @@ function attachEvents(root){
     UI.errors = {};
     UI.wiz.reg.step = 2;
     render();
+  });
+  const regPhoto=root.querySelector("#reg-photo");
+  if(regPhoto) regPhoto.addEventListener("change",()=>{
+    const file=regPhoto.files[0]; if(!file)return;
+    if(file.size>2*1024*1024){showToast("Dog photo must be smaller than 2 MB.");regPhoto.value="";return;}
+    const reader=new FileReader(); reader.onload=()=>{UI.wiz.reg.data.photo=reader.result;render();}; reader.readAsDataURL(file);
   });
   const regCancel = root.querySelector("#reg-cancel");
   if(regCancel) regCancel.addEventListener("click", ()=>{
@@ -160,7 +176,12 @@ function attachEvents(root){
       proofOfResidency:d.proofOfResidency,
     };
     const endpoint=w.resubmitRegId?`/api/registrations/${encodeURIComponent(w.resubmitRegId)}/resubmit`:"/api/pets";
-    runAction(() => Api.post(endpoint,payload), data => { w.step = 4; w.createdRegId = data.registrationId; render(); });
+    runAction(async () => {
+      const created=await Api.post(endpoint,payload); if(!created.ok)return created;
+      const petId=created.data.petId || regById(w.resubmitRegId)?.petId;
+      if(d.photo && petId){const photoResult=await Api.put(`/api/pets/${encodeURIComponent(petId)}/photo`,{photo:d.photo});if(!photoResult.ok)return photoResult;}
+      return created;
+    }, data => { w.step = 4; w.createdRegId = data.registrationId; render(); });
   });
   const walkinVerifyNow = root.querySelector("#walkin-verify-now");
   if(walkinVerifyNow) walkinVerifyNow.addEventListener("click", ()=>{
@@ -279,6 +300,8 @@ function attachEvents(root){
   if(recordSearchClear) recordSearchClear.addEventListener("click", ()=>{ UI.recordSearch=""; render(); });
 
   root.querySelectorAll("[data-print-vax]").forEach(btn=>btn.addEventListener("click", ()=>printVaccinationRecord(btn.dataset.printVax)));
+  root.querySelectorAll("[data-editpet]").forEach(btn=>btn.addEventListener("click",()=>editPetModal(btn.dataset.editpet)));
+  root.querySelectorAll("[data-archivepet]").forEach(btn=>btn.addEventListener("click",()=>archivePet(btn.dataset.archivepet)));
 
   /* =====================================================================
      WALK-IN FLOW
@@ -388,6 +411,7 @@ function attachEvents(root){
   root.querySelectorAll("[data-togglecriterion]").forEach(el=>el.addEventListener("click", ()=>{
     const [svc, idx] = el.dataset.togglecriterion.split("|"); toggleCriterion(svc, parseInt(idx));
   }));
+  root.querySelectorAll("[data-addcriterion]").forEach(el=>el.addEventListener("click",()=>addCriterionModal(el.dataset.addcriterion)));
 
   /* ---- reports ---- */
   const rpGenerate = root.querySelector("#rp-generate");
@@ -415,6 +439,8 @@ function attachEvents(root){
   }),()=>showToast("System settings saved.")));
   const profileSavePw = root.querySelector("#profile-save-pw");
   if(profileSavePw) profileSavePw.addEventListener("click", saveProfilePassword);
+  const profileSaveInfo = root.querySelector("#profile-save-info");
+  if(profileSaveInfo) profileSaveInfo.addEventListener("click", saveProfileInfo);
 
   /* =====================================================================
      MODAL BUTTONS (generic + specific confirmations)
@@ -425,6 +451,14 @@ function attachEvents(root){
   if(mContinueEdit) mContinueEdit.addEventListener("click", closeModal);
   const mDiscard = root.querySelector("#m-discard");
   if(mDiscard) mDiscard.addEventListener("click", ()=>{ const fn = UI._discardFn; closeModal(); if(fn) fn(); });
+  const petEditPhoto=root.querySelector("#pet-edit-photo");
+  if(petEditPhoto) petEditPhoto.addEventListener("change",()=>{const f=petEditPhoto.files[0];if(!f)return;if(f.size>2*1024*1024){showToast("Dog photo must be smaller than 2 MB.");return;}const reader=new FileReader();reader.onload=()=>UI._petEditPhoto=reader.result;reader.readAsDataURL(f);});
+  const savePet=root.querySelector("#m-save-pet");
+  if(savePet) savePet.addEventListener("click",()=>{const p=petById(savePet.dataset.petid);runAction(async()=>{const result=await Api.put(`/api/pets/${encodeURIComponent(p.id)}`,petUpdatePayload(p));if(!result.ok)return result;if(UI._petEditPhoto)return Api.put(`/api/pets/${encodeURIComponent(p.id)}/photo`,{photo:UI._petEditPhoto});return result;},()=>{closeModal();showToast("Dog profile submitted for CVO verification.");render();});});
+  const saveCriterionBtn=root.querySelector("#m-save-criterion");
+  if(saveCriterionBtn) saveCriterionBtn.addEventListener("click",()=>saveCriterion(saveCriterionBtn.dataset.svc,parseInt(saveCriterionBtn.dataset.idx),document.getElementById("crit-label").value,document.getElementById("crit-desc").value));
+  const addCriterionBtn=root.querySelector("#m-add-criterion");
+  if(addCriterionBtn) addCriterionBtn.addEventListener("click",()=>runAction(()=>Api.post("/api/admin/criteria",{service:addCriterionBtn.dataset.svc,label:document.getElementById("new-crit-label").value,description:document.getElementById("new-crit-desc").value}),()=>{closeModal();showToast("Eligibility requirement added.");render();}));
 
   /* ---- QR scan modal ---- */
   if(root.querySelector("#scan-video") && !_scanStream && !_scanInterval){
@@ -457,11 +491,6 @@ function attachEvents(root){
 
   const mConfirmRejectAdopt = root.querySelector("#m-confirm-reject-adopt");
   if(mConfirmRejectAdopt) mConfirmRejectAdopt.addEventListener("click", ()=> confirmRejectAdoption(document.getElementById("adopt-reject-reason").value));
-
-  const mSaveCriterion = root.querySelector("#m-save-criterion");
-  if(mSaveCriterion) mSaveCriterion.addEventListener("click", ()=>{
-    saveCriterion(mSaveCriterion.dataset.svc, parseInt(mSaveCriterion.dataset.idx), document.getElementById("crit-desc").value);
-  });
 
   /* close modal when clicking the overlay background */
   const overlay = root.querySelector("#modal-overlay");

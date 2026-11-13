@@ -1,4 +1,4 @@
-/* PetCARE — Page: serviceRequests */
+/* DogCARE — Page: serviceRequests */
 
 /* ---------------- STAFF: SERVICE REQUESTS QUEUE ---------------- */
 function requestDisplayStatus(r){
@@ -77,7 +77,7 @@ function screenReqDetail(){
         ${failed.length ? `<div class="reason" style="margin-top:8px;text-align:left;"><b>Failed Criteria:</b><br>${failed.map(f=>`${esc(f.label)} — ${esc(f.basis)}`).join("<br>")}</div>` : ""}
         ${review.length ? `<div class="reason" style="margin-top:8px;text-align:left;"><b>Requires Verification:</b><br>${review.map(f=>`${esc(f.label)} — ${esc(f.basis)}`).join("<br>")}</div>` : ""}
       </div>
-      <div class="support-note">PetCARE provides an eligibility recommendation to support CVO staff review. Final service approval remains with authorized CVO personnel.</div>
+      <div class="support-note">DogCARE provides an eligibility recommendation to support CVO staff review. Final service approval remains with authorized CVO personnel.</div>
     </div>`;
   }
 

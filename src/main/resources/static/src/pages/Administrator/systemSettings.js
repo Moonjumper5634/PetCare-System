@@ -1,4 +1,4 @@
-/* PetCARE — Page: systemSettings */
+/* DogCARE — Page: systemSettings */
 
 /* ---------------- ADMIN: SYSTEM SETTINGS ---------------- */
 function screenSystemSettings(){

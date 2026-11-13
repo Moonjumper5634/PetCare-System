@@ -161,6 +161,7 @@ public class StateAssembler {
                 Map<String, Object> m = new LinkedHashMap<>();
                 m.put("key", c.getCriterionKey()); m.put("label", c.getLabel()); m.put("desc", c.getDescription());
                 m.put("enabled", Boolean.TRUE.equals(c.getEnabled()));
+                m.put("custom", Boolean.TRUE.equals(c.getCustomRule()));
                 return m;
             }).toList());
         state.put("criteria", crit);
@@ -201,6 +202,8 @@ public class StateAssembler {
         m.put("microchip", p.getMicrochip()); m.put("microchipStatus", p.getMicrochipStatus());
         m.put("kaponStatus", p.getKaponStatus()); m.put("kaponDate", str(p.getKaponDate()));
         m.put("photo", p.getPhotoUrl());
+        m.put("archived", Boolean.TRUE.equals(p.getArchived()));
+        m.put("archivedAt", p.getArchivedAt() == null ? null : p.getArchivedAt().toString());
         return m;
     }
 

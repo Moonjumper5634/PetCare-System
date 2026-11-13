@@ -1,4 +1,4 @@
-/* PetCARE — Role-based access control (centralized)
+/* DogCARE — Role-based access control (centralized)
    Every screen a role may open is derived from its navigation menu plus the
    detail screens reachable from that menu. render() and the URL router both
    call canAccess(), so a Resident can never reach Staff/Admin pages.
@@ -6,9 +6,9 @@
    only controls what the UI shows. */
 const AuthGuard = (function(){
   const DETAIL_SCREENS = {
-    owner:["petprofile","adoptdetail","adoptapply","adoptsubmitted"],
-    staff:["regdetail","reqdetail","adoptreview"],
-    admin:[],
+    owner:["petprofile","adoptdetail","adoptapply","adoptsubmitted","notifications"],
+    staff:["regdetail","reqdetail","adoptreview","notifications"],
+    admin:["reqdetail","regdetail","petprofile","adoptreview"],
   };
   const ROLE_PATHS = { owner:"portal", staff:"staff", admin:"admin" };
 

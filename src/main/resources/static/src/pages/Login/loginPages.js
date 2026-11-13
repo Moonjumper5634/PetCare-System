@@ -1,10 +1,10 @@
-/* PetCARE — Login / sign-up / verify / forgot-password screens */
+/* DogCARE — Login / sign-up / verify / forgot-password screens */
 
 function renderLoginScreen(){
   return `
   <div class="login-split">
     <div class="login-left">
-      <div class="login-brand-row">${sealSvg(46)}<div class="brand" style="margin-bottom:0;">PetCARE</div></div>
+      <div class="login-brand-row">${sealSvg(46)}<div class="brand" style="margin-bottom:0;">DogCARE</div></div>
       <div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div>
       <h2 class="auth-welcome">A little care.<br>A healthier companion.</h2>
       <div class="brand-desc">Veterinary service request and decision-support portal for residents and CVO personnel. Register your pets, request veterinary services, and track requests from submission to completion.</div>
@@ -20,7 +20,7 @@ function renderLoginScreen(){
         ${UI.errors.login ? `<div class="field-error-msg" style="margin-bottom:10px;">${esc(UI.errors.login)}</div>` : ""}
         <div class="link-row" style="justify-content:center;"><button type="button" class="link-text" id="go-forgot">Forgot password?</button></div>
         <button class="btn-primary" id="btn-do-login">Log In</button>
-        <div class="foot-link-row">New to PetCARE? <button type="button" class="link-text" id="go-signup">Create a resident account</button></div>
+        <div class="foot-link-row">New to DogCARE? <button type="button" class="link-text" id="go-signup">Create a resident account</button></div>
       </div>
     </div>
   </div>`;
@@ -31,14 +31,14 @@ function renderSignupScreen(){
   return `
   <div class="login-split">
     <div class="login-left">
-      <div class="brand">PetCARE</div>
+      <div class="brand">DogCARE</div>
       <div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div>
-      <div class="brand-desc">Register for access to PetCARE veterinary services and pet records.</div>
+      <div class="brand-desc">Register for access to DogCARE veterinary services and pet records.</div>
     </div>
     <div class="login-right" style="align-items:flex-start; overflow-y:auto;">
       <div class="login-card2" style="width:420px; padding-top:20px; padding-bottom:20px;">
         <h1>Create Resident Account</h1>
-        <p class="tag">Register for access to PetCARE veterinary services and pet records.</p>
+        <p class="tag">Register for access to DogCARE veterinary services and pet records.</p>
         <h3 style="font-size:0.85rem;border-left:3px solid var(--red);padding-left:8px;margin:16px 0 10px;">Personal Information</h3>
         ${field("First Name *", `<input id="su-first" value="${esc(d.firstName)}">`, "firstName")}
         ${field("Middle Name", `<input id="su-middle" value="${esc(d.middleName)}">`)}
@@ -59,7 +59,7 @@ function renderSignupScreen(){
         ${field("Confirm Password *", `<input id="su-confirm" type="password" value="${esc(d.confirm)}">`, "confirm")}
         <div class="checkbox-row">
           <input type="checkbox" id="su-agree" ${d.agree?"checked":""}>
-          <label for="su-agree">I acknowledge that the information provided is accurate and agree to the use of my information for PetCARE service processing.</label>
+          <label for="su-agree">I acknowledge that the information provided is accurate and agree to the use of my information for DogCARE service processing.</label>
         </div>
         ${UI.errors.agree ? `<div class="field-error-msg" style="margin-top:-10px;margin-bottom:10px;">${esc(UI.errors.agree)}</div>` : ""}
         <div class="wizard-nav">
@@ -75,7 +75,7 @@ function renderSignupScreen(){
 function renderSignupSuccessScreen(){
   return `
   <div class="login-split">
-    <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
+    <div class="login-left"><div class="brand">DogCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
     <div class="login-right">
       <div class="login-card2" style="text-align:center;">
         <div style="color:var(--green);">${icoSvg('check',44)}</div>
@@ -95,7 +95,7 @@ function renderSignupSuccessScreen(){
 function renderVerifyScreen(){
   return `
   <div class="login-split">
-    <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
+    <div class="login-left"><div class="brand">DogCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
     <div class="login-right">
       <div class="login-card2">
         <h1>Verify Your Account</h1>
@@ -111,7 +111,7 @@ function renderVerifyScreen(){
 function renderVerifySuccessScreen(){
   return `
   <div class="login-split">
-    <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
+    <div class="login-left"><div class="brand">DogCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
     <div class="login-right">
       <div class="login-card2" style="text-align:center;">
         <div style="color:var(--green);">${icoSvg('check',44)}</div>
@@ -126,7 +126,7 @@ function renderVerifySuccessScreen(){
 function renderForgotEmailScreen(){
   return `
   <div class="login-split">
-    <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
+    <div class="login-left"><div class="brand">DogCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
     <div class="login-right">
       <div class="login-card2">
         <h1>Forgot Password</h1>
@@ -142,7 +142,7 @@ function renderForgotEmailScreen(){
 function renderForgotCodeScreen(){
   return `
   <div class="login-split">
-    <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
+    <div class="login-left"><div class="brand">DogCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
     <div class="login-right">
       <div class="login-card2">
         <h1>Enter Verification Code</h1>
@@ -158,7 +158,7 @@ function renderForgotCodeScreen(){
 function renderForgotNewPwScreen(){
   return `
   <div class="login-split">
-    <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
+    <div class="login-left"><div class="brand">DogCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
     <div class="login-right">
       <div class="login-card2">
         <h1>Create New Password</h1>
@@ -177,7 +177,7 @@ function mockCodeBanner(){
 function renderForgotSuccessScreen(){
   return `
   <div class="login-split">
-    <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
+    <div class="login-left"><div class="brand">DogCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
     <div class="login-right">
       <div class="login-card2" style="text-align:center;">
         <div style="font-size:2.4rem;">🔑</div>

@@ -1,4 +1,4 @@
-/* PetCARE — Page: accountPages */
+/* DogCARE — Page: accountPages */
 
 /* ---------------- NOTIFICATIONS ---------------- */
 function screenNotifications(){
@@ -35,15 +35,15 @@ function screenProfile(){
   return `
   <div class="page-head"><div><div class="crumb">Account</div><h2>My Profile</h2></div></div>
   <div class="card" style="max-width:560px;">
-    <h3>Account Information</h3>
-    <div class="kv">
-      <div><div class="k">Name</div><div class="v">${esc(u.name)}</div></div>
-      <div><div class="k">Role</div><div class="v">${roleLabel}</div></div>
-      <div><div class="k">Email</div><div class="v">${esc(u.email)}</div></div>
-      <div><div class="k">Mobile</div><div class="v">${esc(u.mobile||"—")}</div></div>
-      ${u.barangay?`<div><div class="k">Barangay</div><div class="v">${esc(u.barangay)}</div></div>`:""}
-      <div><div class="k">Status</div><div class="v">${statusPill(u.status)}</div></div>
-    </div>
+    <h3>Edit Account Information</h3>
+    <div class="two-field">${field("First name *",`<input id="profile-first" value="${esc(u.firstName||"")}">`)}${field("Middle name",`<input id="profile-middle" value="${esc(u.middleName||"")}">`)}</div>
+    ${field("Last name *",`<input id="profile-last" value="${esc(u.lastName||"")}">`)}
+    ${field("Email",`<input value="${esc(u.email)}" disabled>`)}
+    ${field("Mobile",`<input id="profile-mobile" value="${esc(u.mobile||"")}">`)}
+    ${field("Address",`<input id="profile-address" value="${esc(u.houseStreet||"")}">`)}
+    ${u.role==="owner"?field("Barangay *",`<select id="profile-barangay">${BARANGAYS.map(b=>`<option ${u.barangay===b?"selected":""}>${b}</option>`).join("")}</select>`):""}
+    <div class="form-note">Role: ${roleLabel} · Status: ${u.status}. Contact the administrator to change your sign-in email or account role.</div>
+    <button class="btn-red" id="profile-save-info">Save Profile</button>
   </div>
   <div class="card" style="max-width:560px;">
     <h3>Change Password</h3>
@@ -52,6 +52,14 @@ function screenProfile(){
     ${field("Confirm New Password", `<input id="pw-confirm" type="password" placeholder="••••••••" autocomplete="new-password">`)}
     <button class="btn-red" id="profile-save-pw">Save Changes</button>
   </div>`;
+}
+async function saveProfileInfo(){
+  const result=await AuthService.updateProfile({
+    firstName:document.getElementById("profile-first").value, middleName:document.getElementById("profile-middle").value,
+    lastName:document.getElementById("profile-last").value, mobile:document.getElementById("profile-mobile").value,
+    houseStreet:document.getElementById("profile-address").value, barangay:document.getElementById("profile-barangay")?.value||null
+  });
+  showToast(result.ok?"Profile updated.":result.error); if(result.ok) render();
 }
 async function saveProfilePassword(){
   const cur = document.getElementById("pw-current").value;

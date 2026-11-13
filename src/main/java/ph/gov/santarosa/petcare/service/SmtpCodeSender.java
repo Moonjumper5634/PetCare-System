@@ -27,18 +27,18 @@ public class SmtpCodeSender implements CodeSender {
 
     @Override
     public void send(AppUser user, String purpose, String code) {
-        String action = "reset".equals(purpose) ? "reset your PetCARE password" : "verify your PetCARE account";
+        String action = "reset".equals(purpose) ? "reset your DogCARE password" : "verify your DogCARE account";
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setTo(user.getEmail());
-        message.setSubject("Your PetCARE verification code");
+        message.setSubject("Your DogCARE verification code");
         message.setText("Hello " + user.getFirstName() + ",\n\nYour code to " + action + " is: " + code
                 + "\n\nThis code expires in 15 minutes. If you did not request it, you can ignore this message."
                 + "\n\n" + officeName);
         try {
             mail.send(message);
         } catch (MailException e) {
-            LOG.log(Level.SEVERE, "PetCARE could not deliver a verification email through the configured SMTP service.", e);
+            LOG.log(Level.SEVERE, "DogCARE could not deliver a verification email through the configured SMTP service.", e);
             // Keep account creation available; the resident can sign in and resend verification later.
         }
     }

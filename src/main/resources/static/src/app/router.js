@@ -1,4 +1,4 @@
-/* PetCARE — Hash router with role guard
+/* DogCARE — Hash router with role guard
    URL shape: #/<portal|staff|admin>/<screen>. A URL that does not belong to the
    signed-in role is ignored and the user lands on their own dashboard. */
 function applyHashRoute(){
@@ -18,5 +18,5 @@ function syncHash(){
   const publicRoute = UI.authScreen === "landing" ? "home" : UI.authScreen;
   const h = user ? `#/${AuthGuard.rolePath(user.role)}/${UI.screen}` : `#/${publicRoute}`;
   if(location.hash !== h) history.replaceState(null, "", h);
-  document.title = "PetCARE — City Veterinary Office, Santa Rosa, Laguna";
+  document.title = "DogCARE — City Veterinary Office, Santa Rosa, Laguna";
 }

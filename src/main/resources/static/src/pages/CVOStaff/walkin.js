@@ -1,4 +1,4 @@
-/* PetCARE — Page: walkin */
+/* DogCARE — Page: walkin */
 
 /* ---------------- WALK-IN RESIDENT WORKFLOW ---------------- */
 function newWalkinState(){ return {stage:"start", residentId:null, searchQuery:"", createDraft:{name:"",mobile:"",email:"",address:"",barangay:BARANGAYS[0]}}; }
@@ -10,7 +10,7 @@ function screenWalkin(){
     return `
     <div class="page-head"><div><div class="crumb">Services</div><h2>Walk-in Resident</h2></div></div>
     <div class="card" style="max-width:520px;margin:0 auto;text-align:center;">
-      <p style="font-size:0.88rem;color:var(--body);">Does the resident already have a PetCARE account?</p>
+      <p style="font-size:0.88rem;color:var(--body);">Does the resident already have a DogCARE account?</p>
       <div style="display:flex;gap:10px;">
         <button class="btn-red" style="flex:1;" id="wi-has-account">Resident Has an Account</button>
         <button class="btn-line" style="flex:1;" id="wi-no-account">Resident Does Not Have an Account</button>

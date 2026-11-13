@@ -18,7 +18,10 @@ public class AdminService {
     public record ResidentCreated(String userId, String email, String temporaryPassword) { }
     public record CreatePersonnel(String name, String email, String mobile, String role, String jobTitle) { }
     public record PersonnelCreated(String userId, String email, String temporaryPassword, String role) { }
-    public record CriterionUpdate(Boolean enabled, String description) { }
+    public record CriterionUpdate(Boolean enabled, String label, String description) {
+        public CriterionUpdate(Boolean enabled, String description) { this(enabled, null, description); }
+    }
+    public record NewCriterion(String service, String label, String description) { }
 
     private static final String PW_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
     private static final SecureRandom RANDOM = new SecureRandom();
@@ -126,11 +129,30 @@ public class AdminService {
     }
 
     @Transactional
+    public void addCriterion(AppUser actor, NewCriterion r) {
+        Access.require(actor, Values.ADMIN);
+        String service = Validation.text(r.service(), "Service", 40, true);
+        String label = Validation.text(r.label(), "Requirement label", 120, true);
+        String description = Validation.text(r.description(), "Requirement description", 600, true);
+        var rows = criteria.findByServiceNameOrderBySortOrder(service);
+        if (rows.isEmpty()) throw ApiException.badRequest("Unknown veterinary service.");
+        EligibilityCriterion c = new EligibilityCriterion();
+        c.setServiceName(service);
+        c.setCriterionKey("custom-" + System.currentTimeMillis());
+        c.setLabel(label); c.setDescription(description); c.setEnabled(Boolean.TRUE);
+        c.setCustomRule(Boolean.TRUE);
+        c.setSortOrder(rows.stream().mapToInt(EligibilityCriterion::getSortOrder).max().orElse(0) + 10);
+        criteria.save(c);
+        notifier.audit(actor, "Create", "Eligibility Criteria", service, "Manual-review requirement added: " + label + ".");
+    }
+
+    @Transactional
     public void updateCriterion(AppUser actor, String service, String key, CriterionUpdate up) {
         Access.require(actor, Values.ADMIN);
         EligibilityCriterion c = criteria.findByServiceNameAndCriterionKey(service == null ? "" : service, key == null ? "" : key)
                 .orElseThrow(() -> ApiException.notFound("Criterion not found."));
-        if (up.enabled() == null && up.description() == null) throw ApiException.badRequest("Nothing to update.");
+        if (up.enabled() == null && up.label() == null && up.description() == null) throw ApiException.badRequest("Nothing to update.");
+        if (up.label() != null) c.setLabel(Validation.text(up.label(), "Requirement label", 120, true));
         if (up.description() != null) {
             c.setDescription(Validation.text(up.description(), "Description", 600, true));
             notifier.audit(actor, "Update", "Eligibility Criteria", service, "Updated criterion \"" + c.getLabel() + "\" for " + service + ".");

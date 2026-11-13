@@ -1,4 +1,4 @@
-/* PetCARE — In-memory copy of the signed-in user's data
+/* DogCARE — In-memory copy of the signed-in user's data
    ============================================================
    S has the same shape the screens have always read (users, pets, registrations, requests, adoptions,
    shelterPets, notifications, audit, criteria). It is no longer stored in the browser: hydrate() fills it from

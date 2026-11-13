@@ -1,8 +1,8 @@
-/* PetCARE — Page: petRegistration */
+/* DogCARE — Page: petRegistration */
 
 /* ---------------- PET REGISTRATION WIZARD ---------------- */
 function newRegDraft(){
-  return {name:"", species:"Dog", breed:"", sex:"Male", dob:"", barangay:BARANGAYS[0], color:"", notes:"",
+  return {name:"", species:"Dog", breed:"", sex:"Male", dob:"", barangay:BARANGAYS[0], color:"", notes:"", photo:"",
     weight:"", healthStatus:"Apparently Healthy", healthNotes:"",
     rabiesStatus:"Unknown", lastRabies:"",
     dewormingStatus:"Unknown", lastDeworming:"",
@@ -27,7 +27,7 @@ function screenPetRegistration(walkinOwnerId){
   if(w.step===1){
     return `
     <div class="page-head"><div><div class="crumb">Pet Records</div><h2>Register a New Dog</h2></div></div>
-    <p style="font-size:0.78rem;color:var(--body);margin-top:-10px;max-width:640px;">PetCARE is a canine veterinary service management system. Registration is available for dogs only.</p>
+    <p style="font-size:0.78rem;color:var(--body);margin-top:-10px;max-width:640px;">DogCARE is a canine veterinary service management system. Registration is available for dogs only.</p>
     <div class="card" style="max-width:640px;margin:0 auto;">
       ${stepHead}
       <h3>Step 1 of 3 — Dog &amp; Owner Information</h3>
@@ -42,6 +42,7 @@ function screenPetRegistration(walkinOwnerId){
       </div>
       ${field("Barangay *", `<select id="reg-brgy">${BARANGAYS.map(b=>`<option ${d.barangay===b?"selected":""}>${b}</option>`).join("")}</select>`)}
       ${field("Color / Markings", `<input id="reg-color" value="${esc(d.color)}">`)}
+      ${field("Dog Photo for Verification *", `<input id="reg-photo" type="file" accept="image/jpeg,image/png,image/webp"><div class="form-note">Upload a clear, recent photo showing the dog's face and body. Maximum 2 MB. The photo supports identification; staff still make the verification decision.</div>${d.photo?`<img class="dog-photo-preview" src="${d.photo}" alt="Selected dog photo">`:""}`,"regphoto")}
       ${field("Additional Notes", `<textarea id="reg-notes" rows="2">${esc(d.notes)}</textarea>`)}
       <h3 style="margin-top:16px;">Owner Information</h3>
       <div class="two-field">
@@ -74,7 +75,7 @@ function screenPetRegistration(walkinOwnerId){
         ${field("Deworming Status *", `<select id="reg-dewormstatus"><option ${d.dewormingStatus==="Updated"?"selected":""}>Updated</option><option ${d.dewormingStatus==="Not Updated"?"selected":""}>Not Updated</option><option ${d.dewormingStatus==="Unknown"?"selected":""}>Unknown</option></select>`)}
         ${field("Last Deworming Date", `<input id="reg-lastdeworm" type="date" value="${d.lastDeworming}" max="${todayISO()}">`)}
       </div>
-      <p style="font-size:0.68rem;color:var(--muted);margin:-6px 0 12px;">Deworming is recorded as a health/requirement record. It is not offered as a standalone PetCARE service.</p>
+      <p style="font-size:0.68rem;color:var(--muted);margin:-6px 0 12px;">Deworming is recorded as a health/requirement record. It is not offered as a standalone DogCARE service.</p>
       <div class="two-field">
         ${field("Microchip Status", `<select id="reg-chipstatus"><option ${d.microchipStatus==="Not Microchipped"?"selected":""}>Not Microchipped</option><option ${d.microchipStatus==="Microchipped"?"selected":""}>Microchipped</option></select>`)}
         ${field("Microchip Number (if applicable)", `<input id="reg-chipnumber" value="${esc(d.microchipNumber)}" placeholder="e.g. 933000000000000">`)}
@@ -100,6 +101,7 @@ function screenPetRegistration(walkinOwnerId){
         <div><div class="k">Proof of Residency</div><div class="v">${esc(d.proofOfResidency)}</div></div>
       </div>
       <h3>Dog</h3>
+      ${d.photo?`<img class="dog-photo-preview review" src="${d.photo}" alt="Dog verification photo">`:""}
       <div class="kv" style="margin-bottom:16px;">
         <div><div class="k">Pet Name</div><div class="v">${esc(d.name)}</div></div>
         <div><div class="k">Species</div><div class="v">Dog</div></div>

@@ -1,4 +1,4 @@
-/* PetCARE — Page: reports */
+/* DogCARE — Page: reports */
 
 /* ---------------- REPORTS ---------------- */
 function screenReports(){
@@ -23,15 +23,15 @@ function screenReports(){
   return `
   <div class="page-head"><div><div class="crumb">Reporting</div><h2>Reports</h2></div></div>
   <div class="card">
-    <div class="filter-bar">
+    <div class="filter-bar report-filters">
       <input type="date" id="rp-from" value="${f.from}" title="Date From">
       <input type="date" id="rp-to" value="${f.to}" title="Date To">
-      <select id="rp-barangay"><option ${f.barangay==="All"?"selected":""}>All</option>${BARANGAYS.map(b=>`<option ${f.barangay===b?"selected":""}>${b}</option>`).join("")}</select>
-      <select id="rp-service"><option ${f.service==="All"?"selected":""}>All</option>${SERVICES.map(s=>`<option ${f.service===s?"selected":""}>${s}</option>`).join("")}</select>
-      <select id="rp-status"><option ${f.status==="All"?"selected":""}>All</option>${["Submitted","For Review","Approved","Rejected","Completed"].map(s=>`<option ${f.status===s?"selected":""}>${s}</option>`).join("")}</select>
+      <label>Barangay <select id="rp-barangay"><option value="All" ${f.barangay==="All"?"selected":""}>All barangays</option>${BARANGAYS.map(b=>`<option ${f.barangay===b?"selected":""}>${b}</option>`).join("")}</select></label>
+      <label>Service <select id="rp-service"><option value="All" ${f.service==="All"?"selected":""}>All services</option>${SERVICES.map(s=>`<option ${f.service===s?"selected":""}>${s}</option>`).join("")}</select></label>
+      <label>Status <select id="rp-status"><option value="All" ${f.status==="All"?"selected":""}>All statuses</option>${["Submitted","For Review","Approved","Rejected","Completed"].map(s=>`<option ${f.status===s?"selected":""}>${s}</option>`).join("")}</select></label>
     </div>
     <p class="form-note">Date range applies to registrations, service requests and adoptions. Barangay, service and status further narrow service requests.</p>
-    <div class="report-actions"><button class="btn-red" id="rp-generate">Generate Report</button><button class="btn-line" id="rp-clear">Clear Filters</button><button class="btn-line" id="rp-export">Export CSV</button><button class="btn-line" id="rp-print">Print</button></div>
+    <div class="report-actions"><button class="btn-red" id="rp-generate">Generate Report</button><button class="btn-line" id="rp-clear">Show All Records</button><button class="btn-line" id="rp-export">Export Current View (CSV)</button><a class="btn-line" href="/api/admin/export/workbook" download>Export Excel Backup</a><button class="btn-line" id="rp-print">Print</button></div>
   </div>
   <div class="grid3">
     <div class="report-card"><h4>Pet Registration</h4><p>${regsInRange.length} submissions in range</p><div class="num" style="font-size:1.4rem;font-weight:800;">${regsInRange.filter(r=>r.status==="Verified").length} Verified</div></div>
@@ -44,7 +44,7 @@ function screenReports(){
   </div>
   <div class="card"><h3>Matching Service Requests</h3>
     ${reqsInRange.length ? `<table><thead><tr><th>Request ID</th><th>Pet</th><th>Service</th><th>Barangay</th><th>Date</th><th>Status</th></tr></thead>
-    <tbody>${reqsInRange.map(r=>{const p=petById(r.petId);return `<tr><td>${r.id}</td><td>${p?esc(p.name):"—"}</td><td>${esc(r.service)}</td><td>${p?esc(p.barangay):"—"}</td><td>${fmtDate(r.submittedDate)}</td><td>${statusPill(requestDisplayStatus(r))}</td></tr>`;}).join("")}</tbody></table>`
+    <tbody>${reqsInRange.map(r=>{const p=petById(r.petId);return `<tr><td><button class="reference-link" data-nav="reqdetail" data-req="${r.id}">${r.id}</button></td><td>${p?esc(p.name):"—"}</td><td>${esc(r.service)}</td><td>${p?esc(p.barangay):"—"}</td><td>${fmtDate(r.submittedDate)}</td><td>${statusPill(requestDisplayStatus(r))}</td></tr>`;}).join("")}</tbody></table>`
     : emptyState(icoSvg('chart'),"No Matching Records","Adjust the filters above and generate the report again.","")}
   </div>`;
 }

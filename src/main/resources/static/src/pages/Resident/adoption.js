@@ -1,4 +1,4 @@
-/* PetCARE — Page: adoption */
+/* DogCARE — Page: adoption */
 
 /* ---------------- ADOPTION ---------------- */
 function screenAdopt(){

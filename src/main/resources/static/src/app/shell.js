@@ -1,4 +1,4 @@
-/* PetCARE — Authenticated application shell (topbar, sidebar, content) */
+/* DogCARE — Authenticated application shell (topbar, sidebar, content) */
 
 /* ---------------- APP SHELL ---------------- */
 function renderApp(){
@@ -14,11 +14,12 @@ function renderApp(){
   const renderer = screenMap[UI.screen] || screenMap.dashboard;
   const content = renderer();
   const roleTag = u.role==="owner" ? (u.barangay? `Resident — ${u.barangay}` : "Resident") : (u.tag || roleDisplay(u.role));
+  const unread=unreadCount(u.id);
   return `
   <div class="app-shell ${UI.sidebarOpen?'sidebar-is-open':''}">
     <div class="topbar">
-      <div style="display:flex;align-items:center;gap:12px;"><button class="app-menu" id="app-menu" aria-label="Open navigation">☰</button>${sealSvg(38)}<div><div class="sysname">PetCARE</div><div class="orgname">City Veterinary Office — Santa Rosa, Laguna</div></div></div>
-      <div class="user">${themeToggleButton("topbar")}<div class="avatar">${esc(u.initials||initials(u.name))}</div><div class="user-meta">${esc(u.name)}<br><span style="opacity:0.8;font-size:0.68rem;">${esc(roleTag)}</span></div><div class="logout" id="btn-logout">Logout</div></div>
+      <div style="display:flex;align-items:center;gap:12px;"><button class="app-menu" id="app-menu" aria-label="Open navigation">☰</button>${sealSvg(38)}<div><div class="sysname">DogCARE</div><div class="orgname">City Veterinary Office — Santa Rosa, Laguna</div></div></div>
+      <div class="user">${themeToggleButton("topbar")}<button class="topbar-notifications" data-nav="notifications" aria-label="Notifications${unread?`, ${unread} unread`:""}">${navIcon("notifications")}${unread?`<span>${unread>99?"99+":unread}</span>`:""}</button><div class="avatar">${esc(u.initials||initials(u.name))}</div><div class="user-meta">${esc(u.name)}<br><span style="opacity:0.8;font-size:0.68rem;">${esc(roleTag)}</span></div><div class="logout" id="btn-logout">Logout</div></div>
     </div>
     <div class="sidebar">${navHtml}</div><button class="sidebar-backdrop" id="sidebar-backdrop" aria-label="Close navigation"></button>
     <div class="main">${u.mustChangePassword ? `<div class="role-banner" style="margin-bottom:14px;"><b>You are using a temporary password.</b> Change it under <span data-nav="profile" style="cursor:pointer;text-decoration:underline;">Profile</span> before you can continue.</div>` : ""}${content}</div>

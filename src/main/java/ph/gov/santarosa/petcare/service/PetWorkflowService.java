@@ -99,6 +99,7 @@ public class PetWorkflowService {
         p.setDewormingStatus(deworm); p.setLastDeworming(lastDeworm);
         p.setProofOfResidency(residency);
         p.setMicrochip(chip); p.setMicrochipStatus(chipStatus);
+        p.setArchived(Boolean.FALSE);
         pets.save(p);
 
         PetRegistration reg = new PetRegistration();
@@ -114,6 +115,71 @@ public class PetWorkflowService {
                 "Your registration for " + name + " has been submitted and is pending CVO verification.");
         notifier.audit(actor, "Create", "Pet Registration", reg.getId(), "Pet registration submitted for " + name + ".");
         return new Registered(p.getId(), reg.getId());
+    }
+
+    @Transactional
+    public void updatePet(AppUser actor, String petId, RegisterPet r) {
+        Access.require(actor, Values.OWNER);
+        Pet p = pets.findById(petId).orElseThrow(() -> ApiException.notFound("Dog record not found."));
+        if (!actor.getId().equals(p.getOwnerId()) || Boolean.TRUE.equals(p.getArchived()))
+            throw ApiException.notFound("Dog record not found.");
+        LocalDate today = LocalDate.now(clock);
+        p.setName(Validation.text(r.name(), "Dog name", 80, true));
+        p.setBreed(Validation.text(r.breed(), "Breed", 80, true));
+        p.setSex(Validation.oneOf(r.sex(), "Sex", Values.SEX, true));
+        p.setDob(Validation.pastOrToday(r.dob(), "Date of birth", true, today));
+        p.setColor(Validation.text(r.color(), "Color / description", 120, false));
+        if (r.weight() == null || r.weight().signum() <= 0 || r.weight().compareTo(new BigDecimal("120")) > 0)
+            throw ApiException.badRequest("Weight must be between 0 and 120 kg.");
+        p.setWeightKg(r.weight().setScale(2, RoundingMode.HALF_UP));
+        p.setHealthStatus(Validation.oneOf(r.healthStatus(), "Health status", Values.HEALTH, true));
+        p.setHealthNotes(Validation.text(r.healthNotes(), "Health notes", 1000, false));
+        String rabies = Validation.oneOf(r.rabiesStatus(), "Anti-rabies status", Values.UPDATE_STATUS, true);
+        p.setRabiesStatus(rabies);
+        p.setLastRabies("Updated".equals(rabies) ? Validation.pastOrToday(r.lastRabies(), "Last anti-rabies date", false, today) : null);
+        String deworm = Validation.oneOf(r.dewormingStatus(), "Deworming status", Values.UPDATE_STATUS, true);
+        p.setDewormingStatus(deworm);
+        p.setLastDeworming("Updated".equals(deworm) ? Validation.pastOrToday(r.lastDeworming(), "Last deworming date", false, today) : null);
+        p.setRegistrationStatus("Pending");
+        p.setRegisteredDate(null);
+        pets.save(p);
+        registrations.findByPetId(petId).stream().max(java.util.Comparator.comparing(PetRegistration::getSubmittedDate))
+                .ifPresent(reg -> { reg.setStatus("Pending"); reg.setReviewedBy(null); reg.setReviewedAt(null); registrations.save(reg); });
+        notifyReviewers(actor, p, "edited", "Dog profile edited by owner and returned to verification.");
+    }
+
+    @Transactional
+    public void updatePhoto(AppUser actor, String petId, String photo) {
+        Access.require(actor, Values.OWNER);
+        Pet p = pets.findById(petId).orElseThrow(() -> ApiException.notFound("Dog record not found."));
+        if (!actor.getId().equals(p.getOwnerId()) || Boolean.TRUE.equals(p.getArchived()))
+            throw ApiException.notFound("Dog record not found.");
+        p.setPhotoUrl(validatePhoto(photo)); pets.save(p);
+        notifyReviewers(actor, p, "edited", "Dog verification photo updated by owner.");
+    }
+
+    @Transactional
+    public void archivePet(AppUser actor, String petId) {
+        Access.require(actor, Values.OWNER);
+        Pet p = pets.findById(petId).orElseThrow(() -> ApiException.notFound("Dog record not found."));
+        if (!actor.getId().equals(p.getOwnerId()) || Boolean.TRUE.equals(p.getArchived()))
+            throw ApiException.notFound("Dog record not found.");
+        p.setArchived(Boolean.TRUE); p.setArchivedAt(notifier.now()); pets.save(p);
+        notifyReviewers(actor, p, "archived", "Dog record archived by owner; historical service records were retained.");
+    }
+
+    private void notifyReviewers(AppUser actor, Pet p, String action, String message) {
+        users.findByRole(Values.STAFF).forEach(u -> notifier.notify(u.getId(), "Owner " + action + " a dog record", p.getName() + " (" + p.getId() + "): " + message));
+        users.findByRole(Values.ADMIN).forEach(u -> notifier.notify(u.getId(), "Owner " + action + " a dog record", p.getName() + " (" + p.getId() + "): " + message));
+        notifier.audit(actor, action.equals("edited") ? "Update" : "Archive", "Dog Record", p.getId(), message);
+    }
+
+    private static String validatePhoto(String value) {
+        if (value == null || value.isBlank()) return null;
+        if (!value.matches("^data:image/(jpeg|png|webp);base64,[A-Za-z0-9+/=\\r\\n]+$"))
+            throw ApiException.badRequest("Dog photo must be a JPG, PNG, or WebP image.");
+        if (value.length() > 2800000) throw ApiException.badRequest("Dog photo must be smaller than 2 MB.");
+        return value;
     }
 
     /** @param onSite true for the walk-in counter ("verify now"), which uses the on-site wording. */

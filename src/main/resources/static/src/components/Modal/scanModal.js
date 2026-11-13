@@ -1,4 +1,4 @@
-/* PetCARE — QR scan modal (camera, manual entry, quick lookup) and quick-visit flow */
+/* DogCARE — QR scan modal (camera, manual entry, quick lookup) and quick-visit flow */
 
 /* ---------------- QR SCAN MODAL (staff) ---------------- */
 let _scanStream = null, _scanInterval = null;

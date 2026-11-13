@@ -15,7 +15,7 @@ import ph.gov.santarosa.petcare.service.AdminService;
 public class AdminController {
 
     public record Status(String status) { }
-    public record Criterion(String service, String key, Boolean enabled, String description) { }
+    public record Criterion(String service, String key, Boolean enabled, String label, String description) { }
 
     private final AdminService admin;
     private final CurrentUser current;
@@ -46,7 +46,12 @@ public class AdminController {
 
     @PutMapping("/admin/criteria")
     public Map<String, Object> updateCriterion(@RequestBody Criterion body) {
-        admin.updateCriterion(current.requireReady(), body.service(), body.key(), new AdminService.CriterionUpdate(body.enabled(), body.description()));
+        admin.updateCriterion(current.requireReady(), body.service(), body.key(), new AdminService.CriterionUpdate(body.enabled(), body.label(), body.description()));
         return Map.of("ok", true);
+    }
+
+    @PostMapping("/admin/criteria")
+    public Map<String,Object> addCriterion(@RequestBody AdminService.NewCriterion body) {
+        admin.addCriterion(current.requireReady(), body); return Map.of("ok",true);
     }
 }

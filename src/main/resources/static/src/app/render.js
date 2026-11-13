@@ -1,4 +1,4 @@
-/* PetCARE — Main render loop (auth + role guard applied on every render) */
+/* DogCARE — Main render loop (auth + role guard applied on every render) */
 function render(){
   const root = document.getElementById("app");
   if(!root) return;

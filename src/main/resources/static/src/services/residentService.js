@@ -1,4 +1,4 @@
-/* PetCARE — Resident / user data access
+/* DogCARE — Resident / user data access
    FUTURE BACKEND: getUserById -> GET /api/users/:id, getResidents -> GET /api/residents,
    searchResidents -> GET /api/residents?q=, createResident -> POST /api/residents */
 const ResidentService = {

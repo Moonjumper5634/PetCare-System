@@ -1,4 +1,4 @@
-/* PetCARE — Login, logout, sign-up, verification and forgot-password flows (UI layer over the server)
+/* DogCARE — Login, logout, sign-up, verification and forgot-password flows (UI layer over the server)
    The server checks passwords, issues and checks one-time codes, and decides everything; these functions only
    collect input, show the server's answer and move between screens. */
 

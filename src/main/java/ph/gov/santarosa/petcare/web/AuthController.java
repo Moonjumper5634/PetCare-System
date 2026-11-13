@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,6 +89,11 @@ public class AuthController {
     public Map<String, Object> changePassword(@RequestBody ChangePassword body) {
         auth.changePassword(current.require(), body.currentPassword(), body.newPassword());
         return Map.of("ok", true);
+    }
+
+    @PutMapping("/profile")
+    public Map<String,Object> updateProfile(@RequestBody AuthService.ProfileUpdate body) {
+        return Map.of("user", StateAssembler.publicUser(auth.updateProfile(current.requireReady(), body)));
     }
 
     private static Map<String, Object> issued(AuthService.CodeIssued c) {

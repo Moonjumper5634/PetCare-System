@@ -12,6 +12,9 @@
   .sidebar-backdrop{display:none;}
   .avatar{width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700;}
   .logout{color:#F3D5D9; font-size:0.72rem; text-decoration:underline; cursor:pointer;}
+  .topbar-notifications{position:relative;width:38px;height:38px;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;}
+  .topbar-notifications .nav-icon{width:19px;height:19px;}
+  .topbar-notifications span{position:absolute;right:-3px;top:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#fff;color:var(--red);font-size:.62rem;font-weight:800;display:grid;place-items:center;}
 
   .sidebar{
     width:248px; background:linear-gradient(180deg,var(--red) 0%,var(--red-dark) 100%); border-right:1px solid var(--red-dark);
@@ -78,6 +81,9 @@
 
   .filter-bar{display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
   .filter-bar input, .filter-bar select{padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:0.8rem; font-family:inherit;}
+  .report-filters label{display:grid;gap:4px;color:var(--muted);font-size:.68rem;font-weight:700;}
+  .report-filters select{padding-right:34px;background-color:#fff;background-image:linear-gradient(45deg,transparent 50%,var(--red) 50%),linear-gradient(135deg,var(--red) 50%,transparent 50%);background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;appearance:none;}
+  .reference-link{border:0;background:transparent;color:var(--red);font:inherit;font-weight:750;text-decoration:underline;cursor:pointer;padding:0;}
 
   .kv{display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; font-size:0.8rem;}
   .kv .k{color:var(--muted); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.03em;}
@@ -157,7 +163,7 @@
     .sidebar-is-open .sidebar{transform:translateX(0);}
     .sidebar-backdrop{position:fixed; z-index:30; inset:64px 0 0; border:0; background:rgba(20,22,25,.42);}
     .sidebar-is-open .sidebar-backdrop{display:block;}
-    .main{width:100%; margin-top:56px; padding:20px 16px; min-width:0;}
+    .main{width:100%; margin-top:64px; padding:20px 16px; min-width:0;}
     .card{min-width:0; overflow-x:auto; padding:16px;}
     table{min-width:680px;}
     .two-col,.grid3{grid-template-columns:1fr;}

@@ -86,8 +86,14 @@ public class Pet {
     @Column(name = "kapon_date")
     private LocalDate kaponDate;
 
-    @Column(name = "photo_url", length = 500)
+    @Column(name = "photo_url", length = 3000000)
     private String photoUrl;
+
+    @Column(name = "archived", nullable = false)
+    private Boolean archived;
+
+    @Column(name = "archived_at")
+    private LocalDateTime archivedAt;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -147,6 +153,10 @@ public class Pet {
     public void setKaponDate(LocalDate kaponDate) { this.kaponDate = kaponDate; }
     public String getPhotoUrl() { return photoUrl; }
     public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
+    public Boolean getArchived() { return archived; }
+    public void setArchived(Boolean archived) { this.archived = archived; }
+    public LocalDateTime getArchivedAt() { return archivedAt; }
+    public void setArchivedAt(LocalDateTime archivedAt) { this.archivedAt = archivedAt; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

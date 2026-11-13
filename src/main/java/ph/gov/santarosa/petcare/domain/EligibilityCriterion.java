@@ -35,6 +35,9 @@ public class EligibilityCriterion {
     @Column(name = "sort_order", nullable = false)
     private Integer sortOrder;
 
+    @Column(name = "custom_rule", nullable = false)
+    private Boolean customRule;
+
     public EligibilityCriterion() { }
 
     public Long getId() { return id; }
@@ -51,4 +54,6 @@ public class EligibilityCriterion {
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
     public Integer getSortOrder() { return sortOrder; }
     public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
+    public Boolean getCustomRule() { return customRule; }
+    public void setCustomRule(Boolean customRule) { this.customRule = customRule; }
 }

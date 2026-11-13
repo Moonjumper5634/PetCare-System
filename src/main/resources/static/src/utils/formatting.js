@@ -1,4 +1,4 @@
-/* PetCARE — Date, name and text formatting helpers */
+/* DogCARE — Date, name and text formatting helpers */
 
 /* ---------------- DATE / FORMAT HELPERS ---------------- */
 function fmtDate(d){

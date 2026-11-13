@@ -26,6 +26,9 @@ import ph.gov.santarosa.petcare.repository.AppUserRepository;
 @Service
 public class AuthService {
 
+    public record ProfileUpdate(String firstName, String middleName, String lastName, String mobile,
+                                String houseStreet, String barangay) { }
+
     static final int MAX_LOGIN_FAILURES = 5;
     static final Duration LOCK_TIME = Duration.ofMinutes(15);
     static final int MAX_CODE_TRIES = 5;
@@ -158,7 +161,7 @@ public class AuthService {
         clearCode(u);
         users.save(u);
         notifier.audit(u, "Update", "User Management", u.getId(), "Resident email address verified.");
-        notifier.notify(u.getId(), "Email verified successfully.", "Your PetCARE email address has been verified.");
+        notifier.notify(u.getId(), "Email verified successfully.", "Your DogCARE email address has been verified.");
     }
 
     /** Always answers the same way, whether or not the email exists. */
@@ -235,6 +238,23 @@ public class AuthService {
         u.setMustChangePassword(Boolean.FALSE);
         users.save(u);
         notifier.audit(u, "Update", "User Management", u.getId(), "Password changed from Profile.");
+    }
+
+    @Transactional
+    public AppUser updateProfile(AppUser actor, ProfileUpdate r) {
+        AppUser u = users.findById(actor.getId()).orElseThrow(() -> ApiException.unauthorized("Please sign in."));
+        String first = Validation.text(r.firstName(), "First name", 80, true);
+        String middle = Validation.text(r.middleName(), "Middle name", 80, false);
+        String last = Validation.text(r.lastName(), "Last name", 80, true);
+        u.setFirstName(first); u.setMiddleName(middle); u.setLastName(last);
+        u.setFullName(first + (middle == null ? "" : " " + middle) + " " + last);
+        u.setInitials(initials(first, last));
+        u.setMobile(Validation.phone(r.mobile(), false));
+        u.setHouseStreet(Validation.text(r.houseStreet(), "Address", 160, false));
+        if (Values.OWNER.equals(u.getRole())) u.setBarangay(Validation.text(r.barangay(), "Barangay", 80, true));
+        users.save(u);
+        notifier.audit(u, "Update", "User Profile", u.getId(), "Account profile details updated.");
+        return u;
     }
 
     /* ------------------------------ helpers ------------------------------ */

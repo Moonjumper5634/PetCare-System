@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ph.gov.santarosa.petcare.domain.AppUser;
 import ph.gov.santarosa.petcare.domain.AuditLog;
@@ -24,6 +25,8 @@ public class Notifier {
     private final AuditLogRepository audit;
     private final IdGenerator ids;
     private final Clock clock;
+    @Autowired(required = false)
+    private NotificationEmailSender emailSender;
 
     public Notifier(NotificationRepository notifications, AuditLogRepository audit, IdGenerator ids,
                     @Qualifier("clock") Clock clock) {
@@ -45,6 +48,7 @@ public class Notifier {
         n.setCreatedAt(now());
         n.setRead(Boolean.FALSE);
         notifications.save(n);
+        if (emailSender != null) emailSender.send(userId, n.getTitle(), n.getBody());
     }
 
     public void audit(AppUser actor, String action, String module, String refId, String description) {

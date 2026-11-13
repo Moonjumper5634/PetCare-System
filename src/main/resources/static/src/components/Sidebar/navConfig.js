@@ -1,4 +1,4 @@
-/* PetCARE — Role-based navigation menus */
+/* DogCARE — Role-based navigation menus */
 
 /* ---------------- ROLE NAVIGATION (per revision spec section 3) ---------------- */
 const navs = {
@@ -11,7 +11,6 @@ const navs = {
     {id:"myrequests", label:"My Requests"},
     {id:"adopt", label:"Adopt a Pet"},
     {group:"Account"},
-    {id:"notifications", label:"Notifications"},
     {id:"profile", label:"Profile"},
     {id:"faq", label:"FAQ / Help"},
   ],
@@ -28,7 +27,6 @@ const navs = {
     {id:"servicesrecords", label:"Services & Records"},
     {id:"walkin", label:"Walk-in Resident"},
     {group:"Account"},
-    {id:"notifications", label:"Notifications"},
     {id:"profile", label:"Profile"},
   ],
   admin: [
@@ -44,6 +42,7 @@ const navs = {
     {id:"auditlogs", label:"Action History"},
     {group:"System"},
     {id:"systemsettings", label:"System Settings"},
+    {id:"notifications", label:"Notifications"},
     {id:"profile", label:"Profile"},
   ]
 };

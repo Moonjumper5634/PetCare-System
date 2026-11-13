@@ -1,4 +1,4 @@
-/* PetCARE — Page: petRegistrations */
+/* DogCARE — Page: petRegistrations */
 
 /* ---------------- STAFF: PET REGISTRATIONS QUEUE + REVIEW ---------------- */
 function screenPetRegistrations(){

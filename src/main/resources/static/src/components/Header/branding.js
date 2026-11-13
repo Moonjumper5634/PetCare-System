@@ -1,4 +1,4 @@
-/* PetCARE — PetCARE seal and inline SVG icons */
+/* DogCARE — DogCARE seal and inline SVG icons */
 
 /* ---------------- PETCARE LOGO (shield + paw print) ----------------
    Used consistently in the login screen and the app sidebar/topbar. */

@@ -1,7 +1,7 @@
-/* PetCARE — Application constants (dates, barangays, services, storage key) */
+/* DogCARE — Application constants (dates, barangays, services, storage key) */
 
 /* =========================================================================
-   PetCARE — City Veterinary Office, Santa Rosa, Laguna
+   DogCARE — City Veterinary Office, Santa Rosa, Laguna
    Revised prototype: real state, role-based navigation, multi-step
    workflows, service-specific eligibility, staff decision separation,
    walk-in flow, adoption flow, notifications & audit logs.

@@ -4,6 +4,8 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ public class PetController {
 
     public record VerifyBody(Boolean onSite) { }
     public record RejectBody(String reason) { }
+    public record PhotoBody(String photo) { }
 
     private final PetWorkflowService pets;
     private final RequestWorkflowService requests;
@@ -54,5 +57,20 @@ public class PetController {
     @PostMapping("/registrations/{id}/resubmit")
     public Map<String,Object> resubmit(@PathVariable String id, @RequestBody PetWorkflowService.RegisterPet body){
         pets.resubmitRegistration(current.requireReady(),id,body); return Map.of("registrationId",id);
+    }
+
+    @PutMapping("/pets/{id}")
+    public Map<String,Object> update(@PathVariable String id, @RequestBody PetWorkflowService.RegisterPet body){
+        pets.updatePet(current.requireReady(), id, body); return Map.of("ok",true);
+    }
+
+    @DeleteMapping("/pets/{id}")
+    public Map<String,Object> archive(@PathVariable String id){
+        pets.archivePet(current.requireReady(), id); return Map.of("ok",true);
+    }
+
+    @PutMapping("/pets/{id}/photo")
+    public Map<String,Object> photo(@PathVariable String id, @RequestBody PhotoBody body){
+        pets.updatePhoto(current.requireReady(), id, body.photo()); return Map.of("ok",true);
     }
 }

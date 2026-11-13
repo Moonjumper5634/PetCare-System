@@ -1,4 +1,4 @@
-/* PetCARE visual experience: persistent theme preference and accessible scroll reveals. */
+/* DogCARE visual experience: persistent theme preference and accessible scroll reveals. */
 let petcareRevealObserver = null;
 
 function currentTheme(){

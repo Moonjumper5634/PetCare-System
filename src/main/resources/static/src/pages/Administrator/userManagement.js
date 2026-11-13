@@ -1,4 +1,4 @@
-/* PetCARE — Page: userManagement */
+/* DogCARE — Page: userManagement */
 
 /* ---------------- ADMIN: USER MANAGEMENT ---------------- */
 function screenUsers(){
@@ -8,13 +8,13 @@ function screenUsers(){
   const pg=paged(rows,"users"); rows=pg.items;
   const roleFilters = ["All","Resident","CVO Staff","Administrator","Inactive"];
   return `
-  <div class="page-head"><div><div class="crumb">Administration</div><h2>User Management</h2><p class="page-intro">Resident accounts come from public registration or walk-in encoding. Privileged accounts are created only by an administrator.</p></div><button class="btn-red" id="add-personnel">Add Personnel</button></div>
+  <div class="page-head"><div><div class="crumb">Administration</div><h2>User Management</h2><p class="page-intro">Resident accounts come from public registration or walk-in encoding. Privileged accounts are created only by an administrator. Archive personnel accounts when staff leave; their names remain on historical actions.</p></div><button class="btn-red" id="add-personnel">Add Personnel</button></div>
   <div class="card">
     <div class="filter-bar">${roleFilters.map(r=>`<button class="btn-sm ${filter===r?"solid":""}" data-setfilter="userRole:${r}">${r}</button>`).join("")}</div>
     <table><thead><tr><th>User ID</th><th>Name</th><th>Role</th><th>Barangay</th><th>Status</th><th>Action</th></tr></thead>
     <tbody>${rows.map(u=>`<tr><td>${u.id}</td><td><b>${esc(u.name)}</b></td><td><span class="badge-role">${roleDisplay(u.role)}</span></td><td>${esc(u.barangay||"—")}</td><td>${statusPill(u.status)}</td>
       <td><button class="btn-sm" data-viewuser="${u.id}">View</button>
-      ${u.status==="Active" ? `<button class="btn-sm danger" data-toggleuser="${u.id}">Deactivate</button>` : u.status==="Inactive" ? `<button class="btn-sm solid" data-toggleuser="${u.id}">Activate</button>` : ""}
+      ${u.status==="Active" ? `<button class="btn-sm danger" data-toggleuser="${u.id}">${u.role==="staff"?"Archive Staff Account":"Deactivate"}</button>` : u.status==="Inactive" ? `<button class="btn-sm solid" data-toggleuser="${u.id}">Reactivate</button>` : ""}
       </td></tr>`).join("")}</tbody></table>${pager(pg)}
   </div>`;
 }
@@ -50,7 +50,7 @@ function toggleUserStatus(userId){
   if(u.status !== "Active" && u.status !== "Inactive") return;
   const target = u.status === "Active" ? "Inactive" : "Active";
   runAction(() => Api.post(`/api/admin/users/${encodeURIComponent(userId)}/status`, {status:target}),
-    () => { showToast(`${u.name} is now ${target}.`); render(); });
+    () => { showToast(target==="Inactive"&&u.role==="staff"?`${u.name}'s staff account was archived. Historical actions were retained.`:`${u.name} is now ${target}.`); render(); });
 }
 function viewUserModal(userId){
   const u = userById(userId);

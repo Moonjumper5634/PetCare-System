@@ -1,4 +1,4 @@
-/* PetCARE — Page: records */
+/* DogCARE — Page: records */
 
 /* ---------------- ADMIN: PET RECORDS / SERVICE MANAGEMENT ---------------- */
 function screenPetRecordsAdmin(){
@@ -7,7 +7,7 @@ function screenPetRecordsAdmin(){
   const pg=paged(S.pets,"pets"),rows=pg.items;
   return `
   <div class="page-head"><div><div class="crumb">Administration</div><h2>Pet Records</h2></div></div>
-  ${duplicateGroups.length?`<div class="security-notice duplicate-notice"><b>${duplicateGroups.length} possible duplicate group${duplicateGroups.length===1?'':'s'} need review.</b> PetCARE will not automatically merge or delete veterinary histories. Compare the owner, birth date and microchip before an authorized database correction.${duplicateGroups.map(g=>`<div>${g.map(p=>`${esc(p.id)} · ${esc(p.name)}`).join(' ↔ ')}</div>`).join('')}</div>`:''}
+  ${duplicateGroups.length?`<div class="security-notice duplicate-notice"><b>${duplicateGroups.length} possible duplicate group${duplicateGroups.length===1?'':'s'} need review.</b> DogCARE will not automatically merge or delete veterinary histories. Compare the owner, birth date and microchip before an authorized database correction.${duplicateGroups.map(g=>`<div>${g.map(p=>`${esc(p.id)} · ${esc(p.name)}`).join(' ↔ ')}</div>`).join('')}</div>`:''}
   <div class="card">
     <table><thead><tr><th>Pet ID</th><th>Name</th><th>Species</th><th>Breed</th><th>Owner</th><th>Barangay</th><th>Registration</th><th>Last Rabies Vax</th><th>Action</th></tr></thead>
     <tbody>${rows.map(p=>{const o=userById(p.ownerId);return `<tr><td>${p.id}</td><td><b>${esc(p.name)}</b></td><td>${esc(p.species)}</td><td>${esc(p.breed)}</td><td>${o?esc(o.name):"—"}</td><td>${esc(p.barangay)}</td><td>${registrationStatusPill(p.registrationStatus)}</td><td>${p.lastRabies?fmtDate(p.lastRabies):"No Record"}</td>

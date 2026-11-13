@@ -1,4 +1,4 @@
-/* PetCARE — Wizard reset, form readers and validators */
+/* DogCARE — Wizard reset, form readers and validators */
 
 /* ---------------- WIZARD RESET ON FRESH NAV ---------------- */
 function resetWizardsForScreen(screen){
@@ -25,6 +25,7 @@ function validateRegStep1(d){
   if(!d.name) errs.regname = "Required field";
   if(!d.breed) errs.regbreed = "Required field";
   if(!d.dob) errs.regdob = "Required field";
+  if(!d.photo && !UI.wiz.reg.resubmitRegId) errs.regphoto = "A clear dog photo is required";
   return errs;
 }
 function readWizardStep2Reg(){
