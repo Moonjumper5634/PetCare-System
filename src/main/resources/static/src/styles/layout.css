@@ -122,6 +122,8 @@
   .notif-title{font-weight:700; font-size:0.82rem;}
   .notif-body{font-size:0.78rem; color:var(--body); margin-top:2px;}
   .notif-date{font-size:0.68rem; color:var(--muted); margin-top:4px;}
+  .email-delivery{display:inline-flex;margin-left:8px;padding:2px 7px;border-radius:999px;font-weight:700;background:var(--amber-bg);color:var(--amber);}
+  .email-delivery.sent{background:var(--green-bg);color:var(--green);}
 
   .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
   .report-card{border:1px solid var(--border); border-radius:10px; padding:16px; background:#fff;}

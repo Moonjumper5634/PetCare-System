@@ -252,6 +252,7 @@ public class StateAssembler {
         e.put("eligible", cls == Classification.ELIGIBLE); e.put("classification", cls.label());
         e.put("criteria", crit); e.put("decisionPath", path); e.put("assessedDate", str(a.getAssessedDate()));
         e.put("assessedBy", a.getAssessedBy()); e.put("assessedByName", actorNames.get(a.getAssessedBy()));
+        e.put("rulesetVersion", a.getRulesetVersion());
         return e;
     }
 
@@ -308,6 +309,7 @@ public class StateAssembler {
         Map<String, Object> m = new LinkedHashMap<>();
         m.put("id", n.getId()); m.put("userId", n.getUserId()); m.put("title", n.getTitle()); m.put("body", n.getBody());
         m.put("date", n.getCreatedAt().toLocalDate().toString()); m.put("read", Boolean.TRUE.equals(n.getRead()));
+        m.put("emailStatus", n.getEmailStatus()); m.put("emailAttempts", n.getEmailAttempts());
         return m;
     }
 

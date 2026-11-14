@@ -68,6 +68,7 @@ function screenReqDetail(){
         <div><div class="k">Service</div><div class="v">${esc(req.service)}</div></div>
         <div><div class="k">Assessment Date</div><div class="v">${fmtDate(req.eligibility.assessedDate)}</div></div>
         <div><div class="k">Assessed by</div><div class="v">${esc(req.eligibility.assessedByName||"—")}</div></div>
+        <div><div class="k">Ruleset Version</div><div class="v"><code title="${esc(req.eligibility.rulesetVersion||'legacy')}">${esc((req.eligibility.rulesetVersion||'legacy').slice(0,12))}</code></div></div>
       </div>
       ${renderDecisionTree(req.eligibility.decisionPath || [])}
       <div class="result-banner ${bannerClass}">

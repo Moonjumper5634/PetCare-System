@@ -30,6 +30,18 @@ public class Notification {
     @Column(name = "is_read", nullable = false)
     private Boolean read;
 
+    @Column(name = "email_status", nullable = false, length = 20)
+    private String emailStatus;
+
+    @Column(name = "email_attempts", nullable = false)
+    private Integer emailAttempts;
+
+    @Column(name = "email_last_attempt_at")
+    private LocalDateTime emailLastAttemptAt;
+
+    @Column(name = "email_error", length = 500)
+    private String emailError;
+
     public Notification() { }
 
     public String getId() { return id; }
@@ -44,4 +56,12 @@ public class Notification {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public Boolean getRead() { return read; }
     public void setRead(Boolean read) { this.read = read; }
+    public String getEmailStatus() { return emailStatus; }
+    public void setEmailStatus(String emailStatus) { this.emailStatus = emailStatus; }
+    public Integer getEmailAttempts() { return emailAttempts; }
+    public void setEmailAttempts(Integer emailAttempts) { this.emailAttempts = emailAttempts; }
+    public LocalDateTime getEmailLastAttemptAt() { return emailLastAttemptAt; }
+    public void setEmailLastAttemptAt(LocalDateTime emailLastAttemptAt) { this.emailLastAttemptAt = emailLastAttemptAt; }
+    public String getEmailError() { return emailError; }
+    public void setEmailError(String emailError) { this.emailError = emailError; }
 }

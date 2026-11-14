@@ -37,7 +37,7 @@ Accounts you create now really exist in the database.
 
 ## Run it
 
-Same as Phase 2. JDK 17+, Maven, MySQL 8 running. **Your existing `petcare` database upgrades itself**:
+JDK 25 LTS, Maven, and MySQL 8 are required for local development. **Your existing `petcare` database upgrades itself**:
 Flyway applies the new `V4` migration on top of your Phase 2 data; nothing is lost and you do not recreate anything.
 
 ```powershell

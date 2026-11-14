@@ -23,7 +23,7 @@ function screenNotifications(){
   <div class="card">
     ${rows.map(n=>`<div class="notif-item ${n.read?"read":""}" ${n.id&&u.role==='owner'?`data-marknotif="${n.id}"`:""}>
       <div class="notif-dot"></div>
-      <div><div class="notif-title">${esc(n.title)}</div><div class="notif-body">${esc(n.body)}</div><div class="notif-date">${fmtDate(n.date)}</div></div>
+      <div><div class="notif-title">${esc(n.title)}</div><div class="notif-body">${esc(n.body)}</div><div class="notif-date">${fmtDate(n.date)}${n.emailStatus&&n.emailStatus!=="Not Requested"?` <span class="email-delivery ${n.emailStatus==='Sent'?'sent':'pending'}">Email ${esc(n.emailStatus.toLowerCase())}</span>`:""}</div></div>
     </div>`).join("")}
   </div>`;
 }

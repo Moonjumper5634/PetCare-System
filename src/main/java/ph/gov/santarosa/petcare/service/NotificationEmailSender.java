@@ -13,6 +13,8 @@ import ph.gov.santarosa.petcare.repository.AppUserRepository;
 /** Optional email copy of an in-app notification. The database notification remains authoritative. */
 @Service
 public class NotificationEmailSender {
+    public record DeliveryResult(boolean attempted, boolean delivered, String error) { }
+
     private static final Logger LOG = Logger.getLogger(NotificationEmailSender.class.getName());
     private final JavaMailSender mail;
     private final AppUserRepository users;
@@ -31,15 +33,25 @@ public class NotificationEmailSender {
         this.officeName = officeName;
     }
 
-    public void send(String userId, String title, String body) {
-        if (!enabled) return;
-        users.findById(userId).filter(u -> u.getEmail() != null && !u.getEmail().endsWith(".invalid")).ifPresent(u -> {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(from); message.setTo(u.getEmail());
-            message.setSubject("PetCARE: " + title);
-            message.setText("Hello " + u.getFirstName() + ",\n\n" + body + "\n\nYou can view the full update in PetCARE.\n\n" + officeName);
-            try { mail.send(message); }
-            catch (MailException e) { LOG.log(Level.WARNING, "Could not send notification email; the in-app notification was saved.", e); }
-        });
+    public boolean isEnabled() { return enabled; }
+
+    public DeliveryResult send(String userId, String title, String body) {
+        if (!enabled) return new DeliveryResult(false, false, "Email notifications are disabled.");
+        var user = users.findById(userId).orElse(null);
+        if (user == null || user.getEmail() == null || user.getEmail().isBlank() || user.getEmail().endsWith(".invalid"))
+            return new DeliveryResult(false, false, "The account does not have a deliverable email address.");
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(from);
+        message.setTo(user.getEmail());
+        message.setSubject("PetCARE: " + title);
+        message.setText("Hello " + user.getFirstName() + ",\n\n" + body
+                + "\n\nYou can view the full update in PetCARE.\n\n" + officeName);
+        try {
+            mail.send(message);
+            return new DeliveryResult(true, true, null);
+        } catch (MailException e) {
+            LOG.log(Level.WARNING, "Could not send notification email; the in-app notification was saved for retry.", e);
+            return new DeliveryResult(true, false, e.getMostSpecificCause().getMessage());
+        }
     }
 }

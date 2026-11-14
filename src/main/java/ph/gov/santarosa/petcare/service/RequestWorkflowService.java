@@ -2,6 +2,10 @@ package ph.gov.santarosa.petcare.service;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -131,6 +135,7 @@ public class RequestWorkflowService {
         a.setClassification(result.classification().label());
         a.setAssessedDate(result.assessedDate());
         a.setAssessedBy(actor.getId());
+        a.setRulesetVersion(rulesetVersion(req.getServiceName(), result.criteria()));
         a = assessments.save(a);
         if (!fresh) assessmentCriteria.deleteByAssessmentId(a.getId());   // runs immediately; see the repository
         int seq = 1;
@@ -153,6 +158,25 @@ public class RequestWorkflowService {
         notifier.audit(actor, "Assess", "Eligibility Assessment", req.getId(),
                 "Ran eligibility assessment for " + pet.getName() + " \u2014 " + req.getServiceName() + " \u2014 " + cls + ".");
     }
+
+    /** Immutable fingerprint of the exact service criteria and outcomes used for this assessment. */
+    static String rulesetVersion(String service, List<CriterionResult> criteria) {
+        StringBuilder snapshot = new StringBuilder(safe(service));
+        for (CriterionResult c : criteria) {
+            snapshot.append('\u001f').append(safe(c.label()))
+                    .append('\u001f').append(safe(c.value()))
+                    .append('\u001f').append(c.result() == null ? "" : c.result().name())
+                    .append('\u001f').append(safe(c.basis()));
+        }
+        try {
+            return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
+                    .digest(snapshot.toString().getBytes(StandardCharsets.UTF_8)));
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 is unavailable.", e);
+        }
+    }
+
+    private static String safe(String value) { return value == null ? "" : value; }
 
     /** Preview shown to a resident (own pet) or staff while filling in the request form. Saves nothing. */
     @Transactional(readOnly = true)

@@ -47,8 +47,13 @@ public class Notifier {
         n.setBody(cut(body, 1000));
         n.setCreatedAt(now());
         n.setRead(Boolean.FALSE);
+        n.setEmailStatus("Not Requested");
+        n.setEmailAttempts(0);
         notifications.save(n);
-        if (emailSender != null) emailSender.send(userId, n.getTitle(), n.getBody());
+        if (emailSender != null) {
+            applyDelivery(n, emailSender.send(userId, n.getTitle(), n.getBody()));
+            notifications.save(n);
+        }
     }
 
     public void audit(AppUser actor, String action, String module, String refId, String description) {
@@ -73,4 +78,16 @@ public class Notifier {
     }
 
     static String cut(String s, int max) { return s == null || s.length() <= max ? s : s.substring(0, max - 1) + "\u2026"; }
+
+    void applyDelivery(Notification n, NotificationEmailSender.DeliveryResult result) {
+        if (!result.attempted()) {
+            n.setEmailStatus("Not Requested");
+            n.setEmailError(cut(result.error(), 500));
+            return;
+        }
+        n.setEmailAttempts((n.getEmailAttempts() == null ? 0 : n.getEmailAttempts()) + 1);
+        n.setEmailLastAttemptAt(now());
+        n.setEmailStatus(result.delivered() ? "Sent" : "Pending");
+        n.setEmailError(result.delivered() ? null : cut(result.error(), 500));
+    }
 }

@@ -30,6 +30,9 @@ public class EligibilityAssessment {
     @Column(name = "assessed_by", length = 20)
     private String assessedBy;
 
+    @Column(name = "ruleset_version", nullable = false, length = 64)
+    private String rulesetVersion;
+
     public EligibilityAssessment() { }
 
     public Long getId() { return id; }
@@ -42,4 +45,6 @@ public class EligibilityAssessment {
     public void setAssessedDate(LocalDate assessedDate) { this.assessedDate = assessedDate; }
     public String getAssessedBy() { return assessedBy; }
     public void setAssessedBy(String assessedBy) { this.assessedBy = assessedBy; }
+    public String getRulesetVersion() { return rulesetVersion; }
+    public void setRulesetVersion(String rulesetVersion) { this.rulesetVersion = rulesetVersion; }
 }
