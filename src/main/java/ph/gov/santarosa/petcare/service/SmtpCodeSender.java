@@ -3,6 +3,7 @@ package ph.gov.santarosa.petcare.service;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,6 +13,7 @@ import ph.gov.santarosa.petcare.domain.AppUser;
 
 /** Production delivery of short-lived sign-up and password-reset codes. */
 @Profile("prod | email")
+@ConditionalOnProperty(name = "petcare.mail.provider", havingValue = "smtp", matchIfMissing = true)
 @Service
 public class SmtpCodeSender implements CodeSender {
     private static final Logger LOG = Logger.getLogger(SmtpCodeSender.class.getName());
