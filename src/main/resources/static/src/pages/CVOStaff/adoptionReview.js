@@ -109,3 +109,17 @@ function confirmRejectAdoption(reason){
   runAction(() => Api.post(`/api/adoptions/${encodeURIComponent(adoptId)}/reject`, {reason:reason.trim()}),
     () => { closeModal(); showToast(`Adoption application ${adoptId} rejected.`); });
 }
+
+function screenSurrenderRequests(){
+  const rows=[...(S.surrenderRequests||[])];
+  return `<div class="page-head"><div><div class="crumb">Adoption</div><h2>Surrender Requests</h2></div></div><div class="card">
+  ${rows.length?`<table><thead><tr><th>Request</th><th>Resident</th><th>Dog</th><th>Date</th><th>Status</th><th></th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.id}</td><td>${esc(userById(r.ownerId)?.name||'—')}</td><td>${esc(petById(r.petId)?.name||'—')}</td><td>${fmtDate(r.submittedDate)}</td><td>${statusPill(r.status)}</td><td><button class="btn-sm solid" data-nav="surrenderreview" data-surrender="${r.id}">Review</button></td></tr>`).join('')}</tbody></table>`:emptyState(icoSvg('doc'),"No Surrender Requests","Resident requests will appear here.","")}</div>`;
+}
+function screenSurrenderReview(){
+  const r=(S.surrenderRequests||[]).find(x=>x.id===UI.selected.surrenderId); if(!r)return emptyState(icoSvg('doc'),"No Request Selected","Choose a surrender request to review.","");
+  const p=petById(r.petId),o=userById(r.ownerId), actions={"Submitted":["Under Review","More Information Needed","Handover Scheduled","Declined"],"Under Review":["More Information Needed","Handover Scheduled","Declined"],"Handover Scheduled":["Received","Declined"],"Received":["Available for Adoption"]}[r.status]||[];
+  return `<div class="page-head"><div><div class="crumb">Surrender Requests</div><h2>${r.id}</h2></div></div><div class="two-col"><div class="col-stack">
+  <div class="card"><h3>Resident and Dog</h3><div class="kv"><div><div class="k">Resident</div><div class="v">${esc(o?.name||'—')}</div></div><div><div class="k">Contact</div><div class="v">${esc(r.contact)}</div></div><div><div class="k">Dog</div><div class="v">${esc(p?.name||'—')}</div></div><div><div class="k">Breed / Sex</div><div class="v">${esc(p?.breed||'—')} · ${esc(p?.sex||'—')}</div></div><div><div class="k">Registration</div><div class="v">${esc(p?.registrationStatus||'—')}</div></div><div><div class="k">Current Status</div><div class="v">${statusPill(r.status)}</div></div></div></div>
+  <div class="card"><h3>Resident Statement</h3><p><b>Reason:</b> ${esc(r.reason)}</p><p><b>Care, health and behavior:</b> ${esc(r.circumstances||'—')}</p></div></div>
+  <div class="card"><h3>Record Staff Action</h3>${actions.length?`${field("Action *",`<select id="sur-action">${actions.map(a=>`<option>${a}</option>`).join('')}</select>`)}${field("Staff Notes / Instructions",`<textarea id="sur-notes" rows="4" maxlength="2000">${esc(r.staffNotes||'')}</textarea>`)}${field("Proposed Handover Date",`<input id="sur-handover" type="date" value="${r.handoverDate||''}">`)}<button class="btn-red" id="sur-action-submit" style="width:100%;">Save Action</button>`:`<p class="empty">No further staff action is available for this request.</p>`}${r.reviewedByName?`<p class="form-note">Last reviewed by ${esc(r.reviewedByName)}.</p>`:''}</div></div>`;
+}

@@ -7,6 +7,8 @@ const ICON_PATHS = {
   requestservice:'<path d="M12 3v6l4 2"/><circle cx="12" cy="12" r="9"/>',
   myrequests:'<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17"/><path d="M8 13h8"/><path d="M8 16h5"/>',
   adopt:'<path d="M12 20s-7-4.4-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.6-9.5 9-9.5 9Z"/>',
+  surrender:'<path d="M4 12h12"/><path d="m11 7 5 5-5 5"/><path d="M20 4v16"/>',
+  surrenderrequests:'<path d="M4 12h12"/><path d="m11 7 5 5-5 5"/><path d="M20 4v16"/>',
   notifications:'<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
   profile:'<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6.5 7-6.5s7 3 7 6.5"/>',
   petregistrations:'<path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M9 12l2 2 4-4"/>',

@@ -6,7 +6,7 @@ function defaultUI(){
     view:"login",              // "login" | "app"
     authScreen:"landing",      // landing|login|signup|signupSuccess|verify|verifySuccess|forgotEmail|forgotCode|forgotNewPw|forgotSuccess
     screen:"dashboard",
-    selected:{petId:null, regId:null, reqId:null, adoptId:null, shelterId:null},
+    selected:{petId:null, regId:null, reqId:null, adoptId:null, shelterId:null, surrenderId:null},
     signupDraft:{},
     forgotDraft:{},
     wiz:{},                    // active wizard state, keyed by wizard name

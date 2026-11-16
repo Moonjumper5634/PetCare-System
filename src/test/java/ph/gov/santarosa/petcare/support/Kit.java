@@ -51,6 +51,7 @@ public final class Kit {
     public final EligibilityAssessmentCriterionRepository assessmentCriteria = FakeRepo.create(EligibilityAssessmentCriterionRepository.class, EligibilityAssessmentCriterion.class);
     public final ServiceRecordRepository records = FakeRepo.create(ServiceRecordRepository.class, ServiceRecord.class);
     public final ShelterPetRepository shelterPets = FakeRepo.create(ShelterPetRepository.class, ShelterPet.class);
+    public final SurrenderRequestRepository surrenders = FakeRepo.create(SurrenderRequestRepository.class, SurrenderRequest.class);
     public final AdoptionApplicationRepository adoptions = FakeRepo.create(AdoptionApplicationRepository.class, AdoptionApplication.class);
     public final AdoptionInterviewRepository interviews = FakeRepo.create(AdoptionInterviewRepository.class, AdoptionInterview.class);
     public final NotificationRepository notifications = FakeRepo.create(NotificationRepository.class, Notification.class);
@@ -71,10 +72,11 @@ public final class Kit {
     public final RequestWorkflowService requestFlow = new RequestWorkflowService(requests, pets, services, assessments,
             assessmentCriteria, records, eligibility, ids, notifier, appClock);
     public final AdoptionWorkflowService adoptionFlow = new AdoptionWorkflowService(adoptions, interviews, shelterPets, ids, notifier, appClock);
+    public final SurrenderWorkflowService surrenderFlow = new SurrenderWorkflowService(surrenders, pets, shelterPets, users, ids, notifier, appClock);
     public final AuthService authFlow = new AuthService(users, encoder, ids, notifier, sender, securityClock, true);
     public final AdminService adminFlow = new AdminService(users, criteria, encoder, ids, notifier, authFlow);
     public final StateAssembler assembler = new StateAssembler(users, pets, registrations, requests, assessments, assessmentCriteria,
-            records, adoptions, interviews, shelterPets, notifications, audit, criteria, services, appClock);
+            records, adoptions, interviews, shelterPets, surrenders, notifications, audit, criteria, services, appClock);
 
     // The cast of characters
     public AppUser maria, juan, rowena, jose;
@@ -83,7 +85,8 @@ public final class Kit {
 
     public Kit() {
         for (String[] s : new String[][] { { "user", "U-", "5000" }, { "pet", "P-", "2000" }, { "reg", "REG-", "2000" },
-                { "req", "REQ-", "4000" }, { "adopt", "ADOPT-", "6000" }, { "notif", "N-", "1" }, { "audit", "A-", "1" } }) {
+                { "req", "REQ-", "4000" }, { "adopt", "ADOPT-", "6000" }, { "surrender", "SUR-", "7000" },
+                { "shelter", "S-", "1000" }, { "notif", "N-", "1" }, { "audit", "A-", "1" } }) {
             IdSequence q = new IdSequence();
             q.setKind(s[0]); q.setPrefix(s[1]); q.setNextValue(Long.parseLong(s[2]));
             sequences.save(q);

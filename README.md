@@ -111,6 +111,7 @@ Others (`ana.reyes@email.com`, `juan.delacruz@email.com`, `pedro.villanueva@emai
 4. Sign up a **new resident**. The account can sign in immediately; with `dev,email` or `prod`, a code is delivered only to the submitted address to verify email ownership and enable secure password recovery.
 5. As Staff, *Walk-in* → create a resident account: a random temporary password is shown **once**. That resident must change it on first sign-in.
 6. Try to break it: as a resident, open the browser console and run `fetch("/api/admin/users/U-1002/status",{method:"POST"})` — the server answers 403/401. The browser is never trusted.
+7. As a Resident, open *Request Pet Surrender*, select a registered dog and submit an assessment request. Staff can request corrections, schedule a handover, record receipt, and publish the dog for adoption only after assessment.
 
 ## Security (what the server enforces)
 

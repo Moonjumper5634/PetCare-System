@@ -7,7 +7,7 @@
    Nothing here writes data. All changes go through the API (see runAction). */
 
 function blankState(){
-  return { users:[], pets:[], registrations:[], requests:[], adoptions:[], shelterPets:[], notifications:[], audit:[], criteria:{} };
+  return { users:[], pets:[], registrations:[], requests:[], adoptions:[], shelterPets:[], surrenderRequests:[], notifications:[], audit:[], criteria:{} };
 }
 var S = blankState();
 var CURRENT_USER = null;

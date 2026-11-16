@@ -39,6 +39,7 @@ function attachEvents(root){
       if(el.dataset.req) UI.selected.reqId = el.dataset.req;
       if(el.dataset.adopt) UI.selected.adoptId = el.dataset.adopt;
       if(el.dataset.shelter) UI.selected.shelterId = el.dataset.shelter;
+      if(el.dataset.surrender) UI.selected.surrenderId = el.dataset.surrender;
       if(el.dataset.openreq) UI.selected.reqId = el.dataset.openreq;
       if(el.dataset.openreg) UI.selected.regId = el.dataset.openreg;
       // reset wizard state when freshly entering a wizard-driven screen from nav (not via internal wizard buttons)
@@ -395,6 +396,21 @@ function attachEvents(root){
   if(adoptApproveBtn) adoptApproveBtn.addEventListener("click", ()=> approveAdoption(UI.selected.adoptId));
   const adoptRejectBtn = root.querySelector("#adopt-reject-btn");
   if(adoptRejectBtn) adoptRejectBtn.addEventListener("click", ()=> rejectAdoptionModal(UI.selected.adoptId));
+  const surrenderSubmit = root.querySelector("#sur-submit");
+  if(surrenderSubmit) surrenderSubmit.addEventListener("click",()=>{
+    const petId=document.getElementById("sur-pet").value, payload={petId,reason:document.getElementById("sur-reason").value.trim(),circumstances:document.getElementById("sur-circumstances").value.trim(),contact:document.getElementById("sur-contact").value.trim(),acknowledge:document.getElementById("sur-ack").checked};
+    if(!payload.reason||!payload.contact||!payload.acknowledge){showToast("Complete the required fields and confirmation.");return;}
+    const correction=(S.surrenderRequests||[]).find(r=>r.petId===petId&&r.status==="More Information Needed");
+    const call=()=>correction?Api.post(`/api/surrenders/${encodeURIComponent(correction.id)}/resubmit`,payload):Api.post("/api/surrenders",payload);
+    runAction(call,()=>showToast(correction?"Surrender request resubmitted.":"Surrender request submitted for CVO review."));
+  });
+  const surrenderActionSubmit = root.querySelector("#sur-action-submit");
+  if(surrenderActionSubmit) surrenderActionSubmit.addEventListener("click",()=>{
+    const action=document.getElementById("sur-action").value, notes=document.getElementById("sur-notes").value.trim(), handoverDate=document.getElementById("sur-handover").value;
+    if((action==="Declined"||action==="More Information Needed")&&!notes){showToast("Enter the required staff notes or reason.");return;}
+    if(action==="Handover Scheduled"&&!handoverDate){showToast("Select a handover date.");return;}
+    runAction(()=>Api.post(`/api/surrenders/${encodeURIComponent(UI.selected.surrenderId)}/action`,{action,notes,handoverDate}),()=>showToast(`Surrender request updated to ${action}.`));
+  });
 
   /* =====================================================================
      ADMIN: USERS / CRITERIA

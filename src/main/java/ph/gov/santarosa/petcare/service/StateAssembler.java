@@ -41,7 +41,8 @@ public class StateAssembler {
                        List<ServiceRequest> requests, List<EligibilityAssessment> assessments,
                        List<EligibilityAssessmentCriterion> assessmentCriteria, List<ServiceRecord> records,
                        List<AdoptionApplication> adoptions, List<AdoptionInterview> interviews,
-                       List<ShelterPet> shelterPets, List<Notification> notifications, List<AuditLog> audit,
+                       List<ShelterPet> shelterPets, List<SurrenderRequest> surrenders,
+                       List<Notification> notifications, List<AuditLog> audit,
                        Map<String, List<EligibilityCriterion>> criteriaByService) { }
 
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -58,6 +59,7 @@ public class StateAssembler {
     private final AdoptionApplicationRepository adoptions;
     private final AdoptionInterviewRepository interviews;
     private final ShelterPetRepository shelterPets;
+    private final SurrenderRequestRepository surrenders;
     private final NotificationRepository notifications;
     private final AuditLogRepository audit;
     private final EligibilityCriterionRepository criteria;
@@ -68,12 +70,12 @@ public class StateAssembler {
                           ServiceRequestRepository requests, EligibilityAssessmentRepository assessments,
                           EligibilityAssessmentCriterionRepository assessmentCriteria, ServiceRecordRepository records,
                           AdoptionApplicationRepository adoptions, AdoptionInterviewRepository interviews,
-                          ShelterPetRepository shelterPets, NotificationRepository notifications,
+                          ShelterPetRepository shelterPets, SurrenderRequestRepository surrenders, NotificationRepository notifications,
                           AuditLogRepository audit, EligibilityCriterionRepository criteria,
                           VeterinaryServiceRepository services, Clock clock) {
         this.users = users; this.pets = pets; this.registrations = registrations; this.requests = requests;
         this.assessments = assessments; this.assessmentCriteria = assessmentCriteria; this.records = records;
-        this.adoptions = adoptions; this.interviews = interviews; this.shelterPets = shelterPets;
+        this.adoptions = adoptions; this.interviews = interviews; this.shelterPets = shelterPets; this.surrenders = surrenders;
         this.notifications = notifications; this.audit = audit; this.criteria = criteria; this.services = services;
         this.clock = clock;
     }
@@ -94,6 +96,7 @@ public class StateAssembler {
         List<PetRegistration> regs;
         List<ServiceRequest> reqs;
         List<AdoptionApplication> ads;
+        List<SurrenderRequest> surrenderRows;
         List<AuditLog> log;
         if (owner) {
             u = List.of(actor);
@@ -101,6 +104,7 @@ public class StateAssembler {
             regs = registrations.findByOwnerId(actor.getId());
             reqs = requests.findByOwnerId(actor.getId());
             ads = adoptions.findByApplicantOwnerId(actor.getId());
+            surrenderRows = surrenders.findByOwnerId(actor.getId());
             log = List.of();
         } else {
             if (admin) u = users.findAll();
@@ -109,6 +113,7 @@ public class StateAssembler {
             regs = registrations.findAll();
             reqs = requests.findAll();
             ads = adoptions.findAll();
+            surrenderRows = surrenders.findAll();
             log = admin ? audit.findTop500ByOrderByOccurredAtDesc() : List.of();
         }
         List<String> reqIds = reqs.stream().map(ServiceRequest::getId).toList();
@@ -123,7 +128,7 @@ public class StateAssembler {
         if (admin) for (VeterinaryService s : services.findAllByOrderBySortOrder())
             crit.put(s.getName(), criteria.findByServiceNameOrderBySortOrder(s.getName()));
 
-        return new Data(u, p, regs, reqs, as, ac, rec, ads, iv, shelterPets.findAll(),
+        return new Data(u, p, regs, reqs, as, ac, rec, ads, iv, shelterPets.findAll(), surrenderRows,
                 notifications.findByUserIdOrderByCreatedAtDesc(actor.getId()), log, crit);
     }
 
@@ -149,6 +154,8 @@ public class StateAssembler {
         state.put("adoptions", d.adoptions().stream().sorted(Comparator.comparing(AdoptionApplication::getId, BY_ID_NUMBER))
                 .map(a -> adoption(a, interviewByAdoption.get(a.getId()))).toList());
         state.put("shelterPets", d.shelterPets().stream().sorted(Comparator.comparing(ShelterPet::getId, BY_ID_NUMBER)).map(StateAssembler::shelterPet).toList());
+        state.put("surrenderRequests", d.surrenders().stream().sorted(Comparator.comparing(SurrenderRequest::getSubmittedDate).reversed())
+                .map(r -> surrender(r, actorNames)).toList());
         state.put("notifications", d.notifications().stream()
                 .sorted(Comparator.comparing(Notification::getCreatedAt).reversed().thenComparing(Comparator.comparing(Notification::getId, BY_ID_NUMBER).reversed()))
                 .map(StateAssembler::notification).toList());
@@ -303,6 +310,15 @@ public class StateAssembler {
         m.put("temperament", s.getTemperament()); m.put("status", s.getStatus()); m.put("intake", str(s.getIntakeDate()));
         m.put("photo", s.getPhotoUrl());
         return m;
+    }
+
+    static Map<String,Object> surrender(SurrenderRequest r,Map<String,String> actorNames){
+        Map<String,Object> m=new LinkedHashMap<>();
+        m.put("id",r.getId()); m.put("ownerId",r.getOwnerId()); m.put("petId",r.getPetId()); m.put("shelterPetId",r.getShelterPetId());
+        m.put("status",r.getStatus()); m.put("reason",r.getReason()); m.put("circumstances",r.getCircumstances()); m.put("contact",r.getContact());
+        m.put("submittedDate",str(r.getSubmittedDate())); m.put("staffNotes",r.getStaffNotes()); m.put("reviewedBy",r.getReviewedBy());
+        m.put("reviewedByName",actorNames.get(r.getReviewedBy())); m.put("reviewedAt",r.getReviewedAt()==null?null:r.getReviewedAt().toString());
+        m.put("handoverDate",str(r.getHandoverDate())); m.put("source",r.getSource()); return m;
     }
 
     static Map<String, Object> notification(Notification n) {

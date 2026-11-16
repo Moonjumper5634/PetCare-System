@@ -2,7 +2,7 @@
 
 /* ---------------- ADOPTION ---------------- */
 function screenAdopt(){
-  const list = S.shelterPets.filter(s=>s.status!=="Adopted");
+  const list = S.shelterPets.filter(s=>s.status==="Available");
   if(!list.length) return `<div class="page-head"><div><div class="crumb">Pet Records</div><h2>Adopt a Pet</h2></div></div>${emptyState(icoSvg('paw'),"No Adoption Pets","No pets are currently available for adoption.","")}`;
   return `
   <div class="page-head"><div><div class="crumb">Pet Records</div><h2>Adopt a Pet</h2></div></div>
@@ -21,6 +21,21 @@ function screenAdopt(){
       <button class="btn-red pet-card-btn" data-nav="adoptdetail" data-shelter="${d.id}">View Details</button>
     </div>`).join("")}
   </div>`;
+}
+
+function screenSurrender(){
+  const u=currentUser(), mine=S.pets.filter(p=>p.ownerId===u.id&&!p.archived);
+  const rows=(S.surrenderRequests||[]).filter(r=>r.ownerId===u.id);
+  return `<div class="page-head"><div><div class="crumb">Pet Records</div><h2>Request Pet Surrender</h2></div></div>
+  <div class="support-note" style="margin-bottom:16px;"><b>This form requests CVO assessment.</b> Keep your dog in your care until staff confirm a handover date. Submission does not guarantee acceptance or immediate adoption listing.</div>
+  <div class="two-col"><div class="card"><h3>Submit a Request</h3>
+    ${mine.length?`${field("Registered Dog *",`<select id="sur-pet">${mine.map(p=>`<option value="${p.id}">${esc(p.name)} — ${esc(p.breed||'Breed not recorded')}</option>`).join("")}</select>`)}
+    ${field("Reason for Surrender *",`<textarea id="sur-reason" rows="3" maxlength="1000" placeholder="Explain why CVO assistance is being requested."></textarea>`)}
+    ${field("Care, Health and Behavior Information",`<textarea id="sur-circumstances" rows="3" maxlength="1000" placeholder="Current care arrangement, health concerns, temperament, bite history, or urgent circumstances."></textarea>`)}
+    ${field("Contact Number *",`<input id="sur-contact" value="${esc(u.mobile||'')}" inputmode="tel">`)}
+    <label class="checkbox-row"><input type="checkbox" id="sur-ack"><span>I understand that this is an assessment request and I must wait for CVO confirmation before bringing the dog.</span></label>
+    <button class="btn-red" id="sur-submit" style="width:100%;margin-top:14px;">Submit Surrender Request</button>`:emptyState(icoSvg('paw'),"No Registered Dog","Register your dog before requesting surrender assessment.",`<button class="btn-red" data-nav="petregistration">Register a Dog</button>`)}</div>
+  <div class="card"><h3>My Surrender Requests</h3>${rows.length?rows.map(r=>{const p=petById(r.petId);return `<div class="checklist-row" style="align-items:flex-start;"><span><b>${r.id} — ${esc(p?.name||'Dog')}</b><br><small>${fmtDate(r.submittedDate)}${r.handoverDate?` · Handover: ${fmtDate(r.handoverDate)}`:''}</small>${r.staffNotes?`<br><small>${esc(r.staffNotes)}</small>`:''}</span>${statusPill(r.status)}</div>`}).join(''):emptyState(icoSvg('doc'),"No Requests","Your submitted surrender requests will appear here.","")}</div></div>`;
 }
 function screenAdoptDetail(){
   const d = shelterById(UI.selected.shelterId);

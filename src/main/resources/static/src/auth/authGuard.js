@@ -7,7 +7,7 @@
 const AuthGuard = (function(){
   const DETAIL_SCREENS = {
     owner:["petprofile","adoptdetail","adoptapply","adoptsubmitted","notifications"],
-    staff:["regdetail","reqdetail","adoptreview","notifications"],
+    staff:["regdetail","reqdetail","adoptreview","surrenderreview","notifications"],
     admin:["reqdetail","regdetail","petprofile","adoptreview"],
   };
   const ROLE_PATHS = { owner:"portal", staff:"staff", admin:"admin" };
