@@ -34,7 +34,7 @@ public class BrevoApiCodeSender implements CodeSender {
     }
 
     @Override
-    public void send(AppUser user, String purpose, String code) {
+    public boolean send(AppUser user, String purpose, String code) {
         String action = "reset".equals(purpose) ? "reset your PetCARE password" : "verify your PetCARE account";
         String text = "Hello " + user.getFirstName() + ",\n\nYour code to " + action + " is: " + code
                 + "\n\nThis code expires in 15 minutes. If you did not request it, you can ignore this message."
@@ -46,9 +46,10 @@ public class BrevoApiCodeSender implements CodeSender {
                 "textContent", text);
         try {
             client.post().uri("/smtp/email").body(request).retrieve().toBodilessEntity();
+            return true;
         } catch (RestClientException e) {
             LOG.log(Level.SEVERE, "PetCARE could not deliver a verification email through Brevo HTTPS.", e);
-            // Preserve account access; the resident can request a fresh code after delivery recovers.
+            return false;
         }
     }
 }

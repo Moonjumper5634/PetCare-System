@@ -12,7 +12,8 @@ public class UnconfiguredCodeSender implements CodeSender {
     private static final Logger LOG = Logger.getLogger(UnconfiguredCodeSender.class.getName());
 
     @Override
-    public void send(AppUser user, String purpose, String code) {
+    public boolean send(AppUser user, String purpose, String code) {
         LOG.severe("Email verification is not configured; no code was delivered for user " + user.getId() + ".");
+        return false;
     }
 }

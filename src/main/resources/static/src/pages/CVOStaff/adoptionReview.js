@@ -40,6 +40,14 @@ function screenAdoptReview(){
       <div class="card"><h3>Application Answers</h3>
         <p style="font-size:0.82rem;"><b>Reason for Adoption:</b> ${esc(a.reason)}</p>
         <p style="font-size:0.82rem;"><b>Previous Pet Experience:</b> ${esc(a.experience||"—")}</p>
+        <p style="font-size:0.82rem;"><b>Household Consent:</b> ${a.householdConsent==null?'Not recorded':a.householdConsent?'Yes':'No'}</p>
+        <p style="font-size:0.82rem;"><b>Children / Existing Pets:</b> ${esc(a.childrenPets||"—")}</p>
+        <p style="font-size:0.82rem;"><b>Secure Area:</b> ${a.secureArea==null?'Not recorded':a.secureArea?'Yes':'No'}</p>
+        <p style="font-size:0.82rem;"><b>Keeping Arrangement:</b> ${esc(a.keepingArrangement||"—")}</p>
+        <p style="font-size:0.82rem;"><b>Daily Care Plan:</b> ${esc(a.dailyCare||"—")}</p>
+        <p style="font-size:0.82rem;"><b>Financial Readiness:</b> ${a.financialReady==null?'Not recorded':a.financialReady?'Yes':'No'}</p>
+        <p style="font-size:0.82rem;"><b>Landlord Permission:</b> ${esc(a.landlordPermission||"—")}</p>
+        <p style="font-size:0.82rem;"><b>Interview / Home Assessment:</b> ${a.homeAssessment==null?'Not recorded':a.homeAssessment?'Yes':'No'}</p>
       </div>
       ${a.interview ? `<div class="card"><h3>Adoption Interview Record</h3>
         <div class="kv" style="margin-bottom:10px;">

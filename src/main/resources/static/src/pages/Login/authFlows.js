@@ -60,6 +60,7 @@ async function submitSignup(data){
     UI.errors = {};
     UI._signupEmail = data.email;
     UI._devCode = r.data.devCode || null;
+    UI._signupDeliveryAccepted = r.data.deliveryAccepted !== false;
     UI.authScreen = "signupSuccess";
     render();
   } finally { UI._busy = false; }
@@ -90,7 +91,7 @@ async function resendSignupVerification(){
     if(!r.ok){ UI.errors={verify:r.error}; render(); return; }
     UI.errors={};
     render();
-    showToast("A new verification code was sent to your email.");
+    showToast("If this account is awaiting verification, a new code has been requested. Please check your email.");
   } finally { UI._busy=false; }
 }
 

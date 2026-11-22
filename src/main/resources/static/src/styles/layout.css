@@ -54,6 +54,9 @@
   .two-col{display:grid; grid-template-columns:1.05fr 1.6fr; gap:18px;}
   .col-stack{display:flex; flex-direction:column;}
 
+  .table-scroll{width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;border-radius:8px;position:relative;}
+  .table-scroll[data-scroll-hint]::before{content:"Swipe to view more \2192";display:block;position:sticky;left:0;width:max-content;margin:0 0 6px auto;padding:3px 8px;border-radius:999px;background:var(--gray-bg);color:var(--gray-text);font-size:.64rem;font-weight:700;}
+  .table-scroll:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;}
   table{width:100%; border-collapse:collapse; font-size:0.8rem;}
   thead tr{background:var(--text); color:#fff;}
   thead th{text-align:left; padding:10px 12px; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;}
@@ -144,10 +147,18 @@
   .pet-card-top{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
   .pet-avatar{width:48px; height:48px; border-radius:50%; overflow:hidden; background:var(--danger-bg); color:var(--red); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem; flex-shrink:0; border:1px solid var(--border);}
   .pet-avatar img{width:100%; height:100%; object-fit:cover;}
-  .pet-card-name{font-weight:700; font-size:1rem;}
-  .pet-card-sub{font-size:0.74rem; color:var(--muted); margin-top:2px;}
+  .pet-card-top>div:last-child{min-width:0;}
+  .pet-card-name{font-weight:700; font-size:1rem; overflow-wrap:anywhere;}
+  .pet-card-sub{font-size:0.74rem; color:var(--muted); margin-top:2px; overflow-wrap:anywhere;}
   .pet-card-status{margin-bottom:14px;}
   .pet-card-btn{width:100%; margin-top:auto;}
+  .adoption-photo-card{align-self:start;}
+  .request-mobile-list{display:none;gap:12px;}
+  .request-mobile-card{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface-raised);}
+  .request-mobile-card>div:first-child{display:flex;justify-content:space-between;gap:10px;align-items:center;}
+  .request-mobile-card h3{border:0;padding:0;margin:12px 0 4px;font-size:.9rem;}
+  .request-mobile-card p{margin:0;color:var(--muted);font-size:.76rem;}
+  .request-mobile-actions{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:10px;}
 
   @media (max-width: 1100px){
     .stat-grid{grid-template-columns:repeat(2,1fr);}
@@ -155,7 +166,7 @@
     .pet-card-grid{grid-template-columns:repeat(2,1fr);}
   }
 
-  @media (max-width: 800px){
+  @media (max-width: 1040px){
     .topbar{position:fixed; padding:0 12px; gap:8px;}
     .topbar .orgname{display:none;}
     .topbar .sysname{font-size:0.86rem; margin-right:auto;}
@@ -166,12 +177,19 @@
     .sidebar-backdrop{position:fixed; z-index:30; inset:64px 0 0; border:0; background:rgba(20,22,25,.42);}
     .sidebar-is-open .sidebar-backdrop{display:block;}
     .main{width:100%; margin-top:64px; padding:20px 16px; min-width:0;}
-    .card{min-width:0; overflow-x:auto; padding:16px;}
-    table{min-width:680px;}
+    .card{min-width:0; overflow:visible; padding:16px;}
+    .table-scroll table{min-width:680px;}
     .two-col,.grid3{grid-template-columns:1fr;}
+    .surrender-grid textarea{min-height:96px;}
+    .requests-table{display:none;}
+    .request-mobile-list{display:grid;}
     .page-head h2{font-size:1.22rem;}
     .filter-bar input,.filter-bar select{width:100%; min-height:42px;}
     .btn-sm,.btn-red,.btn-line{min-height:42px;}
+  }
+
+  @media (min-width: 1041px){
+    .table-scroll[data-scroll-hint]::before{display:none;}
   }
 
   @media (max-width: 560px){

@@ -63,7 +63,8 @@ function viewUserModal(userId){
       <div><div class="k">Mobile</div><div class="v">${esc(u.mobile||"—")}</div></div>
       <div><div class="k">Barangay</div><div class="v">${esc(u.barangay||"—")}</div></div>
       <div><div class="k">Status</div><div class="v">${u.status}</div></div>
+      ${u.role!=="owner"?`<div><div class="k">Job title</div><div class="v">${esc(u.tag||"—")}</div></div>`:""}
     </div>
-    <div class="modal-actions"><button class="btn-line" style="flex:1;" id="m-cancel">Close</button></div>
+    ${u.role!=="owner"?`${field("Update job title",`<input id="personnel-edit-title" maxlength="80" value="${esc(u.tag||'')}">`)}<div class="modal-actions"><button class="btn-line" id="m-cancel">Close</button><button class="btn-red" id="m-save-job-title" data-userid="${u.id}">Save Job Title</button></div>`:`<div class="modal-actions"><button class="btn-line" style="flex:1;" id="m-cancel">Close</button></div>`}
   </div>`);
 }

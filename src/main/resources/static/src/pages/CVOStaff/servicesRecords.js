@@ -70,7 +70,7 @@ function screenServicesRecords(){
     </div>
     <div class="two-field">
       ${field("Record Source", `<select id="svr-source"><option>Digital request</option><option>Walk-in</option><option>Barangay activity</option><option>Encoded from paper</option></select>`)}
-      ${field("Service Location", `<input id="svr-location" placeholder="CVO office, barangay, or subdivision">`)}
+      ${field("Service Location *", `<input id="svr-location" maxlength="160" placeholder="CVO office, barangay, or subdivision" required>`)}
     </div>
     ${field("Paper / Event Reference", `<input id="svr-reference" placeholder="Optional requisition slip, event, or source record number">`)}
     ${conditional}

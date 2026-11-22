@@ -44,6 +44,11 @@ public class AdminController {
         return Map.of("ok", true);
     }
 
+    @PutMapping("/admin/users/{id}/job-title")
+    public Map<String,Object> updateJobTitle(@PathVariable String id,@RequestBody AdminService.PersonnelJobTitle body){
+        admin.updatePersonnelJobTitle(current.requireReady(),id,body); return Map.of("ok",true);
+    }
+
     @PutMapping("/admin/criteria")
     public Map<String, Object> updateCriterion(@RequestBody Criterion body) {
         admin.updateCriterion(current.requireReady(), body.service(), body.key(), new AdminService.CriterionUpdate(body.enabled(), body.label(), body.description()));

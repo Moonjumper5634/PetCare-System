@@ -24,6 +24,19 @@ function togglePetcareTheme(){
 function bindModernExperience(root){
   root.querySelectorAll("[data-theme-toggle]").forEach(button=>button.addEventListener("click", togglePetcareTheme));
 
+  // Keep wide record tables scrollable without making the entire card slide sideways.
+  root.querySelectorAll(".main table").forEach(table=>{
+    if(table.parentElement?.classList.contains("table-scroll")) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "table-scroll";
+    wrapper.dataset.scrollHint = "true";
+    wrapper.tabIndex = 0;
+    wrapper.setAttribute("role", "region");
+    wrapper.setAttribute("aria-label", "Scrollable records table");
+    table.parentNode.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  });
+
   if(petcareRevealObserver) petcareRevealObserver.disconnect();
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const candidates = [...root.querySelectorAll(".reveal, .main .page-head, .main .stat-card, .main .card, .main .pet-card, .main .report-card")];

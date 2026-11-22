@@ -14,6 +14,7 @@ import ph.gov.santarosa.petcare.domain.AuditLog;
 import ph.gov.santarosa.petcare.domain.Notification;
 import ph.gov.santarosa.petcare.repository.AuditLogRepository;
 import ph.gov.santarosa.petcare.repository.NotificationRepository;
+import ph.gov.santarosa.petcare.repository.SystemSettingRepository;
 
 /** Writes the notification and audit rows that the front end used to push into its local arrays. */
 @Service
@@ -25,15 +26,17 @@ public class Notifier {
     private final AuditLogRepository audit;
     private final IdGenerator ids;
     private final Clock clock;
+    private final SystemSettingRepository settings;
     @Autowired(required = false)
     private NotificationEmailSender emailSender;
 
     public Notifier(NotificationRepository notifications, AuditLogRepository audit, IdGenerator ids,
-                    @Qualifier("clock") Clock clock) {
+                    @Qualifier("clock") Clock clock, SystemSettingRepository settings) {
         this.notifications = notifications;
         this.audit = audit;
         this.ids = ids;
         this.clock = clock;
+        this.settings = settings;
     }
 
     /** Date from the application clock (fixed in dev), time of day from the real clock, so events keep their order. */
@@ -50,10 +53,16 @@ public class Notifier {
         n.setEmailStatus("Not Requested");
         n.setEmailAttempts(0);
         notifications.save(n);
-        if (emailSender != null) {
+        if (emailSender != null && statusNotificationsEnabled()) {
             applyDelivery(n, emailSender.send(userId, n.getTitle(), n.getBody()));
             notifications.save(n);
         }
+    }
+
+    /** In-app notices are always retained; this setting controls their optional email copy. */
+    public boolean statusNotificationsEnabled() {
+        return settings.findById("status_notifications")
+                .map(s -> Boolean.parseBoolean(s.getValue())).orElse(true);
     }
 
     public void audit(AppUser actor, String action, String module, String refId, String description) {

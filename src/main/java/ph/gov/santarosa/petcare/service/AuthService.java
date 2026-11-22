@@ -37,7 +37,7 @@ public class AuthService {
     private static final SecureRandom RANDOM = new SecureRandom();
 
     /** What the web layer needs back from sign-up / resend / forgot. devCode is non-null only in the dev profile. */
-    public record CodeIssued(String email, String devCode) { }
+    public record CodeIssued(String email, String devCode, Boolean deliveryAccepted) { }
 
     private final AppUserRepository users;
     private final PasswordEncoder encoder;
@@ -149,8 +149,8 @@ public class AuthService {
         String code = issueCode(u, "signup");
         users.save(u);
         notifier.audit(u, "Create", "User Management", u.getId(), "Resident account created \u2014 email verification pending.");
-        sender.send(u, "signup", code);
-        return new CodeIssued(email, devReturnCodes ? code : null);
+        boolean deliveryAccepted = sender.send(u, "signup", code);
+        return new CodeIssued(email, devReturnCodes ? code : null, deliveryAccepted);
     }
 
     @Transactional(noRollbackFor = ApiException.class)
@@ -175,7 +175,7 @@ public class AuthService {
             sender.send(u, "signup", code);
             if (devReturnCodes) devCode = code;
         }
-        return new CodeIssued(clean(email), devCode);
+        return new CodeIssued(clean(email), devCode, null);
     }
 
     /** Issues the same email-ownership code for administrator-provisioned staff/admin or walk-in accounts. */
@@ -199,7 +199,7 @@ public class AuthService {
             sender.send(u, "reset", code);
             if (devReturnCodes) devCode = code;
         }
-        return new CodeIssued(clean(email), devCode);
+        return new CodeIssued(clean(email), devCode, null);
     }
 
     /** Step 2 of the reset screen: is the code right? (It is checked again, with the new password, in {@link #resetPassword}.) */

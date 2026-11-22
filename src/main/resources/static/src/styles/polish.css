@@ -18,6 +18,7 @@ thead tr{background:#F3EDEE;color:#63313A;}
 thead th{padding:13px 14px;font-size:.7rem;}
 tbody td{padding:13px 14px;line-height:1.55;}
 .pet-card{border-radius:16px;padding:22px;box-shadow:var(--shadow-sm);}
+.pet-card>*{max-width:100%;}
 .pill{font-size:.72rem;padding:5px 11px;}
 .kv{line-height:1.6;}.kv .k{font-size:.74rem;}.kv .v{overflow-wrap:anywhere;}
 .role-banner{line-height:1.6;flex-wrap:wrap;}
@@ -57,6 +58,8 @@ tbody td{padding:13px 14px;line-height:1.55;}
   .modal-box{width:calc(100vw - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;padding:20px;}
   .modal-actions{position:sticky;bottom:-20px;background:#fff;padding-top:12px;}
   .pager{align-items:stretch;flex-direction:column}.pager>div{display:grid;grid-template-columns:1fr 1fr}.pager .btn-sm{width:100%;margin:0}
+  [id^="pet-qr-"]{width:min(220px,100%)!important;aspect-ratio:1;height:auto!important;}
+  [id^="pet-qr-"] canvas,[id^="pet-qr-"] img{max-width:100%;height:auto!important;}
 }
 @media(max-width:380px){
   .main{padding-inline:10px;}

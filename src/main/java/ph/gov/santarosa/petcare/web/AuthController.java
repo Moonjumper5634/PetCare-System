@@ -101,6 +101,7 @@ public class AuthController {
         m.put("ok", true);
         m.put("email", c.email());
         if (c.devCode() != null) m.put("devCode", c.devCode()); // explicit local mock-otp profile only
+        if (c.deliveryAccepted() != null) m.put("deliveryAccepted", c.deliveryAccepted());
         return m;
     }
 }

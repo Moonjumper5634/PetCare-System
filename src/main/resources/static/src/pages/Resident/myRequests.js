@@ -9,10 +9,10 @@ function screenMyRequests(){
   return `
   <div class="page-head"><div><div class="crumb">Account</div><h2>My Requests</h2></div></div>
   <div class="card">
-    ${rows.length ? `<table><thead><tr><th>Request ID</th><th>Type</th><th>Pet</th><th>Service</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+    ${rows.length ? `<div class="requests-table"><table><thead><tr><th>Request ID</th><th>Type</th><th>Pet</th><th>Service</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
     <tbody>${rows.map(r=>{const p=petById(r.petId);
       return `<tr><td>${r.id}</td><td><span class="type-tag">${r.type}</span></td><td>${p?esc(p.name):"—"}</td><td>${esc(r.service)}</td><td>${fmtDate(r.date)}</td><td>${r.kind==='reg'?registrationStatusPill(r.status):statusPill(r.status)}</td>
-      <td><button class="btn-sm" data-nav="${r.kind==='reg'?'regdetail':'reqdetail'}" data-${r.kind==='reg'?'reg':'req'}="${r.id}">View Details</button></td></tr>`;}).join("")}</tbody></table>`
+      <td><button class="btn-sm" data-nav="${r.kind==='reg'?'regdetail':'reqdetail'}" data-${r.kind==='reg'?'reg':'req'}="${r.id}">View Details</button></td></tr>`;}).join("")}</tbody></table></div><div class="request-mobile-list">${rows.map(r=>{const p=petById(r.petId);return `<article class="request-mobile-card"><div><span class="type-tag">${r.type}</span><b>${esc(r.id)}</b></div><h3>${esc(r.service)}</h3><p>${p?esc(p.name):'—'} · ${fmtDate(r.date)}</p><div class="request-mobile-actions">${r.kind==='reg'?registrationStatusPill(r.status):statusPill(r.status)}<button class="btn-sm solid" data-nav="${r.kind==='reg'?'regdetail':'reqdetail'}" data-${r.kind==='reg'?'reg':'req'}="${r.id}">View Details</button></div></article>`}).join('')}</div>`
     : emptyState(icoSvg('doc'),"No Requests","You haven't submitted a service request yet.",`<button class="btn-red" data-nav="requestservice">Request a Service</button>`)}
   </div>`;
 }

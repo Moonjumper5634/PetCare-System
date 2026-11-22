@@ -29,7 +29,7 @@ class RequestFlowTest {
         return k.requestFlow.createRequest(petId.equals("P-1050") ? k.juan : k.maria, new CreateRequest(petId, service, "please"));
     }
     private ServiceRequest get(String id) { return k.requests.findById(id).orElseThrow(); }
-    private RecordService rec(String chip) { return new RecordService(null, null, "ok", "Rabisin", "AR-1", "2027-08-17", chip, null, null, null, null, null, null, null); }
+    private RecordService rec(String chip) { return new RecordService(null, null, "ok", "Rabisin", "AR-1", "2027-08-17", chip, null, null, null, null, null, null, "CVO Office"); }
 
     /* ---- submit ---- */
 
@@ -214,7 +214,7 @@ class RequestFlowTest {
     @Test
     void recordingKaponMarksTheProcedure() {
         String id = approved("P-1042", KAPON);
-        k.requestFlow.recordService(k.rowena, id, new RecordService("2026-08-15", null, null, null, null, null, null, "2026-08-14", "Recovering well", null, null, null, null, null));
+        k.requestFlow.recordService(k.rowena, id, new RecordService("2026-08-15", null, null, null, null, null, null, "2026-08-14", "Recovering well", null, null, null, null, "CVO Office"));
         Pet p = k.pets.findById("P-1042").orElseThrow();
         assertEquals("Completed", p.getKaponStatus());
         assertEquals(LocalDate.of(2026, 8, 14), p.getKaponDate());
@@ -230,7 +230,7 @@ class RequestFlowTest {
         k.requestFlow.recordService(k.rowena, id, rec("123456"));
         assertEquals(409, status(() -> k.requestFlow.recordService(k.rowena, id, rec("654321"))));    // already completed
         assertEquals(400, status(() -> k.requestFlow.recordService(k.rowena, approved("P-1050", "Microchipping"),
-                new RecordService("2999-01-01", null, null, null, null, null, "777", null, null, null, null, null, null, null))));    // service date in the future
+                new RecordService("2999-01-01", null, null, null, null, null, "777", null, null, null, null, null, null, "CVO Office"))));    // service date in the future
     }
 
     /* ---- QR quick visit ---- */

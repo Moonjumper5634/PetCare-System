@@ -23,7 +23,12 @@ import ph.gov.santarosa.petcare.repository.ShelterPetRepository;
 public class AdoptionWorkflowService {
 
     public record Apply(String shelterPetId, String applicantName, String contact, String email, String address,
-                        String barangay, String reason, String experience, String housing, Boolean agree) { }
+                        String barangay, String reason, String experience, String housing, Boolean householdConsent,
+                        String childrenPets, Boolean secureArea, String keepingArrangement, String dailyCare,
+                        Boolean financialReady, String landlordPermission, Boolean homeAssessment, Boolean agree) {
+        public Apply(String shelterPetId,String applicantName,String contact,String email,String address,String barangay,
+                     String reason,String experience,String housing,Boolean agree){this(shelterPetId,applicantName,contact,email,address,barangay,reason,experience,housing,true,"No children or existing pets reported",true,"Primarily Indoors","Daily feeding, exercise, grooming and veterinary care",true,"Not Applicable",true,agree);}
+    }
     public record Interview(String notes, String recommendation, List<String> checklist) { }
 
     private final AdoptionApplicationRepository adoptions;
@@ -55,6 +60,10 @@ public class AdoptionWorkflowService {
         String reason = Validation.text(a.reason(), "Reason for adopting", 1000, true);
         String experience = Validation.text(a.experience(), "Experience with pets", 1000, false);
         String housing = Validation.oneOf(a.housing(), "Housing type", Values.HOUSING, true);
+        String childrenPets=Validation.text(a.childrenPets(),"Children and existing pets",1000,true);
+        String keeping=Validation.oneOf(a.keepingArrangement(),"Keeping arrangement",List.of("Primarily Indoors","Indoors and Outdoors","Primarily Outdoors"),true);
+        String dailyCare=Validation.text(a.dailyCare(),"Daily care plan",1000,true);
+        String landlord=Validation.oneOf(a.landlordPermission(),"Landlord permission",List.of("Yes","No","Not Applicable"),true);
         if (!Boolean.TRUE.equals(a.agree())) throw ApiException.badRequest("You must agree to the adoption terms.");
 
         AdoptionApplication ap = new AdoptionApplication();
@@ -63,6 +72,10 @@ public class AdoptionWorkflowService {
         ap.setApplicantOwnerId(actor.getId());
         ap.setApplicantName(name); ap.setContact(contact); ap.setEmail(email); ap.setAddress(address);
         ap.setBarangay(barangay); ap.setReason(reason); ap.setExperience(experience); ap.setHousing(housing);
+        ap.setHouseholdConsent(Boolean.TRUE.equals(a.householdConsent()));ap.setChildrenPets(childrenPets);
+        ap.setSecureArea(Boolean.TRUE.equals(a.secureArea()));ap.setKeepingArrangement(keeping);
+        ap.setDailyCare(dailyCare);ap.setFinancialReady(Boolean.TRUE.equals(a.financialReady()));
+        ap.setLandlordPermission(landlord);ap.setHomeAssessment(Boolean.TRUE.equals(a.homeAssessment()));
         ap.setStatus("Interview Required");
         ap.setSubmittedDate(LocalDate.now(clock));
         adoptions.save(ap);

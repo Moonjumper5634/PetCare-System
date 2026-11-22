@@ -22,6 +22,7 @@ const screenMap = {
   surrender: screenSurrender,
   surrenderrequests: screenSurrenderRequests,
   surrenderreview: screenSurrenderReview,
+  sheltermanagement: screenShelterManagement,
   notifications: screenNotifications,
   profile: screenProfile,
   petregistrations: screenPetRegistrations,

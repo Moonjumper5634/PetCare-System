@@ -40,7 +40,12 @@ public final class Kit {
     public static final class CapturingSender implements CodeSender {
         public final List<String> sent = new ArrayList<>();
         public String lastCode;
-        @Override public void send(AppUser user, String purpose, String code) { sent.add(purpose + ":" + user.getEmail()); lastCode = code; }
+        public boolean deliveryAccepted = true;
+        @Override public boolean send(AppUser user, String purpose, String code) {
+            sent.add(purpose + ":" + user.getEmail());
+            lastCode = code;
+            return deliveryAccepted;
+        }
     }
 
     public final AppUserRepository users = FakeRepo.create(AppUserRepository.class, AppUser.class);
@@ -58,6 +63,7 @@ public final class Kit {
     public final AuditLogRepository audit = FakeRepo.create(AuditLogRepository.class, AuditLog.class);
     public final EligibilityCriterionRepository criteria = FakeRepo.create(EligibilityCriterionRepository.class, EligibilityCriterion.class);
     public final VeterinaryServiceRepository services = FakeRepo.create(VeterinaryServiceRepository.class, VeterinaryService.class);
+    public final SystemSettingRepository settings = FakeRepo.create(SystemSettingRepository.class, SystemSetting.class);
     public final IdSequenceRepository sequences = FakeRepo.create(IdSequenceRepository.class, IdSequence.class);
 
     public final Clock appClock = Clock.fixed(TODAY.atStartOfDay(MANILA).toInstant(), MANILA);
@@ -66,7 +72,7 @@ public final class Kit {
     public final CapturingSender sender = new CapturingSender();
 
     public final IdGenerator ids = new IdGenerator(sequences);
-    public final Notifier notifier = new Notifier(notifications, audit, ids, appClock);
+    public final Notifier notifier = new Notifier(notifications, audit, ids, appClock, settings);
     public final EligibilityService eligibility = new EligibilityService(pets, criteria, services, appClock);
     public final PetWorkflowService petFlow = new PetWorkflowService(pets, registrations, users, ids, notifier, appClock);
     public final RequestWorkflowService requestFlow = new RequestWorkflowService(requests, pets, services, assessments,
@@ -77,6 +83,8 @@ public final class Kit {
     public final AdminService adminFlow = new AdminService(users, criteria, encoder, ids, notifier, authFlow);
     public final StateAssembler assembler = new StateAssembler(users, pets, registrations, requests, assessments, assessmentCriteria,
             records, adoptions, interviews, shelterPets, surrenders, notifications, audit, criteria, services, appClock);
+    public final ScheduledNotificationService scheduledNotifications = new ScheduledNotificationService(settings, records, requests,
+            pets, users, notifications, notifier, appClock);
 
     // The cast of characters
     public AppUser maria, juan, rowena, jose;

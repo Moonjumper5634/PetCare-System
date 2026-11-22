@@ -9,7 +9,8 @@ import ph.gov.santarosa.petcare.domain.AppUser;
 @Service
 public class DevCodeSender implements CodeSender {
     @Override
-    public void send(AppUser user, String purpose, String code) {
+    public boolean send(AppUser user, String purpose, String code) {
         // Intentionally empty: AuthService returns the code only when mock-otp enables dev-return-codes.
+        return true;
     }
 }

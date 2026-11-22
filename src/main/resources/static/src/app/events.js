@@ -265,6 +265,8 @@ function attachEvents(root){
   const svrSave = root.querySelector("#svr-save");
   if(svrSave) svrSave.addEventListener("click", ()=>{
     const reqId = UI.selected.reqId || document.getElementById("svr-select-req").value;
+    const serviceLocation=document.getElementById("svr-location")?.value.trim();
+    if(!serviceLocation){showToast("Service location is required before completing the record.");return;}
     const data = {
       date: document.getElementById("svr-date").value || todayISO(),
       staff: document.getElementById("svr-staff").value,
@@ -273,7 +275,7 @@ function attachEvents(root){
       providerRole: document.getElementById("svr-provider-role")?.value || "",
       sourceType: document.getElementById("svr-source")?.value || "",
       sourceReference: document.getElementById("svr-reference")?.value || "",
-      serviceLocation: document.getElementById("svr-location")?.value || "",
+      serviceLocation,
     };
     const vaccineEl = document.getElementById("svr-vaccine");
     if(vaccineEl){ data.vaccine = vaccineEl.value; data.batch = document.getElementById("svr-batch").value; data.nextdue = document.getElementById("svr-nextdue").value; }
@@ -362,6 +364,10 @@ function attachEvents(root){
     dr.reason = document.getElementById("ad-reason").value.trim();
     dr.experience = document.getElementById("ad-experience").value.trim();
     dr.housing = document.getElementById("ad-housing").value;
+    dr.householdConsent=document.getElementById("ad-household").checked;dr.childrenPets=document.getElementById("ad-children-pets").value.trim();
+    dr.secureArea=document.getElementById("ad-secure").checked;dr.keepingArrangement=document.getElementById("ad-keeping").value;
+    dr.dailyCare=document.getElementById("ad-daily-care").value.trim();dr.financialReady=document.getElementById("ad-financial").checked;
+    dr.landlordPermission=document.getElementById("ad-landlord").value;dr.homeAssessment=document.getElementById("ad-home-assessment").checked;
     dr.agree = document.getElementById("ad-agree").checked;
     const errs = {};
     if(!dr.applicantName) errs.adname = "Required field";
@@ -369,6 +375,7 @@ function attachEvents(root){
     if(!dr.email) errs.ademail = "Invalid email";
     if(!dr.address) errs.adaddress = "Required field";
     if(!dr.reason) errs.adreason = "Required field";
+    if(!dr.childrenPets||!dr.dailyCare){showToast("Complete every written home and care question.");return;}
     if(!dr.agree) errs.adagree = "Required field";
     if(Object.keys(errs).length){ UI.errors = errs; render(); return; }
     UI.errors = {};
@@ -386,7 +393,9 @@ function attachEvents(root){
     const dr = UI.wiz.adopt.data;
     runAction(() => Api.post("/api/adoptions", {
       shelterPetId:UI.selected.shelterId, applicantName:dr.applicantName, contact:dr.contact, email:dr.email,
-      address:dr.address, barangay:dr.barangay, reason:dr.reason, experience:dr.experience, housing:dr.housing, agree:!!dr.agree,
+      address:dr.address,barangay:dr.barangay,reason:dr.reason,experience:dr.experience,housing:dr.housing,
+      householdConsent:dr.householdConsent,childrenPets:dr.childrenPets,secureArea:dr.secureArea,keepingArrangement:dr.keepingArrangement,
+      dailyCare:dr.dailyCare,financialReady:dr.financialReady,landlordPermission:dr.landlordPermission,homeAssessment:dr.homeAssessment,agree:!!dr.agree,
     }), data => { UI._lastAdoptId = data.adoptionId; UI.screen = "adoptsubmitted"; render(); });
   });
 
@@ -421,6 +430,8 @@ function attachEvents(root){
   if(addPersonnel) addPersonnel.addEventListener("click", addPersonnelModal);
   const personnelForm = root.querySelector("#personnel-form");
   if(personnelForm) personnelForm.addEventListener("submit", e=>{ e.preventDefault(); submitPersonnel(); });
+  const saveJobTitle=root.querySelector("#m-save-job-title");
+  if(saveJobTitle) saveJobTitle.addEventListener("click",()=>{const jobTitle=document.getElementById("personnel-edit-title").value.trim();if(!jobTitle){showToast("Enter a job title.");return;}runAction(()=>Api.put(`/api/admin/users/${encodeURIComponent(saveJobTitle.dataset.userid)}/job-title`,{jobTitle}),()=>{closeModal();showToast("Personnel job title updated.");render();});});
   root.querySelectorAll("[data-editcriterion]").forEach(el=>el.addEventListener("click", ()=>{
     const [svc, idx] = el.dataset.editcriterion.split("|"); editCriterionModal(svc, parseInt(idx));
   }));
@@ -453,6 +464,14 @@ function attachEvents(root){
     contactNumber:document.getElementById("settings-phone").value.trim(), statusNotifications:document.getElementById("settings-status").checked,
     vaccinationReminders:document.getElementById("settings-reminders").checked, monthlyAdminSummary:document.getElementById("settings-summary").checked
   }),()=>showToast("System settings saved.")));
+  const shelterForm=root.querySelector("#shelter-pet-form");
+  if(shelterForm) shelterForm.addEventListener("submit",e=>{e.preventDefault();const id=e.submitter?.dataset.id;const body={
+    name:document.getElementById("sp-name").value.trim(),breed:document.getElementById("sp-breed").value.trim(),sex:document.getElementById("sp-sex").value,
+    ageText:document.getElementById("sp-age").value.trim(),status:document.getElementById("sp-status").value,intakeDate:document.getElementById("sp-intake").value||null,
+    photoUrl:document.getElementById("sp-photo").value.trim(),description:document.getElementById("sp-description").value.trim(),temperament:document.getElementById("sp-temperament").value.trim()
+  };runAction(()=>id?Api.put(`/api/shelter-pets/${encodeURIComponent(id)}`,body):Api.post("/api/shelter-pets",body),()=>{UI.selected.shelterId=null;showToast(id?"Shelter dog updated.":"Shelter dog added.");render();});});
+  const shelterCancel=root.querySelector("#sp-cancel");
+  if(shelterCancel) shelterCancel.addEventListener("click",()=>{UI.selected.shelterId=null;render();});
   const profileSavePw = root.querySelector("#profile-save-pw");
   if(profileSavePw) profileSavePw.addEventListener("click", saveProfilePassword);
   const profileSaveInfo = root.querySelector("#profile-save-info");

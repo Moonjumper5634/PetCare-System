@@ -45,6 +45,15 @@ public class AdoptionApplication {
     @Column(name = "housing", length = 40)
     private String housing;
 
+    @Column(name="household_consent") private Boolean householdConsent;
+    @Column(name="children_pets", length=1000) private String childrenPets;
+    @Column(name="secure_area") private Boolean secureArea;
+    @Column(name="keeping_arrangement", length=80) private String keepingArrangement;
+    @Column(name="daily_care", length=1000) private String dailyCare;
+    @Column(name="financial_ready") private Boolean financialReady;
+    @Column(name="landlord_permission", length=30) private String landlordPermission;
+    @Column(name="home_assessment") private Boolean homeAssessment;
+
     @Column(name = "status", nullable = false, length = 30)
     private String status;
 
@@ -78,6 +87,14 @@ public class AdoptionApplication {
     public void setExperience(String experience) { this.experience = experience; }
     public String getHousing() { return housing; }
     public void setHousing(String housing) { this.housing = housing; }
+    public Boolean getHouseholdConsent(){return householdConsent;} public void setHouseholdConsent(Boolean v){householdConsent=v;}
+    public String getChildrenPets(){return childrenPets;} public void setChildrenPets(String v){childrenPets=v;}
+    public Boolean getSecureArea(){return secureArea;} public void setSecureArea(Boolean v){secureArea=v;}
+    public String getKeepingArrangement(){return keepingArrangement;} public void setKeepingArrangement(String v){keepingArrangement=v;}
+    public String getDailyCare(){return dailyCare;} public void setDailyCare(String v){dailyCare=v;}
+    public Boolean getFinancialReady(){return financialReady;} public void setFinancialReady(Boolean v){financialReady=v;}
+    public String getLandlordPermission(){return landlordPermission;} public void setLandlordPermission(String v){landlordPermission=v;}
+    public Boolean getHomeAssessment(){return homeAssessment;} public void setHomeAssessment(Boolean v){homeAssessment=v;}
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public LocalDate getSubmittedDate() { return submittedDate; }

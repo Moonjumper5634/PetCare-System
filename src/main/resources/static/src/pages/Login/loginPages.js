@@ -73,6 +73,7 @@ function renderSignupScreen(){
 }
 
 function renderSignupSuccessScreen(){
+  const delivered = UI._signupDeliveryAccepted !== false;
   return `
   <div class="login-split">
     <div class="login-left"><div class="brand">PetCARE</div><div class="brand-sub">City Veterinary Office — Santa Rosa, Laguna</div></div>
@@ -83,7 +84,9 @@ function renderSignupSuccessScreen(){
         <div class="decision-box" style="margin:18px 0;">
           <div class="decision-title">Account Status</div>
           <div class="decision-status" style="color:var(--green);">READY TO USE</div>
-          <p style="font-size:0.8rem;color:var(--body);margin:0;">You can sign in now. Enter the emailed code to verify your address and enable secure password recovery.</p>
+          <p style="font-size:0.8rem;color:var(--body);margin:0;">${delivered
+            ? "Your verification email was accepted for delivery. Enter the code to verify your address and enable secure password recovery."
+            : "Your account is ready, but the verification email could not be delivered. Continue to verification and use Resend code to try again."}</p>
         </div>
         <button class="btn-primary" id="go-verify">Continue to Verification</button>
         <div class="foot-link-row"><span class="link-text" id="go-login">Verify later and sign in</span></div>
@@ -99,7 +102,9 @@ function renderVerifyScreen(){
     <div class="login-right">
       <div class="login-card2">
         <h1>Verify Your Account</h1>
-        <p class="tag">Enter the verification code sent to ${UI._signupEmail?esc(UI._signupEmail):"your email"}.</p>
+        <p class="tag">${UI._signupDeliveryAccepted === false
+          ? `We could not deliver the first email to ${UI._signupEmail?esc(UI._signupEmail):"your address"}. Use Resend code below to try again.`
+          : `Enter the verification code sent to ${UI._signupEmail?esc(UI._signupEmail):"your email"}.`}</p>
         ${mockCodeBanner()}
         ${field("Verification Code", `<input id="vf-code" placeholder="123456" maxlength="6">`, "verify")}
         <button class="btn-primary" id="btn-do-verify">Verify Account</button>

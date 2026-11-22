@@ -141,7 +141,7 @@ class RegistrationFlowTest {
         k.petFlow.rejectRegistration(k.rowena, r.registrationId(), "Photo does not match");
         assertEquals("Rejected", k.pets.findById(r.petId()).orElseThrow().getRegistrationStatus());
         assertEquals("Photo does not match", k.registrations.findById(r.registrationId()).orElseThrow().getRejectionReason());
-        assertTrue(k.notifications.findByUserIdOrderByCreatedAtDesc("U-1001").get(0).getBody().contains("Photo does not match"));
+        assertTrue(k.notifications.findByUserIdOrderByCreatedAtDesc("U-1001").stream().anyMatch(n->n.getBody().contains("Photo does not match")));
     }
 
     @Test

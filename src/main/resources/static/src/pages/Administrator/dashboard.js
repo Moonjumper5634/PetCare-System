@@ -26,7 +26,7 @@ function screenDashboardAdmin(){
     </div>
     <div class="card">
       <h3>Recent Audit Activity</h3>
-      ${S.audit.slice(0,5).map(a=>`<div class="checklist-row"><span>${esc(a.description)}</span><span style="font-size:0.7rem;color:var(--muted);">${fmtDate(a.datetime)}</span></div>`).join("") || emptyState(icoSvg('folder'),"No Activity Yet","Audit log entries will appear here.","")}
+      ${S.audit.slice(0,5).map(a=>`<div class="checklist-row"><span>${esc(a.description)}</span><span style="font-size:0.7rem;color:var(--muted);">${fmtDateTime(a.datetime)}</span></div>`).join("") || emptyState(icoSvg('folder'),"No Activity Yet","Audit log entries will appear here.","")}
       <div style="margin-top:12px;text-align:right;"><button class="btn-line" data-nav="auditlogs">View All</button></div>
     </div>
   </div>`;

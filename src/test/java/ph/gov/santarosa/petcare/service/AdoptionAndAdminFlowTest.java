@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ph.gov.santarosa.petcare.domain.AppUser;
@@ -45,6 +46,22 @@ class AdoptionAndAdminFlowTest {
         assertEquals(400, status(() -> k.adoptionFlow.apply(k.maria, new Apply("S-201", "M", "0917123456", "m@test.ph", "x", "Balibago", "r", null, "Castle", true))));
         assertEquals(400, status(() -> k.adoptionFlow.apply(k.maria, new Apply("S-201", "M", "0917123456", "m@test.ph", "x", "Balibago", "r", null, "Owned House", false))));
         assertEquals("Available", k.shelterPets.findById("S-201").orElseThrow().getStatus());
+    }
+
+    @Test
+    void suitabilityAnswersAreRecordedForStaffReviewInsteadOfAutoRejecting() {
+        Apply honestAnswers = new Apply("S-201", "Maria Santos", "09171234567", "m@test.ph",
+                "12 Rizal St", "Balibago", "I want to provide a home", "No previous experience",
+                "Rented House/Apartment", false, "Two children and one cat", false,
+                "Indoors and Outdoors", "Feeding, walking and veterinary visits", false, "No", false, true);
+        String id = k.adoptionFlow.apply(k.maria, honestAnswers);
+        var saved = k.adoptions.findById(id).orElseThrow();
+        assertFalse(saved.getHouseholdConsent());
+        assertFalse(saved.getSecureArea());
+        assertFalse(saved.getFinancialReady());
+        assertFalse(saved.getHomeAssessment());
+        assertEquals("No", saved.getLandlordPermission());
+        assertEquals("Interview Required", saved.getStatus());
     }
 
     @Test
@@ -153,6 +170,26 @@ class AdoptionAndAdminFlowTest {
     void pendingAccountsCannotBeToggled() {
         k.maria.setStatus("Pending Verification");
         assertEquals(409, status(() -> k.adminFlow.setUserStatus(k.jose, "U-1001", "Active")));
+    }
+
+    @Test
+    void administratorCanUpdatePersonnelJobTitles() {
+        k.adminFlow.updatePersonnelJobTitle(k.jose,k.rowena.getId(),new AdminService.PersonnelJobTitle("Veterinary Assistant"));
+        assertEquals("Veterinary Assistant",k.users.findById(k.rowena.getId()).orElseThrow().getJobTitle());
+        assertEquals(403,status(()->k.adminFlow.updatePersonnelJobTitle(k.rowena,k.rowena.getId(),new AdminService.PersonnelJobTitle("Veterinarian"))));
+        assertEquals(400,status(()->k.adminFlow.updatePersonnelJobTitle(k.jose,k.maria.getId(),new AdminService.PersonnelJobTitle("Veterinarian"))));
+    }
+
+    @Test
+    void staffCanManageShelterDogsButResidentsCannot() {
+        var service=new ShelterPetService(k.shelterPets,k.ids,k.notifier);
+        var form=new ShelterPetService.Save("Pepper","Aspin","Female","2 years","Ready for adoption","Calm","Available",LocalDate.of(2026,8,1),null);
+        String id=service.create(k.rowena,form);
+        assertEquals("Available",k.shelterPets.findById(id).orElseThrow().getStatus());
+        var archived=new ShelterPetService.Save("Pepper","Aspin","Female","2 years","Ready for adoption","Calm","Archived",LocalDate.of(2026,8,1),null);
+        service.update(k.jose,id,archived);
+        assertEquals("Archived",k.shelterPets.findById(id).orElseThrow().getStatus());
+        assertEquals(403,status(()->service.create(k.maria,form)));
     }
 
     /* ---- criteria ---- */

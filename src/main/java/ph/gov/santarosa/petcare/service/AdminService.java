@@ -18,6 +18,7 @@ public class AdminService {
     public record ResidentCreated(String userId, String email, String temporaryPassword) { }
     public record CreatePersonnel(String name, String email, String mobile, String role, String jobTitle) { }
     public record PersonnelCreated(String userId, String email, String temporaryPassword, String role) { }
+    public record PersonnelJobTitle(String jobTitle) { }
     public record CriterionUpdate(Boolean enabled, String label, String description) {
         public CriterionUpdate(Boolean enabled, String description) { this(enabled, null, description); }
     }
@@ -126,6 +127,17 @@ public class AdminService {
         u.setStatus(status);
         users.save(u);
         notifier.audit(actor, "Update", "User Management", u.getId(), "User " + u.getFullName() + " set to " + status + ".");
+    }
+
+    @Transactional
+    public void updatePersonnelJobTitle(AppUser actor, String userId, PersonnelJobTitle body) {
+        Access.require(actor, Values.ADMIN);
+        AppUser user=users.findById(userId==null?"":userId).orElseThrow(()->ApiException.notFound("User not found."));
+        if (!Values.STAFF.equals(user.getRole()) && !Values.ADMIN.equals(user.getRole()))
+            throw ApiException.badRequest("Job titles can only be assigned to CVO personnel.");
+        String title=Validation.text(body.jobTitle(), "Job title", 80, true);
+        user.setJobTitle(title); users.save(user);
+        notifier.audit(actor,"Update","User Management",user.getId(),"Personnel job title updated for "+user.getFullName()+" — "+title+".");
     }
 
     @Transactional

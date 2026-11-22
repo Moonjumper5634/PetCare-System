@@ -2,10 +2,8 @@ package ph.gov.santarosa.petcare.service;
 
 import ph.gov.santarosa.petcare.domain.AppUser;
 
-/**
- * Delivers one-time codes (account verification, password reset).
- * TODO before go-live: implement this with the CVO's email or SMS provider and use it in the prod profile.
- */
+/** Delivers one-time codes for account verification and password reset. */
 public interface CodeSender {
-    void send(AppUser user, String purpose, String code);
+    /** Returns true only after the configured provider accepts the message. */
+    boolean send(AppUser user, String purpose, String code);
 }

@@ -280,6 +280,9 @@ public class StateAssembler {
         m.put("applicantName", a.getApplicantName()); m.put("contact", a.getContact()); m.put("email", a.getEmail());
         m.put("address", a.getAddress()); m.put("barangay", a.getBarangay()); m.put("reason", a.getReason());
         m.put("experience", a.getExperience()); m.put("housing", a.getHousing()); m.put("status", a.getStatus());
+        m.put("householdConsent",a.getHouseholdConsent());m.put("childrenPets",a.getChildrenPets());m.put("secureArea",a.getSecureArea());
+        m.put("keepingArrangement",a.getKeepingArrangement());m.put("dailyCare",a.getDailyCare());m.put("financialReady",a.getFinancialReady());
+        m.put("landlordPermission",a.getLandlordPermission());m.put("homeAssessment",a.getHomeAssessment());
         m.put("interview", i == null ? null : interview(i));
         m.put("submittedDate", str(a.getSubmittedDate())); m.put("rejectionReason", a.getRejectionReason());
         return m;

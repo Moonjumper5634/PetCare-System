@@ -24,7 +24,7 @@ public class NotificationEmailRetryService {
     @Scheduled(fixedDelayString = "${petcare.mail.retry-interval-ms:300000}",
             initialDelayString = "${petcare.mail.retry-initial-delay-ms:60000}")
     public void retryPending() {
-        if (!sender.isEnabled()) return;
+        if (!sender.isEnabled() || !notifier.statusNotificationsEnabled()) return;
         for (var notification : notifications
                 .findTop50ByEmailStatusAndEmailAttemptsLessThanOrderByCreatedAtAsc("Pending", MAX_ATTEMPTS)) {
             notifier.applyDelivery(notification,

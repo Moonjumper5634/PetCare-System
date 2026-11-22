@@ -252,7 +252,7 @@ public class RequestWorkflowService {
         String source = Validation.text(r.sourceType(), "Record source", 40, false);
         rec.setSourceType(source == null ? "Digital request" : source);
         rec.setSourceReference(Validation.text(r.sourceReference(), "Source reference", 120, false));
-        rec.setServiceLocation(Validation.text(r.serviceLocation(), "Service location", 160, false));
+        rec.setServiceLocation(Validation.text(r.serviceLocation(), "Service location", 160, true));
 
         switch (req.getServiceName()) {
             case ServiceNames.ANTI_RABIES -> {

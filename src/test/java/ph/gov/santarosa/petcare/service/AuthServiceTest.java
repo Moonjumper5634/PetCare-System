@@ -101,6 +101,14 @@ class AuthServiceTest {
     }
 
     @Test
+    void signupReportsWhenTheEmailProviderDoesNotAcceptTheMessage() {
+        k.sender.deliveryAccepted = false;
+        AuthService.CodeIssued issued = k.authFlow.signup(signup("ana@test.ph", "Secret123"));
+        assertFalse(issued.deliveryAccepted());
+        assertTrue(k.users.findByEmailIgnoreCase("ana@test.ph").isPresent());
+    }
+
+    @Test
     void signupRejectsBadInput() {
         assertEquals(409, fails(() -> k.authFlow.signup(signup("MARIA@test.ph", "Secret123"))).getStatus());   // duplicate, any case
         assertEquals(400, fails(() -> k.authFlow.signup(signup("not-an-email", "Secret123"))).getStatus());
