@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ph.gov.santarosa.petcare.repository.NotificationRepository;
 
-/** Retries temporary SMTP failures while keeping the in-app notification immediately available. */
+/** Retries temporary email-provider failures while keeping the in-app notification immediately available. */
 @Service
 public class NotificationEmailRetryService {
     private static final int MAX_ATTEMPTS = 5;
