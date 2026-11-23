@@ -170,7 +170,20 @@
     .topbar{position:fixed; padding:0 12px; gap:8px;}
     .topbar .orgname{display:none;}
     .topbar .sysname{font-size:0.86rem; margin-right:auto;}
-    .topbar .user > span, .topbar .logout{display:none;}
+    .topbar .user > span,
+    .topbar .user-meta{display:none;}
+    .topbar .logout{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-height:40px;
+        padding:0 10px;
+        border:1px solid rgba(255,255,255,.3);
+        border-radius:999px;
+        text-decoration:none;
+        font-size:.72rem;
+        font-weight:700;
+    }
     .app-menu{display:inline-flex; align-items:center; justify-content:center;}
     .sidebar{position:fixed; z-index:40; inset:64px auto 0 0; margin:0; width:min(82vw,280px); min-height:0; overflow-y:auto; transform:translateX(-102%); transition:transform .22s ease; box-shadow:10px 0 30px rgba(0,0,0,.18);}
     .sidebar-is-open .sidebar{transform:translateX(0);}
