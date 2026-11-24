@@ -1,6 +1,7 @@
 package ph.gov.santarosa.petcare.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -144,12 +145,35 @@ class RequestFlowTest {
     @Test
     void verificationRequestKeepsTheRequestOpen() {
         String id = request("P-1042", KAPON);
-        k.requestFlow.decide(k.rowena, id, new Decision("Verification Requested", null));
+        k.requestFlow.decide(k.rowena, id, new Decision("Verification Requested", "Provide the latest vaccination date."));
         assertEquals("For Review", get(id).getStatus());
         assertEquals("Verification Requested", get(id).getStaffDecision());
+        assertEquals("Provide the latest vaccination date.", get(id).getVerificationInstructions());
         k.requestFlow.assess(k.rowena, id);                                              // can still be assessed and decided
         k.requestFlow.decide(k.rowena, id, new Decision("Approved", null));
         assertEquals("Approved", get(id).getStatus());
+    }
+
+    @Test
+    void residentCanSubmitRequestedVerificationDetails() {
+        String id = request("P-1042", KAPON);
+        assertEquals(400, status(() -> k.requestFlow.decide(k.rowena, id,
+                new Decision("Verification Requested", " "))));
+        k.requestFlow.decide(k.rowena, id,
+                new Decision("Verification Requested", "Provide the latest vaccination date."));
+        assertEquals(404, status(() -> k.requestFlow.submitAdditionalVerification(k.juan, id,
+                new RequestWorkflowService.AdditionalVerification("January 2, 2026"))));
+        assertEquals(400, status(() -> k.requestFlow.submitAdditionalVerification(k.maria, id,
+                new RequestWorkflowService.AdditionalVerification(" "))));
+        k.requestFlow.submitAdditionalVerification(k.maria, id,
+                new RequestWorkflowService.AdditionalVerification("January 2, 2026 at the barangay clinic."));
+        ServiceRequest request = get(id);
+        assertEquals("Pending", request.getStaffDecision());
+        assertEquals("For Review", request.getStatus());
+        assertEquals("January 2, 2026 at the barangay clinic.", request.getVerificationResponse());
+        assertNotNull(request.getVerificationRespondedAt());
+        assertEquals(409, status(() -> k.requestFlow.submitAdditionalVerification(k.maria, id,
+                new RequestWorkflowService.AdditionalVerification("duplicate"))));
     }
 
     @Test

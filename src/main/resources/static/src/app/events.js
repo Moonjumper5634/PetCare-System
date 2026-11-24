@@ -254,6 +254,12 @@ function attachEvents(root){
   if(reqRejectBtn && !reqRejectBtn.disabled) reqRejectBtn.addEventListener("click", ()=> rejectRequestModal(UI.selected.reqId));
   const reqVerifyBtn = root.querySelector("#req-verify-btn");
   if(reqVerifyBtn) reqVerifyBtn.addEventListener("click", ()=> requestVerification(UI.selected.reqId));
+  const confirmReqVerification = root.querySelector("#m-confirm-request-verification");
+  if(confirmReqVerification) confirmReqVerification.addEventListener("click", confirmRequestVerification);
+  const submitVerificationBtn = root.querySelector("#req-submit-verification-btn");
+  if(submitVerificationBtn) submitVerificationBtn.addEventListener("click", ()=>submitVerificationModal(UI.selected.reqId));
+  const confirmVerificationResponseBtn = root.querySelector("#m-submit-verification-response");
+  if(confirmVerificationResponseBtn) confirmVerificationResponseBtn.addEventListener("click", confirmVerificationResponse);
 
   /* =====================================================================
      SERVICES & RECORDS

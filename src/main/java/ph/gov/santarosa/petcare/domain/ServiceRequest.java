@@ -46,6 +46,18 @@ public class ServiceRequest {
     @Column(name = "rejection_reason", length = 1000)
     private String rejectionReason;
 
+    @Column(name = "verification_instructions", length = 1000)
+    private String verificationInstructions;
+
+    @Column(name = "verification_response", length = 2000)
+    private String verificationResponse;
+
+    @Column(name = "verification_requested_at")
+    private LocalDateTime verificationRequestedAt;
+
+    @Column(name = "verification_responded_at")
+    private LocalDateTime verificationRespondedAt;
+
     @Column(name = "status", nullable = false, length = 20)
     private String status;
 
@@ -79,6 +91,14 @@ public class ServiceRequest {
     public void setDecidedBy(String decidedBy) { this.decidedBy = decidedBy; }
     public String getRejectionReason() { return rejectionReason; }
     public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
+    public String getVerificationInstructions() { return verificationInstructions; }
+    public void setVerificationInstructions(String verificationInstructions) { this.verificationInstructions = verificationInstructions; }
+    public String getVerificationResponse() { return verificationResponse; }
+    public void setVerificationResponse(String verificationResponse) { this.verificationResponse = verificationResponse; }
+    public LocalDateTime getVerificationRequestedAt() { return verificationRequestedAt; }
+    public void setVerificationRequestedAt(LocalDateTime verificationRequestedAt) { this.verificationRequestedAt = verificationRequestedAt; }
+    public LocalDateTime getVerificationRespondedAt() { return verificationRespondedAt; }
+    public void setVerificationRespondedAt(LocalDateTime verificationRespondedAt) { this.verificationRespondedAt = verificationRespondedAt; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public LocalDateTime getCreatedAt() { return createdAt; }

@@ -39,6 +39,7 @@ public class RequestWorkflowService {
 
     public record CreateRequest(String petId, String service, String remarks) { }
     public record Decision(String decision, String reason) { }
+    public record AdditionalVerification(String details) { }
     public record RecordService(String serviceDate, String staffName, String remarks, String vaccineType,
                                 String batchNumber, String nextDue, String microchipNumber, String procedureDate,
                                 String postRemarks, String presenterName, String providerRole, String sourceType,
@@ -212,17 +213,46 @@ public class RequestWorkflowService {
                 notifier.audit(actor, "Reject", "Service Request", req.getId(), req.getServiceName() + " request for " + pet.getName() + " rejected \u2014 " + why);
             }
             case "Verification Requested" -> {
+                String instructions = Validation.text(d.reason(), "Verification instructions", 1000, true);
                 req.setStaffDecision("Verification Requested"); req.setStatus("For Review");
+                req.setVerificationInstructions(instructions);
+                req.setVerificationResponse(null);
+                req.setVerificationRequestedAt(notifier.now());
+                req.setVerificationRespondedAt(null);
                 notifier.notify(req.getOwnerId(), "Additional verification requested.", "CVO staff requested additional verification for your "
-                        + req.getServiceName() + " request (" + req.getId() + ") for " + pet.getName() + " before a final decision can be made.");
+                        + req.getServiceName() + " request (" + req.getId() + ") for " + pet.getName()
+                        + ". Requested information: " + instructions);
                 notifier.audit(actor, "Request Verification", "Service Request", req.getId(),
-                        req.getServiceName() + " request for " + pet.getName() + " \u2014 additional verification requested from resident.");
+                        req.getServiceName() + " request for " + pet.getName() + " \u2014 requested: " + instructions);
             }
             default -> throw ApiException.badRequest("Unknown decision.");
         }
         req.setDecisionDate(today);
         req.setDecidedBy(actor.getId());
         requests.save(req);
+    }
+
+    /** Resident supplies the information requested by staff and returns the request to the review queue. */
+    @Transactional
+    public void submitAdditionalVerification(AppUser actor, String requestId, AdditionalVerification body) {
+        Access.require(actor, Values.OWNER);
+        ServiceRequest req = requests.findById(requestId == null ? "" : requestId)
+                .orElseThrow(() -> ApiException.notFound("Request not found."));
+        if (!actor.getId().equals(req.getOwnerId())) throw ApiException.notFound("Request not found.");
+        if (!"Verification Requested".equals(req.getStaffDecision()))
+            throw ApiException.conflict("This request is not awaiting additional verification.");
+        String details = Validation.text(body.details(), "Additional verification details", 2000, true);
+        req.setVerificationResponse(details);
+        req.setVerificationRespondedAt(notifier.now());
+        req.setStaffDecision("Pending");
+        req.setStatus("For Review");
+        req.setDecisionDate(null);
+        req.setDecidedBy(null);
+        requests.save(req);
+        notifier.notify(actor.getId(), "Additional details submitted.", "Your additional information for "
+                + req.getServiceName() + " request (" + req.getId() + ") was returned to CVO staff for review.");
+        notifier.audit(actor, "Submit Verification", "Service Request", req.getId(),
+                "Resident submitted additional verification details for " + req.getServiceName() + ".");
     }
 
     /* ------------------------------ service record ------------------------------ */

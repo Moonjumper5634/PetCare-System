@@ -6,7 +6,7 @@
    only controls what the UI shows. */
 const AuthGuard = (function(){
   const DETAIL_SCREENS = {
-    owner:["petprofile","adoptdetail","adoptapply","adoptsubmitted","notifications"],
+    owner:["petprofile","regdetail","reqdetail","adoptdetail","adoptapply","adoptsubmitted","notifications"],
     staff:["regdetail","reqdetail","adoptreview","surrenderreview","notifications"],
     admin:["reqdetail","regdetail","petprofile","adoptreview"],
   };

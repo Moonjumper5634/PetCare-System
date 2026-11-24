@@ -14,7 +14,7 @@ function screenServiceRequests(){
     else if(filter==="Rejected") rows = rows.filter(r=>r.staffDecision==="Rejected");
     else if(filter==="Completed") rows = rows.filter(r=>r.status==="Completed");
     else if(filter==="Submitted") rows = rows.filter(r=>!r.eligibility);
-    else if(filter==="For Review") rows = rows.filter(r=>r.eligibility && r.staffDecision==="Pending");
+    else if(filter==="For Review") rows = rows.filter(r=>r.eligibility && ["Pending","Verification Requested"].includes(r.staffDecision));
   }
   const pg=paged(rows,"requests"); rows=pg.items;
   return `
@@ -99,7 +99,10 @@ function screenReqDetail(){
         ${!req.eligibility ? `<p style="font-size:0.7rem;color:var(--muted);margin-top:8px;">Run the eligibility assessment before recording a staff decision.</p>` : ""}
       ` : ""}
       ${req.staffDecision==="Rejected" && req.rejectionReason ? `<p style="font-size:0.78rem;color:var(--body);margin-top:8px;">Reason: ${esc(req.rejectionReason)}</p>` : ""}
-      ${req.staffDecision==="Verification Requested" ? `<p style="font-size:0.78rem;color:var(--body);margin-top:8px;">CVO staff has requested additional verification from the resident before a final decision is made.</p>` : ""}
+      ${req.verificationInstructions ? `<div class="security-notice" style="margin-top:10px;"><b>Information requested by CVO staff</b><p>${esc(req.verificationInstructions)}</p>${req.verificationRequestedAt?`<span class="form-note">Requested ${fmtDateTime(req.verificationRequestedAt)}</span>`:""}</div>` : ""}
+      ${req.verificationResponse ? `<div class="support-note" style="margin-top:10px;"><b>Resident response</b><p>${esc(req.verificationResponse)}</p>${req.verificationRespondedAt?`<span class="form-note">Submitted ${fmtDateTime(req.verificationRespondedAt)}</span>`:""}</div>` : ""}
+      ${!staffMode && req.staffDecision==="Verification Requested" ? `<button class="btn-red" style="width:100%;margin-top:10px;" id="req-submit-verification-btn">Submit Additional Details</button>` : ""}
+      ${req.staffDecision==="Verification Requested" && !req.verificationInstructions ? `<p style="font-size:0.78rem;color:var(--body);margin-top:8px;">CVO staff has requested additional verification from the resident before a final decision is made.</p>` : ""}
     </div>
     <div class="support-note">Decision Tree result = system recommendation. CVO Staff decision = final administrative/veterinary decision. These remain separate.</div>
   </div>`;
@@ -184,6 +187,31 @@ function confirmRejectRequest(reason){
     () => { closeModal(); showToast(`Request ${reqId} rejected.`); });
 }
 function requestVerification(reqId){
-  runAction(() => Api.post(`/api/service-requests/${encodeURIComponent(reqId)}/decision`, {decision:"Verification Requested"}),
-    () => { showToast(`Verification requested for ${reqId}.`); render(); });
+  openModal(`<div class="modal-box"><h3>Request Additional Verification</h3>
+    <p class="form-note">Tell the resident exactly what information, document details, or pet-record correction CVO staff needs.</p>
+    ${field("Instructions for the resident *",`<textarea id="req-verification-instructions" rows="5" maxlength="1000" placeholder="Example: Please provide the date and clinic shown on the latest anti-rabies vaccination record."></textarea>`)}
+    <div class="modal-actions"><button class="btn-line" id="m-cancel">Cancel</button><button class="btn-red" id="m-confirm-request-verification">Send Request</button></div></div>`);
+  UI._pendingReqId=reqId;
+}
+function confirmRequestVerification(){
+  const instructions=document.getElementById("req-verification-instructions")?.value.trim();
+  if(!instructions){showToast("Enter clear instructions for the resident.");return;}
+  const reqId=UI._pendingReqId;
+  runAction(() => Api.post(`/api/service-requests/${encodeURIComponent(reqId)}/decision`, {decision:"Verification Requested",reason:instructions}),
+    () => { closeModal(); showToast(`Verification requested for ${reqId}.`); render(); });
+}
+function submitVerificationModal(reqId){
+  const req=reqById(reqId);
+  openModal(`<div class="modal-box"><h3>Submit Additional Details</h3>
+    <div class="security-notice"><b>CVO staff requested:</b><p>${esc(req.verificationInstructions||"Additional supporting information")}</p></div>
+    ${field("Your response *",`<textarea id="req-verification-response" rows="6" maxlength="2000" placeholder="Provide the requested details clearly. Do not include passwords or verification codes."></textarea>`)}
+    <div class="modal-actions"><button class="btn-line" id="m-cancel">Cancel</button><button class="btn-red" id="m-submit-verification-response">Submit to CVO</button></div></div>`);
+  UI._pendingReqId=reqId;
+}
+function confirmVerificationResponse(){
+  const details=document.getElementById("req-verification-response")?.value.trim();
+  if(!details){showToast("Enter the requested additional details.");return;}
+  const reqId=UI._pendingReqId;
+  runAction(() => Api.post(`/api/service-requests/${encodeURIComponent(reqId)}/verification-response`,{details}),
+    () => { closeModal(); showToast("Additional details submitted for CVO review."); render(); });
 }

@@ -233,6 +233,10 @@ public class StateAssembler {
         m.put("staffDecision", r.getStaffDecision()); m.put("decisionDate", str(r.getDecisionDate()));
         m.put("decidedBy", r.getDecidedBy()); m.put("decidedByName", actorNames.get(r.getDecidedBy()));
         m.put("rejectionReason", r.getRejectionReason());
+        m.put("verificationInstructions", r.getVerificationInstructions());
+        m.put("verificationResponse", r.getVerificationResponse());
+        m.put("verificationRequestedAt", r.getVerificationRequestedAt() == null ? null : r.getVerificationRequestedAt().toString());
+        m.put("verificationRespondedAt", r.getVerificationRespondedAt() == null ? null : r.getVerificationRespondedAt().toString());
         m.put("serviceRecord", rec == null ? null : serviceRecord(rec));
         m.put("status", r.getStatus());
         return m;

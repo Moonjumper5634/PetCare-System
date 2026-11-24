@@ -60,9 +60,18 @@ function requestTimelineSteps(req){
     steps.push({label:"Completed", state:"upcoming"});
     return steps;
   }
-  steps.push({label:"Eligibility Assessment", state:"done", desc:`System Recommendation: ${req.eligibility.eligible?"ELIGIBLE":"NOT ELIGIBLE"}.`});
+  const classification=req.eligibility.classification || (req.eligibility.eligible?"ELIGIBLE":"NOT ELIGIBLE");
+  steps.push({label:"Eligibility Assessment", state:"done", desc:`System Recommendation: ${classification}.`});
   if(req.staffDecision === "Pending"){
     steps.push({label:"Staff Review", state:"current", desc:"Awaiting Final CVO Staff Decision."});
+    steps.push({label:"Decision", state:"upcoming"});
+    steps.push({label:"Service", state:"upcoming"});
+    steps.push({label:"Completed", state:"upcoming"});
+    return steps;
+  }
+  if(req.staffDecision === "Verification Requested"){
+    steps.push({label:"Staff Review", state:"done", desc:"CVO staff reviewed the assessment."});
+    steps.push({label:"Additional Verification", state:"current", desc:req.verificationInstructions||"Waiting for additional details from the resident."});
     steps.push({label:"Decision", state:"upcoming"});
     steps.push({label:"Service", state:"upcoming"});
     steps.push({label:"Completed", state:"upcoming"});

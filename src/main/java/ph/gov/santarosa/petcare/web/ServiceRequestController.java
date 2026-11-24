@@ -39,6 +39,13 @@ public class ServiceRequestController {
         return Map.of("ok", true);
     }
 
+    @PostMapping("/{id}/verification-response")
+    public Map<String, Object> submitVerification(@PathVariable String id,
+                                                   @RequestBody RequestWorkflowService.AdditionalVerification body) {
+        requests.submitAdditionalVerification(current.requireReady(), id, body);
+        return Map.of("ok", true);
+    }
+
     @PostMapping("/{id}/record")
     public Map<String, Object> record(@PathVariable String id, @RequestBody RequestWorkflowService.RecordService body) {
         requests.recordService(current.requireReady(), id, body);
