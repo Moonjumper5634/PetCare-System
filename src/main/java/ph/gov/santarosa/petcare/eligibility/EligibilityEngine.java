@@ -92,8 +92,8 @@ public final class EligibilityEngine {
             else { r = p.weightKg().compareTo(new BigDecimal("3")) >= 0 ? Result.PASS : Result.FAIL; v = plain(p.weightKg()) + " kg"; }
             return new CriterionResult("weight", "Weight Requirement Satisfied", v, r,
                     r == Result.REVIEW ? "Weight is not on file and requires CVO verification."
-                    : r == Result.PASS ? "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg \u2014 verify exact figure against the official announcement)."
-                    : "Recorded weight does not meet the sample CVO Kapon weight requirement (minimum 3 kg \u2014 verify exact figure against the official announcement).");
+                    : r == Result.PASS ? "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
+                    : "Recorded weight is below the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision.");
         });
         kapon.put("healthy", (p, t) -> {
             Result r = "Apparently Healthy".equals(p.healthStatus()) ? Result.PASS

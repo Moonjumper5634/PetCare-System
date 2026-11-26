@@ -63,7 +63,7 @@ public class AppUser {
     @Column(name = "must_change_password", nullable = false)
     private Boolean mustChangePassword;
 
-    @Column(name = "verification_code", length = 10)
+    @Column(name = "verification_code", length = 100)
     private String verificationCode;
 
     @Column(name = "failed_login_attempts", nullable = false)

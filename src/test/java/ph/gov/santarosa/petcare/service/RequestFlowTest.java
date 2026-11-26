@@ -172,6 +172,8 @@ class RequestFlowTest {
         assertEquals("For Review", request.getStatus());
         assertEquals("January 2, 2026 at the barangay clinic.", request.getVerificationResponse());
         assertNotNull(request.getVerificationRespondedAt());
+        assertTrue(k.notifications.findByUserIdOrderByCreatedAtDesc(k.rowena.getId()).stream()
+                .anyMatch(n -> n.getTitle().contains("verification response")));
         assertEquals(409, status(() -> k.requestFlow.submitAdditionalVerification(k.maria, id,
                 new RequestWorkflowService.AdditionalVerification("duplicate"))));
     }

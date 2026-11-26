@@ -167,7 +167,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -362,7 +362,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "6.2 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -557,7 +557,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "4.4 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -752,7 +752,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "7 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -947,7 +947,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "5.8 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -1142,7 +1142,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "3.6 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -1337,7 +1337,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "8.1 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -1517,7 +1517,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -1697,7 +1697,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -1877,7 +1877,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -2057,7 +2057,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -2237,7 +2237,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -2417,7 +2417,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -2597,7 +2597,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -2777,7 +2777,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -2957,7 +2957,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -3137,7 +3137,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -3317,7 +3317,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -3497,7 +3497,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -3677,7 +3677,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -3857,7 +3857,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -4037,7 +4037,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -4217,7 +4217,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -4397,7 +4397,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -4577,7 +4577,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -4757,7 +4757,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -4937,7 +4937,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "3 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -5117,7 +5117,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "2.99 kg",
       "result": "FAIL",
-      "basis": "Recorded weight does not meet the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight is below the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -5477,7 +5477,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "7 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -5657,7 +5657,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "10 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -5837,7 +5837,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "12.25 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -6017,7 +6017,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -6197,7 +6197,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -6377,7 +6377,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -6557,7 +6557,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -6737,7 +6737,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -6917,7 +6917,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -7097,7 +7097,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -7277,7 +7277,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -7457,7 +7457,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -7637,7 +7637,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -7817,7 +7817,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -7997,7 +7997,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -8177,7 +8177,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -8357,7 +8357,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -8537,7 +8537,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "9.5 kg",
       "result": "PASS",
-      "basis": "Recorded weight meets the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight meets the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",
@@ -8717,7 +8717,7 @@
       "label": "Weight Requirement Satisfied",
       "value": "1.2 kg",
       "result": "FAIL",
-      "basis": "Recorded weight does not meet the sample CVO Kapon weight requirement (minimum 3 kg — verify exact figure against the official announcement)."
+      "basis": "Recorded weight is below the configured demonstration threshold (3 kg). CVO staff must still make the final clinical decision."
      },
      {
       "label": "Apparently Healthy",

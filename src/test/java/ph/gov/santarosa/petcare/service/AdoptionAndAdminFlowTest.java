@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ph.gov.santarosa.petcare.domain.AppUser;
+import ph.gov.santarosa.petcare.domain.ShelterPet;
 import ph.gov.santarosa.petcare.service.AdoptionWorkflowService.Apply;
 import ph.gov.santarosa.petcare.service.AdoptionWorkflowService.Interview;
 import ph.gov.santarosa.petcare.support.Kit;
@@ -86,7 +87,11 @@ class AdoptionAndAdminFlowTest {
         assertEquals(400, status(() -> k.adoptionFlow.recordInterview(k.rowena, applied2(), new Interview(null, "Maybe", null))));
     }
 
-    private String applied2() { k.shelterPets.findById("S-201").orElseThrow().setStatus("Available"); return k.adoptionFlow.apply(k.juan, form("S-201")); }
+    private String applied2() {
+        ShelterPet second = new ShelterPet(); second.setId("S-202"); second.setName("Milo"); second.setSpecies("Dog");
+        second.setBreed("Aspin"); second.setSex("Male"); second.setStatus("Available"); k.shelterPets.save(second);
+        return k.adoptionFlow.apply(k.juan, form("S-202"));
+    }
 
     @Test
     void rejectionNeedsAReasonAndReleasesTheDog() {

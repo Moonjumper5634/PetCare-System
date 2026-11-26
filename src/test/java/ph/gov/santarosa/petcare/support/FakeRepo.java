@@ -48,7 +48,7 @@ public final class FakeRepo {
             String n = m.getName();
             switch (n) {
                 case "save": return save(args[0]);
-                case "findById": case "lockByKind": return Optional.ofNullable(rows.get(args[0]));
+                case "findById": case "findLockedById": case "lockByKind": return Optional.ofNullable(rows.get(args[0]));
                 case "findAll": return new ArrayList<>(rows.values());
                 case "existsById": return rows.containsKey(args[0]);
                 case "count": return (long) rows.size();

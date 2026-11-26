@@ -12,7 +12,7 @@ import ph.gov.santarosa.petcare.repository.ShelterPetRepository;
 public class ShelterPetService {
     public record Save(String name, String breed, String sex, String ageText, String description,
                        String temperament, String status, LocalDate intakeDate, String photoUrl) { }
-    private static final Set<String> STATUSES=Set.of("Available","Application Pending","Adopted","Unavailable","Archived");
+    private static final Set<String> MANUAL_STATUSES=Set.of("Available","Unavailable","Archived");
     private final ShelterPetRepository pets; private final IdGenerator ids; private final Notifier notifier;
     public ShelterPetService(ShelterPetRepository pets, IdGenerator ids, Notifier notifier){this.pets=pets;this.ids=ids;this.notifier=notifier;}
 
@@ -32,7 +32,7 @@ public class ShelterPetService {
         String sex=Validation.text(b.sex(),"Sex",10,true); if(!Set.of("Male","Female").contains(sex)) throw ApiException.badRequest("Sex must be Male or Female."); p.setSex(sex);
         p.setAgeText(Validation.text(b.ageText(),"Age",40,false)); p.setDescription(Validation.text(b.description(),"Description",1000,false));
         p.setTemperament(Validation.text(b.temperament(),"Temperament",500,false));
-        String status=Validation.text(b.status(),"Status",30,true); if(!STATUSES.contains(status)) throw ApiException.badRequest("Invalid shelter-dog status."); p.setStatus(status);
+        String status=Validation.text(b.status(),"Status",30,true); if(!MANUAL_STATUSES.contains(status)) throw ApiException.badRequest("Application Pending and Adopted are controlled by the adoption workflow."); p.setStatus(status);
         p.setIntakeDate(b.intakeDate()==null?LocalDate.now():b.intakeDate()); p.setPhotoUrl(Validation.text(b.photoUrl(),"Photo URL",500,false));
     }
 }

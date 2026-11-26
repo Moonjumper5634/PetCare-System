@@ -22,6 +22,6 @@ function renderApp(){
       <div class="user">${themeToggleButton("topbar")}<button class="topbar-notifications" data-nav="notifications" aria-label="Notifications${unread?`, ${unread} unread`:""}">${navIcon("notifications")}${unread?`<span>${unread>99?"99+":unread}</span>`:""}</button><div class="avatar">${esc(u.initials||initials(u.name))}</div><div class="user-meta">${esc(u.name)}<br><span style="opacity:0.8;font-size:0.68rem;">${esc(roleTag)}</span></div><div class="logout" id="btn-logout">Logout</div></div>
     </div>
     <div class="sidebar">${navHtml}</div><button class="sidebar-backdrop" id="sidebar-backdrop" aria-label="Close navigation"></button>
-    <div class="main">${u.mustChangePassword ? `<div class="role-banner" style="margin-bottom:14px;"><b>You are using a temporary password.</b> Change it under <span data-nav="profile" style="cursor:pointer;text-decoration:underline;">Profile</span> before you can continue.</div>` : ""}${content}</div>
+    <div class="main">${u.mustChangePassword ? `<div class="role-banner" style="margin-bottom:14px;"><b>You are using a temporary password.</b> Change it under <span data-nav="profile" style="cursor:pointer;text-decoration:underline;">Profile</span> before you can continue.</div>` : ""}${u.role==="owner" && u.emailVerified===false ? `<div class="role-banner" style="margin-bottom:14px;"><b>Email not yet verified.</b> Your account remains accessible, but verify your email to establish a trusted address for password recovery and service notifications.</div>` : ""}${content}</div>
   </div>`;
 }

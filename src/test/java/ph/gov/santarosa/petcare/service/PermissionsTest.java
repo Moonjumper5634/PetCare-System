@@ -71,6 +71,13 @@ class PermissionsTest {
     }
 
     @Test
+    void archivedPetCannotEnterANewServiceWorkflow() {
+        k.buddy.setArchived(true);
+        denied(404, () -> k.requestFlow.createRequest(k.maria,
+                new RequestWorkflowService.CreateRequest("P-1042", "Microchipping", null)));
+    }
+
+    @Test
     void residentCannotRegisterAPetForAnotherResident() {
         // The ownerId in the body is ignored for residents: the pet always belongs to the signed-in user.
         var reg = k.petFlow.registerPet(k.maria, k.newPetForm("U-1002"));

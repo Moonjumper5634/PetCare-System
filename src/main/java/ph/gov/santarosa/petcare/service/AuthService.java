@@ -268,7 +268,8 @@ public class AuthService {
 
     private String issueCode(AppUser u, String purpose) {
         String code = String.format("%06d", RANDOM.nextInt(1_000_000));
-        u.setVerificationCode(code);
+        // Store only a one-way hash. The six-digit value exists in memory just long enough to send it.
+        u.setVerificationCode(encoder.encode(code));
         u.setVerificationPurpose(purpose);
         u.setVerificationExpiresAt(LocalDateTime.now(clock).plus(CODE_LIFETIME));
         u.setVerificationAttempts(0);
@@ -290,9 +291,14 @@ public class AuthService {
         LocalDateTime now = LocalDateTime.now(clock);
         if (u.getVerificationExpiresAt() == null || !now.isBefore(u.getVerificationExpiresAt()))
             throw ApiException.badRequest("Invalid or expired code.");
-        byte[] a = (supplied == null ? "" : supplied.trim()).getBytes(StandardCharsets.UTF_8);
-        byte[] b = u.getVerificationCode().getBytes(StandardCharsets.UTF_8);
-        if (!MessageDigest.isEqual(a, b)) {
+        String candidate = supplied == null ? "" : supplied.trim();
+        String stored = u.getVerificationCode();
+        // Temporary legacy fallback lets verification codes issued immediately before this migration finish
+        // their 15-minute lifetime. Every newly issued code is hashed.
+        boolean valid = stored.startsWith("$2") || stored.startsWith("enc:")
+                ? encoder.matches(candidate, stored)
+                : MessageDigest.isEqual(candidate.getBytes(StandardCharsets.UTF_8), stored.getBytes(StandardCharsets.UTF_8));
+        if (!valid) {
             u.setVerificationAttempts((u.getVerificationAttempts() == null ? 0 : u.getVerificationAttempts()) + 1);
             users.save(u);
             throw ApiException.badRequest("Invalid verification code.");

@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 /**
  * Who may reach what.
@@ -44,6 +45,7 @@ public class SecurityConfig {
             .securityContext(sc -> sc.securityContextRepository(repo))
             .headers(h -> h
                 .referrerPolicy(r -> r.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+                .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "camera=(self), microphone=(), geolocation=()"))
                 .contentSecurityPolicy(c -> c.policyDirectives("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://images.unsplash.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'")))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST,

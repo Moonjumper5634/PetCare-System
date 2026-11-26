@@ -33,6 +33,9 @@ class SurrenderWorkflowServiceTest {
         k.surrenderFlow.act(k.rowena,id,new SurrenderWorkflowService.StaffAction("Received","Identity and records checked",null));
         var r=k.surrenders.findById(id).orElseThrow();
         assertEquals("Under Assessment",k.shelterPets.findById(r.getShelterPetId()).orElseThrow().getStatus());
+        assertTrue(k.pets.findById("P-1042").orElseThrow().getArchived());
+        assertNotNull(k.pets.findById("P-1042").orElseThrow().getArchivedAt());
+        assertEquals(404,assertThrows(ApiException.class,()->k.surrenderFlow.submit(k.maria,form())).getStatus());
         k.surrenderFlow.act(k.rowena,id,new SurrenderWorkflowService.StaffAction("Available for Adoption","Cleared for listing",null));
         assertEquals("Available",k.shelterPets.findById(r.getShelterPetId()).orElseThrow().getStatus());
     }

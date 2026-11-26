@@ -76,7 +76,7 @@ public final class Kit {
     public final EligibilityService eligibility = new EligibilityService(pets, criteria, services, appClock);
     public final PetWorkflowService petFlow = new PetWorkflowService(pets, registrations, users, ids, notifier, appClock);
     public final RequestWorkflowService requestFlow = new RequestWorkflowService(requests, pets, services, assessments,
-            assessmentCriteria, records, eligibility, ids, notifier, appClock);
+            assessmentCriteria, records, eligibility, ids, notifier, appClock, users);
     public final AdoptionWorkflowService adoptionFlow = new AdoptionWorkflowService(adoptions, interviews, shelterPets, ids, notifier, appClock);
     public final SurrenderWorkflowService surrenderFlow = new SurrenderWorkflowService(surrenders, pets, shelterPets, users, ids, notifier, appClock);
     public final AuthService authFlow = new AuthService(users, encoder, ids, notifier, sender, securityClock, true);

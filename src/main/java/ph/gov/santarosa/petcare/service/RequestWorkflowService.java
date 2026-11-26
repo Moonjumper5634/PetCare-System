@@ -26,6 +26,7 @@ import ph.gov.santarosa.petcare.repository.PetRepository;
 import ph.gov.santarosa.petcare.repository.ServiceRecordRepository;
 import ph.gov.santarosa.petcare.repository.ServiceRequestRepository;
 import ph.gov.santarosa.petcare.repository.VeterinaryServiceRepository;
+import ph.gov.santarosa.petcare.repository.AppUserRepository;
 
 /**
  * Service requests: submit, eligibility assessment, staff decision, service record, QR quick visit.
@@ -55,15 +56,16 @@ public class RequestWorkflowService {
     private final IdGenerator ids;
     private final Notifier notifier;
     private final Clock clock;
+    private final AppUserRepository users;
 
     public RequestWorkflowService(ServiceRequestRepository requests, PetRepository pets,
                                   VeterinaryServiceRepository services, EligibilityAssessmentRepository assessments,
                                   EligibilityAssessmentCriterionRepository assessmentCriteria, ServiceRecordRepository records,
                                   EligibilityService eligibility, IdGenerator ids, Notifier notifier,
-                                  @Qualifier("clock") Clock clock) {
+                                  @Qualifier("clock") Clock clock, AppUserRepository users) {
         this.requests = requests; this.pets = pets; this.services = services; this.assessments = assessments;
         this.assessmentCriteria = assessmentCriteria; this.records = records; this.eligibility = eligibility;
-        this.ids = ids; this.notifier = notifier; this.clock = clock;
+        this.ids = ids; this.notifier = notifier; this.clock = clock; this.users = users;
     }
 
     /* ------------------------------ submit ------------------------------ */
@@ -251,6 +253,11 @@ public class RequestWorkflowService {
         requests.save(req);
         notifier.notify(actor.getId(), "Additional details submitted.", "Your additional information for "
                 + req.getServiceName() + " request (" + req.getId() + ") was returned to CVO staff for review.");
+        Pet pet = pets.findById(req.getPetId()).orElseThrow(() -> ApiException.notFound("Pet not found."));
+        users.findByRole(Values.STAFF).stream().filter(u -> "Active".equals(u.getStatus())).forEach(u ->
+                notifier.notify(u.getId(), "Resident verification response received.",
+                        actor.getFullName() + " submitted additional details for " + req.getServiceName()
+                                + " request (" + req.getId() + ") for " + pet.getName() + "."));
         notifier.audit(actor, "Submit Verification", "Service Request", req.getId(),
                 "Resident submitted additional verification details for " + req.getServiceName() + ".");
     }
@@ -324,6 +331,7 @@ public class RequestWorkflowService {
     private Pet petFor(AppUser actor, String petId) {
         Pet pet = pets.findById(petId == null ? "" : petId).orElseThrow(() -> ApiException.notFound("Pet not found."));
         if (Values.OWNER.equals(actor.getRole()) && !pet.getOwnerId().equals(actor.getId())) throw ApiException.notFound("Pet not found.");
+        if (Boolean.TRUE.equals(pet.getArchived())) throw ApiException.notFound("Pet not found.");
         return pet;
     }
 

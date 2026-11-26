@@ -8,4 +8,5 @@ import ph.gov.santarosa.petcare.domain.AdoptionApplication;
 public interface AdoptionApplicationRepository extends JpaRepository<AdoptionApplication, String> {
     List<AdoptionApplication> findByApplicantOwnerId(String applicantOwnerId);
     List<AdoptionApplication> findByShelterPetId(String shelterPetId);
+    boolean existsByShelterPetIdAndStatusIn(String shelterPetId, List<String> statuses);
 }

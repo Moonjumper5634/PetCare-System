@@ -87,12 +87,17 @@ public class SurrenderWorkflowService {
         s.setSex(p.getSex()); s.setAgeText(p.getDob()==null?"For assessment":Math.max(0,java.time.Period.between(p.getDob(),LocalDate.now(clock)).getYears())+" years");
         s.setDescription(r.getCircumstances()); s.setTemperament("For staff assessment"); s.setStatus("Under Assessment"); s.setIntakeDate(LocalDate.now(clock)); s.setPhotoUrl(p.getPhotoUrl());
         shelterPets.save(s); r.setShelterPetId(s.getId());
+        // Preserve the resident record for history, but remove it from every active-owner workflow.
+        // The shelter record becomes the operational record after CVO confirms physical receipt.
+        p.setArchived(Boolean.TRUE);
+        p.setArchivedAt(notifier.now());
+        pets.save(p);
     }
     private void publish(SurrenderRequest r){
         ShelterPet s=shelterPets.findById(r.getShelterPetId()).orElseThrow(()->ApiException.notFound("Intake dog not found.")); s.setStatus("Available"); shelterPets.save(s);
     }
     private void notifyStaff(String title,String body){ users.findByRole(Values.STAFF).stream().filter(u->"Active".equals(u.getStatus())).forEach(u->notifier.notify(u.getId(),title,body)); }
-    private Pet ownedPet(AppUser a,String id){ Pet p=pets.findById(id==null?"":id).orElseThrow(()->ApiException.notFound("Dog not found.")); if(!a.getId().equals(p.getOwnerId())) throw ApiException.notFound("Dog not found."); return p; }
+    private Pet ownedPet(AppUser a,String id){ Pet p=pets.findById(id==null?"":id).orElseThrow(()->ApiException.notFound("Dog not found.")); if(!a.getId().equals(p.getOwnerId()) || Boolean.TRUE.equals(p.getArchived())) throw ApiException.notFound("Dog not found."); return p; }
     private SurrenderRequest find(String id){return requests.findById(id==null?"":id).orElseThrow(()->ApiException.notFound("Surrender request not found."));}
     private static void requireStatus(SurrenderRequest r,List<String> allowed){if(!allowed.contains(r.getStatus())) throw ApiException.conflict("That action is not available while the request is "+r.getStatus()+".");}
 }

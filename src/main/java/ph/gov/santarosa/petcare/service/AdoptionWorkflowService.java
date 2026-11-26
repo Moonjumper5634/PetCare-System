@@ -21,6 +21,7 @@ import ph.gov.santarosa.petcare.repository.ShelterPetRepository;
  */
 @Service
 public class AdoptionWorkflowService {
+    private static final List<String> ACTIVE_APPLICATIONS = List.of("Interview Required", "Interview Completed");
 
     public record Apply(String shelterPetId, String applicantName, String contact, String email, String address,
                         String barangay, String reason, String experience, String housing, Boolean householdConsent,
@@ -48,9 +49,11 @@ public class AdoptionWorkflowService {
     @Transactional
     public String apply(AppUser actor, Apply a) {
         Access.require(actor, Values.OWNER);
-        ShelterPet dog = shelterPets.findById(a.shelterPetId() == null ? "" : a.shelterPetId())
+        ShelterPet dog = shelterPets.findLockedById(a.shelterPetId() == null ? "" : a.shelterPetId())
                 .orElseThrow(() -> ApiException.notFound("Dog not found."));
         if (!"Available".equals(dog.getStatus())) throw ApiException.conflict(dog.getName() + " is no longer available for adoption.");
+        if (adoptions.existsByShelterPetIdAndStatusIn(dog.getId(), ACTIVE_APPLICATIONS))
+            throw ApiException.conflict(dog.getName() + " already has an active adoption application.");
 
         String name = Validation.text(a.applicantName(), "Full name", 160, true);
         String contact = Validation.phone(a.contact(), true);
@@ -119,6 +122,8 @@ public class AdoptionWorkflowService {
         AdoptionApplication ap = find(adoptionId);
         if (!"Interview Completed".equals(ap.getStatus())) throw ApiException.conflict("Complete the interview before approving this application.");
         ShelterPet dog = dogOf(ap);
+        if (!"Application Pending".equals(dog.getStatus()))
+            throw ApiException.conflict("The shelter-dog record changed and this application cannot be approved until staff review it.");
         ap.setStatus("Approved");
         dog.setStatus("Adopted");
         adoptions.save(ap);
@@ -151,6 +156,6 @@ public class AdoptionWorkflowService {
     }
 
     private ShelterPet dogOf(AdoptionApplication ap) {
-        return shelterPets.findById(ap.getShelterPetId()).orElseThrow(() -> ApiException.notFound("Dog not found."));
+        return shelterPets.findLockedById(ap.getShelterPetId()).orElseThrow(() -> ApiException.notFound("Dog not found."));
     }
 }
